@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Processo Seletivo RH | FEB</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --bg-desktop: #1e345d; /* Fundo escuro do desktop */
+            --bg-sidebar: #2c52a0; /* Azul da barra lateral/header */
+            --bg-chat: #ffffff;
+            --bubble-ai: #f0f4f8; /* Cor mais sutil para o bot */
+            --bubble-user: #2c52a0;
+            --input-bg: #f0f2f5;
+            --text-main: #333333;
+        }
+
+        body {
+            margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-desktop);
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; overflow: hidden;
+        }
+
+        /* --- CONTAINER PRINCIPAL (DESKTOP) --- */
+        .app-container {
+            background-color: var(--bg-chat);
+            width: 90%; max-width: 1000px; height: 85vh;
+            border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex; flex-direction: row; overflow: hidden;
+        }
+
+        /* --- ÁREA DO CHAT (ESQUERDA NO DESKTOP) --- */
+        .chat-section {
+            flex: 1; display: flex; flex-direction: column;
+            position: relative;
+        }
+
+        /* Cabeçalho Mobile (Oculto no Desktop) */
+        .mobile-header {
+            display: none; background-color: var(--bg-sidebar); color: white;
+            padding: 15px; align-items: center; justify-content: space-between;
+        }
+        .mobile-header-profile { display: flex; align-items: center; gap: 10px; }
+        .mobile-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #ddd; object-fit: cover; }
+        .mobile-info h1 { margin: 0; font-size: 16px; display: flex; align-items: center; gap: 5px; }
+        .ai-badge { background: white; color: var(--bg-sidebar); font-size: 10px; padding: 2px 5px; border-radius: 4px; font-weight: bold; }
+        .mobile-info p { margin: 0; font-size: 12px; opacity: 0.9; }
+
+        /* Janela de Mensagens */
+        #chat-window {
+            flex: 1; padding: 20px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        .message-bubble { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 15px; line-height: 1.4; }
+        .ai-bubble { align-self: flex-start; background-color: var(--bubble-ai); color: var(--text-main); border-bottom-left-radius: 2px; }
+        .user-bubble { align-self: flex-end; background-color: var(--bubble-user); color: white; border-bottom-right-radius: 2px; }
+
+        /* Área de Input e Rodapé */
+        .chat-footer-area { padding: 15px 20px; background: white; }
+        .input-wrapper {
+            display: flex; align-items: center; background-color: var(--input-bg);
+            border-radius: 25px; padding: 5px 10px;
+        }
+        .input-icon { color: #666; padding: 0 10px; font-size: 18px; }
+        #resposta {
+            flex: 1; border: none; background: transparent; padding: 10px;
+            font-size: 15px; outline: none; color: var(--text-main);
+        }
+        .send-btn {
+            background-color: #c4d0e0; color: white; border: none;
+            width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; font-size: 18px; transition: 0.3s;
+        }
+        .send-btn.active { background-color: var(--bg-sidebar); }
+        .terms-text { text-align: center; font-size: 11px; color: #888; margin-top: 10px; }
+
+        /* --- BARRA LATERAL (DIREITA NO DESKTOP) --- */
+        .desktop-sidebar {
+            width: 320px; background-color: var(--bg-sidebar); color: white;
+            display: flex; flex-direction: column; align-items: center; padding: 20px 0 0 0;
+            position: relative; border-left: 1px solid rgba(0,0,0,0.1);
+        }
+        .sidebar-menu-btn {
+            align-self: flex-end; background: white; color: var(--bg-sidebar);
+            border: none; border-radius: 6px; width: 30px; height: 30px;
+            margin-right: 20px; cursor: pointer; font-size: 18px; font-weight: bold;
+        }
+        .sidebar-info { text-align: center; width: 80%; margin-top: 20px; }
+        .sidebar-info h2 { font-size: 18px; margin: 0 0 15px 0; display: flex; justify-content: center; align-items: center; gap: 5px; }
+        .sidebar-divider { border-top: 1px solid rgba(255,255,255,0.3); width: 100%; margin: 15px 0; }
+        .sidebar-info p { font-size: 13px; margin: 0; opacity: 0.9; line-height: 1.5; }
+        
+        .sidebar-avatar {
+            flex: 1; display: flex; align-items: flex-end; justify-content: center;
+            width: 100%; overflow: hidden; margin-top: 20px;
+        }
+        .sidebar-avatar img { width: 80%; max-width: 250px; object-fit: contain; margin-bottom: -10px; }
+
+        /* Cronômetro (Visível em ambas as telas) */
+        .timer-display {
+            font-size: 12px; font-weight: bold; color: #ff4d4f;
+            text-align: right; padding: 10px 20px 0;
+        }
+
+        /* --- RESPONSIVO (CELULAR) --- */
+        @media (max-width: 768px) {
+            body { background-color: var(--bg-chat); height: 100dvh; }
+            .app-container { width: 100%; max-width: 100%; height: 100%; border-radius: 0; flex-direction: column; box-shadow: none; }
+            .desktop-sidebar { display: none; } /* Esconde lateral no mobile */
+            .mobile-header { display: flex; } /* Mostra header no mobile */
+            .timer-display { position: absolute; right: 15px; top: 15px; color: white; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <section class="chat-section">
+        
+        <header class="mobile-header">
+            <div class="mobile-header-profile">
+                <img src="Jhon.png" alt="Jhon Cortes" class="mobile-avatar" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='">
+                <div class="mobile-info">
+                    <h1>_JhonCortes_ <span class="ai-badge">AI</span></h1>
+                    <p>Diretor de Recursos Humanos FEB</p>
+                </div>
+            </div>
+            <div class="timer-display" id="timer-mobile">60:00</div>
+        </header>
+
+        <div class="timer-display" id="timer-desktop" style="display: none;">60:00</div>
+
+        <div id="chat-window"></div>
+
+        <footer class="chat-footer-area">
+            <div class="input-wrapper">
+                <span class="input-icon">📎</span>
+                <input type="text" id="resposta" placeholder="Digite aqui...">
+                <button class="send-btn" id="btn-enviar" onclick="processarResposta()">↑</button>
+            </div>
+            <div class="terms-text">
+                Este chat está sendo gravado. Ao conversar, você concorda com os Termos da IA.
+            </div>
+        </footer>
+    </section>
+
+    <aside class="desktop-sidebar">
+        <button class="sidebar-menu-btn">≡</button>
+        <div class="sidebar-info">
+            <h2>_JhonCortes_ <span class="ai-badge">AI</span></h2>
+            <div class="sidebar-divider"></div>
+            <p>Diretor de Recursos Humanos<br>FEB</p>
+            <div class="sidebar-divider"></div>
+        </div>
+        <div class="sidebar-avatar">
+            <img src="Jhon.png" alt="Avatar Jhon Cortes">
+        </div>
+    </aside>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+    // Ativa a cor do botão quando o usuário digita
+    const inputField = document.getElementById('resposta');
+    const sendBtn = document.getElementById('btn-enviar');
+    
+    inputField.addEventListener('input', function() {
+        if(this.value.trim().length > 0) {
+            sendBtn.classList.add('active');
+        } else {
+            sendBtn.classList.remove('active');
+        }
+    });
+
+    // Permite enviar apertando Enter
+    inputField.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            processarResposta();
+        }
+    });
+
+    // Controla qual timer mostrar baseado no tamanho da tela
+    function ajustarTimer() {
+        if(window.innerWidth <= 768) {
+            document.getElementById('timer-desktop').style.display = 'none';
+        } else {
+            document.getElementById('timer-desktop').style.display = 'block';
+        }
+    }
+    window.addEventListener('resize', ajustarTimer);
+    ajustarTimer();
+</script>
+</body>
+</html>
