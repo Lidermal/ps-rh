@@ -9,20 +9,15 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --bg-deep: #0a0e27;
-      --bg-mid: #1a1f3a;
       --bg-card: rgba(26, 31, 58, 0.7);
-      --cyan: #00d9ff;
-      --cyan-glow: rgba(0, 217, 255, 0.3);
       --green: #10b981;
-      --green-glow: rgba(16, 185, 129, 0.3);
-      --gold: #f59e0b;
       --text: #e2e8f0;
       --text-muted: #94a3b8;
       --border: rgba(16, 185, 129, 0.2);
       --error: #ef4444;
     }
     body {
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Inter', sans-serif;
       background: var(--bg-deep);
       color: var(--text);
       min-height: 100vh;
@@ -30,41 +25,9 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      position: relative;
-      overflow-x: hidden;
     }
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: 
-        linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
-      background-size: 50px 50px;
-      pointer-events: none;
-      z-index: 0;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at center, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .container {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 440px;
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+    .container { width: 100%; max-width: 440px; }
+    .header { text-align: center; margin-bottom: 2rem; }
     .logo-img {
       width: 100px;
       height: 100px;
@@ -74,8 +37,6 @@
     }
     .badge {
       display: inline-flex;
-      align-items: center;
-      gap: 8px;
       padding: 6px 14px;
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid var(--green);
@@ -84,132 +45,66 @@
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--green);
-      letter-spacing: 2px;
       text-transform: uppercase;
       margin-bottom: 1rem;
-    }
-    .badge::before {
-      content: '🛡️';
-      font-size: 1rem;
     }
     .logo {
       font-family: 'Rajdhani', sans-serif;
       font-size: 2.2rem;
       font-weight: 700;
-      color: var(--text);
-      letter-spacing: 1px;
       margin-bottom: 0.5rem;
     }
     .logo span {
-      background: linear-gradient(135deg, var(--green) 0%, var(--cyan) 100%);
+      background: linear-gradient(135deg, var(--green) 0%, #00d9ff 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
+    .subtitle { color: var(--text-muted); }
     .card {
       background: var(--bg-card);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 2.5rem 2rem;
-      box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        0 0 40px var(--green-glow);
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--green), transparent);
     }
     .card-title {
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.5rem;
-      font-weight: 600;
       margin-bottom: 0.5rem;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
-    .card-title::before {
-      content: '';
-      width: 4px;
-      height: 24px;
-      background: var(--green);
-      border-radius: 2px;
-      box-shadow: 0 0 10px var(--green);
-    }
-    .card-desc {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 2rem;
-      line-height: 1.5;
-    }
-    .security-notice {
-      background: rgba(245, 158, 11, 0.08);
-      border-left: 3px solid var(--gold);
-      padding: 12px 14px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-    }
-    .security-notice strong { color: var(--gold); }
-    .input-group {
-      position: relative;
-      margin-bottom: 1.2rem;
-    }
+    .card-desc { color: var(--text-muted); margin-bottom: 2rem; }
+    .input-group { margin-bottom: 1.2rem; }
     .input-label {
       display: block;
       font-size: 0.8rem;
       color: var(--text-muted);
       margin-bottom: 8px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
       text-transform: uppercase;
     }
     input {
       width: 100%;
-      padding: 14px 16px;
+      padding: 14px;
       background: rgba(10, 14, 39, 0.6);
       border: 1px solid var(--border);
       border-radius: 10px;
       color: var(--text);
       font-size: 1rem;
-      font-family: 'Inter', sans-serif;
-      transition: all 0.3s ease;
     }
     input:focus {
       outline: none;
       border-color: var(--green);
-      box-shadow: 0 0 0 3px var(--green-glow);
-      background: rgba(10, 14, 39, 0.9);
     }
-    input::placeholder { color: #475569; }
     .strength-bar {
       height: 4px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 2px;
+      background: rgba(255,255,255,0.1);
       margin-top: 8px;
+      border-radius: 2px;
       overflow: hidden;
     }
     .strength-fill {
       height: 100%;
-      width: 0%;
-      transition: all 0.3s ease;
-      border-radius: 2px;
+      width: 0;
+      transition: all 0.3s;
     }
     button {
       width: 100%;
@@ -221,180 +116,110 @@
       font-size: 1rem;
       font-weight: 600;
       font-family: 'Rajdhani', sans-serif;
-      letter-spacing: 1px;
-      text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.3s ease;
+      text-transform: uppercase;
       margin-top: 0.5rem;
     }
-    button:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px var(--green-glow);
-    }
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    button:hover:not(:disabled) { transform: translateY(-2px); }
+    button:disabled { opacity: 0.6; }
     .msg {
-      font-size: 0.9rem;
-      text-align: center;
       margin-top: 1.2rem;
-      min-height: 20px;
       padding: 10px;
       border-radius: 8px;
-    }
-    .msg.error {
-      color: var(--error);
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-    .footer {
       text-align: center;
-      margin-top: 1.5rem;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      padding-bottom: 20px;
     }
-    .footer-logo {
-      margin-top: 10px;
-      opacity: 0.5;
-    }
-    .footer-logo img {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-    }
-    @media (max-width: 480px) {
-      .card { padding: 2rem 1.5rem; }
-      .logo { font-size: 1.8rem; }
-      .logo-img { width: 80px; height: 80px; }
-    }
+    .msg.error { color: var(--error); background: rgba(239, 68, 68, 0.1); }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="../rh.png" alt="Polícia FEB - RH" class="logo-img">
+      <img src="../rh.png" alt="RH" class="logo-img">
       <div class="badge">Primeiro Acesso</div>
       <h1 class="logo">POLÍCIA <span>FEB</span></h1>
-      <p class="subtitle">Configuração de Segurança</p>
+      <p class="subtitle">Crie sua senha pessoal</p>
     </div>
 
     <div class="card">
-      <h2 class="card-title">Criar Senha Pessoal</h2>
-      <p class="card-desc">Sua conta foi aprovada pela Diretoria. Crie agora sua senha pessoal para acessar o sistema.</p>
+      <h2 class="card-title">Definir Senha</h2>
+      <p class="card-desc">Sua conta foi aprovada. Crie uma senha segura.</p>
       
-      <div class="security-notice">
-        <strong>⚠️ Segurança:</strong> Use uma senha única com no mínimo 6 caracteres. Não compartilhe com ninguém.
-      </div>
-
       <div class="input-group">
-        <label class="input-label" for="new-pass">Nova Senha</label>
-        <input type="password" id="new-pass" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
-        <div class="strength-bar">
-          <div class="strength-fill" id="strength-fill"></div>
-        </div>
+        <label class="input-label">Nova Senha (mín. 6 caracteres)</label>
+        <input type="password" id="new-pass" placeholder="••••••">
+        <div class="strength-bar"><div class="strength-fill" id="strength"></div></div>
       </div>
       
       <div class="input-group">
-        <label class="input-label" for="confirm-pass">Confirmar Senha</label>
-        <input type="password" id="confirm-pass" placeholder="Repita a senha" autocomplete="new-password">
+        <label class="input-label">Confirmar Senha</label>
+        <input type="password" id="confirm-pass" placeholder="••••••">
       </div>
       
       <button id="btn-save">Finalizar e Acessar</button>
       <div class="msg" id="msg"></div>
     </div>
-
-    <div class="footer">
-      <div class="footer-logo">
-        <img src="../rh.png" alt="RH">
-      </div>
-    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const supabaseUrl = 'https://hxcvjokstmwdcvwhvvvr.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI';
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    const SUPABASE_URL = 'https://hxcvjokstmwdcvwhvvvr.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI';
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        window.location.href = 'login.html';
-      }
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) window.location.href = 'login.html';
     })();
 
     document.getElementById('new-pass').addEventListener('input', (e) => {
-      const pass = e.target.value;
-      const fill = document.getElementById('strength-fill');
-      let strength = 0;
-      if (pass.length >= 6) strength += 25;
-      if (pass.length >= 10) strength += 25;
-      if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) strength += 25;
-      if (/[0-9]/.test(pass) || /[^A-Za-z0-9]/.test(pass)) strength += 25;
-      
-      fill.style.width = strength + '%';
-      if (strength < 40) fill.style.background = '#ef4444';
-      else if (strength < 70) fill.style.background = '#f59e0b';
-      else fill.style.background = '#10b981';
+      const len = e.target.value.length;
+      const fill = document.getElementById('strength');
+      const pct = Math.min(len * 10, 100);
+      fill.style.width = pct + '%';
+      fill.style.background = len < 6 ? '#ef4444' : len < 10 ? '#f59e0b' : '#10b981';
     });
 
-    document.getElementById('btn-save').onclick = async () => {
+    document.getElementById('btn-save').addEventListener('click', async () => {
       const btn = document.getElementById('btn-save');
       const msg = document.getElementById('msg');
       const pass = document.getElementById('new-pass').value;
       const confirm = document.getElementById('confirm-pass').value;
 
-      if (pass.length < 6) return showMsg('❌ A senha deve ter no mínimo 6 caracteres.');
-      if (pass !== confirm) return showMsg('❌ As senhas não coincidem.');
+      if (pass.length < 6) {
+        msg.textContent = '❌ Mínimo 6 caracteres.';
+        msg.className = 'msg error';
+        return;
+      }
+      if (pass !== confirm) {
+        msg.textContent = '❌ Senhas não coincidem.';
+        msg.className = 'msg error';
+        return;
+      }
 
       btn.disabled = true;
       btn.textContent = 'Configurando...';
-      msg.textContent = '';
 
       try {
-        const { error: authError } = await supabase.auth.updateUser({ password: pass });
-        if (authError) throw authError;
+        const { error } = await sb.auth.updateUser({ password: pass });
+        if (error) throw error;
 
-        const { data: { user } } = await supabase.auth.getUser();
-        const { error: profError } = await supabase
-          .from('profiles')
-          .update({ first_login: false })
-          .eq('id', user.id);
-        if (profError) throw profError;
+        const { data: { user } } = await sb.auth.getUser();
+        await sb.from('profiles').update({ first_login: false }).eq('id', user.id);
 
-        await logIP(user.id, 'PRIMEIRO_ACESSO_CONCLUIDO');
-        msg.innerHTML = '✅ <strong>Senha criada com sucesso!</strong> Redirecionando...';
+        msg.textContent = '✅ Concluído! Redirecionando...';
         msg.style.color = '#10b981';
         msg.style.background = 'rgba(16, 185, 129, 0.1)';
-        msg.style.border = '1px solid rgba(16, 185, 129, 0.3)';
         
         setTimeout(() => {
           window.location.href = '../dashboard.html';
-        }, 1200);
+        }, 1000);
       } catch (err) {
-        showMsg(`❌ ${err.message}`);
+        msg.textContent = '❌ ' + err.message;
+        msg.className = 'msg error';
         btn.disabled = false;
         btn.textContent = 'Finalizar e Acessar';
       }
-    };
-
-    function showMsg(text) {
-      const el = document.getElementById('msg');
-      el.textContent = text;
-      el.className = 'msg error';
-    }
-
-    async function logIP(userId, action) {
-      try {
-        const ipRes = await fetch('https://api.ipify.org?format=json');
-        const { ip } = await ipRes.json();
-        await supabase.from('system_logs').insert({ 
-          user_id: userId, 
-          ip_address: ip, 
-          action, 
-          details: 'Senha pessoal criada' 
-        });
-      } catch (e) { console.warn(e); }
-    }
+    });
 
     document.getElementById('confirm-pass').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') document.getElementById('btn-save').click();
