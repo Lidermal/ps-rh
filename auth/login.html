@@ -88,10 +88,7 @@
       text-transform: uppercase;
       margin-bottom: 1rem;
     }
-    .badge::before {
-      content: '🔐';
-      font-size: 1rem;
-    }
+    .badge::before { content: ''; font-size: 1rem; }
     .logo {
       font-family: 'Rajdhani', sans-serif;
       font-size: 2.2rem;
@@ -106,10 +103,7 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
+    .subtitle { color: var(--text-muted); font-size: 0.95rem; }
     .card {
       background: var(--bg-card);
       backdrop-filter: blur(20px);
@@ -117,18 +111,14 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 2.5rem 2rem;
-      box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        0 0 40px var(--cyan-glow);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px var(--cyan-glow);
       position: relative;
       overflow: hidden;
     }
     .card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
@@ -144,22 +134,13 @@
     }
     .card-title::before {
       content: '';
-      width: 4px;
-      height: 24px;
+      width: 4px; height: 24px;
       background: var(--gold);
       border-radius: 2px;
       box-shadow: 0 0 10px var(--gold);
     }
-    .card-desc {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 2rem;
-      line-height: 1.5;
-    }
-    .input-group {
-      position: relative;
-      margin-bottom: 1.2rem;
-    }
+    .card-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.5; }
+    .input-group { position: relative; margin-bottom: 1.2rem; }
     .input-label {
       display: block;
       font-size: 0.8rem;
@@ -215,7 +196,6 @@
       min-height: 20px;
       padding: 10px;
       border-radius: 8px;
-      transition: all 0.3s ease;
     }
     .msg.success {
       color: var(--success);
@@ -234,21 +214,10 @@
       color: var(--text-muted);
       padding-bottom: 20px;
     }
-    .footer a {
-      color: var(--cyan);
-      text-decoration: none;
-      font-weight: 500;
-    }
+    .footer a { color: var(--cyan); text-decoration: none; font-weight: 500; }
     .footer a:hover { text-shadow: 0 0 8px var(--cyan-glow); }
-    .footer-logo {
-      margin-top: 10px;
-      opacity: 0.5;
-    }
-    .footer-logo img {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-    }
+    .footer-logo { margin-top: 10px; opacity: 0.5; }
+    .footer-logo img { width: 40px; height: 40px; object-fit: contain; }
     @media (max-width: 480px) {
       .card { padding: 2rem 1.5rem; }
       .logo { font-size: 1.8rem; }
@@ -293,88 +262,106 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const supabaseUrl = 'https://hxcvjokstmwdcvwhvvvr.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI';
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    // Configuração do Supabase (declarada apenas UMA vez)
+    const SUPABASE_URL = 'https://hxcvjokstmwdcvwhvvvr.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI';
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    document.getElementById('btn-login').onclick = async () => {
+    // Função de log de IP
+    async function logIP(userId, action, details) {
+      try {
+        const ipRes = await fetch('https://api.ipify.org?format=json');
+        const { ip } = await ipRes.json();
+        await sb.from('system_logs').insert({ 
+          user_id: userId, 
+          ip_address: ip, 
+          action: action, 
+          details: details || '' 
+        });
+      } catch (e) { 
+        console.warn('Falha ao logar IP:', e); 
+      }
+    }
+
+    // Handler do botão de login
+    document.getElementById('btn-login').addEventListener('click', async () => {
       const btn = document.getElementById('btn-login');
       const msg = document.getElementById('msg');
       const nick = document.getElementById('nick').value.trim();
       const pass = document.getElementById('pass').value;
 
-      if (!nick || !pass) return showMsg('❌ Preencha todos os campos.', 'error');
+      if (!nick || !pass) {
+        msg.textContent = '❌ Preencha todos os campos.';
+        msg.className = 'msg error';
+        return;
+      }
 
       btn.disabled = true;
       btn.textContent = 'Autenticando...';
       msg.textContent = '';
       msg.className = 'msg';
 
-      const email = `${nick.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()}@feb.internal`;
+      const email = nick.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() + '@feb.internal';
 
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
+        const { data, error } = await sb.auth.signInWithPassword({ 
+          email: email, 
+          password: pass 
+        });
+        
         if (error) throw error;
 
-        const { data: profile, error: profError } = await supabase
+        const { data: profile, error: profError } = await sb
           .from('profiles')
-          .select('status, first_login')
+          .select('status, first_login, habbo_nick, role')
           .eq('id', data.user.id)
           .single();
         
         if (profError) throw profError;
 
+        // Validações de status
         if (profile.status === 'pendente') {
-          await supabase.auth.signOut();
-          throw new Error('⏳ Seu acesso ainda está pendente. Aguarde a aprovação da Diretoria.');
+          await sb.auth.signOut();
+          throw new Error(' Seu acesso ainda está pendente. Aguarde a aprovação da Diretoria.');
         }
         if (profile.status === 'banido') {
-          await supabase.auth.signOut();
-          throw new Error('🚫 Sua conta foi banida. Contate a administração.');
+          await sb.auth.signOut();
+          throw new Error(' Sua conta foi banida. Contate a administração.');
         }
         if (profile.status === 'inativo') {
-          await supabase.auth.signOut();
+          await sb.auth.signOut();
           throw new Error('⚠️ Sua conta está inativa. Contate a Diretoria.');
         }
+        
+        // Primeiro acesso - precisa criar senha
         if (profile.first_login) {
           window.location.href = 'primeiro-acesso.html';
           return;
         }
 
-        await logIP(data.user.id, 'LOGIN_SUCESSO');
-        showMsg('✅ Acesso autorizado! Redirecionando...', 'success');
+        // Login bem-sucedido
+        await logIP(data.user.id, 'LOGIN_SUCESSO', 'Nick: ' + profile.habbo_nick);
+        msg.textContent = '✅ Acesso autorizado! Redirecionando...';
+        msg.className = 'msg success';
+        
         setTimeout(() => {
           window.location.href = '../dashboard.html';
         }, 800);
       } catch (err) {
-        showMsg(err.message || '❌ Credenciais inválidas.', 'error');
+        msg.textContent = err.message || '❌ Credenciais inválidas.';
+        msg.className = 'msg error';
         btn.disabled = false;
         btn.textContent = 'Entrar no Sistema';
       }
-    };
+    });
 
-    async function logIP(userId, action) {
-      try {
-        const ipRes = await fetch('https://api.ipify.org?format=json');
-        const { ip } = await ipRes.json();
-        await supabase.from('system_logs').insert({ 
-          user_id: userId, 
-          ip_address: ip, 
-          action, 
-          details: 'Login realizado com sucesso' 
-        });
-      } catch (e) { console.warn('Falha ao logar IP:', e); }
-    }
-
+    // Enter para enviar
     document.getElementById('pass').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') document.getElementById('btn-login').click();
     });
-
-    function showMsg(text, type) {
-      const el = document.getElementById('msg');
-      el.textContent = text;
-      el.className = `msg ${type}`;
-    }
+    document.getElementById('nick').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') document.getElementById('pass').focus();
+    });
   </script>
 </body>
 </html>
