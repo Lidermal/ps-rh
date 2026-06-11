@@ -65,6 +65,13 @@
       text-align: center;
       margin-bottom: 2rem;
     }
+    .logo-img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.3));
+    }
     .badge {
       display: inline-flex;
       align-items: center;
@@ -225,6 +232,7 @@
       margin-top: 1.5rem;
       font-size: 0.8rem;
       color: var(--text-muted);
+      padding-bottom: 20px;
     }
     .footer a {
       color: var(--cyan);
@@ -232,15 +240,26 @@
       font-weight: 500;
     }
     .footer a:hover { text-shadow: 0 0 8px var(--cyan-glow); }
+    .footer-logo {
+      margin-top: 10px;
+      opacity: 0.5;
+    }
+    .footer-logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
     @media (max-width: 480px) {
       .card { padding: 2rem 1.5rem; }
       .logo { font-size: 1.8rem; }
+      .logo-img { width: 80px; height: 80px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
+      <img src="../rh.png" alt="Polícia FEB - RH" class="logo-img">
       <div class="badge">Acesso Restrito</div>
       <h1 class="logo">POLÍCIA <span>FEB</span></h1>
       <p class="subtitle">Órgão de Recursos Humanos</p>
@@ -266,15 +285,17 @@
 
     <div class="footer">
       Não tem acesso? <a href="solicitar.html">Solicite aqui</a>
+      <div class="footer-logo">
+        <img src="../rh.png" alt="RH">
+      </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const supabase = window.supabase.createClient(
-      'https://hxcvjokstmwdcvwhvvvr.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI'
-    );
+    const supabaseUrl = 'https://hxcvjokstmwdcvwhvvvr.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
     document.getElementById('btn-login').onclick = async () => {
       const btn = document.getElementById('btn-login');
@@ -345,10 +366,15 @@
       } catch (e) { console.warn('Falha ao logar IP:', e); }
     }
 
-    // Enter para enviar
     document.getElementById('pass').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') document.getElementById('btn-login').click();
     });
+
+    function showMsg(text, type) {
+      const el = document.getElementById('msg');
+      el.textContent = text;
+      el.className = `msg ${type}`;
+    }
   </script>
 </body>
 </html>
