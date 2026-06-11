@@ -13,13 +13,12 @@
       --bg-panel: #111827;
       --bg-card: rgba(31, 41, 55, 0.6);
       --cyan: #00d9ff;
-      --cyan-glow: rgba(0, 217, 255, 0.2);
       --gold: #f59e0b;
-      --gold-glow: rgba(245, 158, 11, 0.2);
       --text: #f3f4f6;
       --text-muted: #9ca3af;
       --border: rgba(75, 85, 99, 0.4);
       --success: #10b981;
+      --error: #ef4444;
       --sidebar-width: 280px;
     }
     body {
@@ -27,32 +26,25 @@
       background: var(--bg-deep);
       color: var(--text);
       min-height: 100vh;
-      overflow-x: hidden;
     }
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: 
-        linear-gradient(rgba(0, 217, 255, 0.02) 1px, transparent 1px),
+      background-image: linear-gradient(rgba(0, 217, 255, 0.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 217, 255, 0.02) 1px, transparent 1px);
       background-size: 40px 40px;
       pointer-events: none;
-      z-index: 0;
     }
-    /* Sidebar */
     .sidebar {
       position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
+      left: 0; top: 0; bottom: 0;
       width: var(--sidebar-width);
       background: var(--bg-panel);
       border-right: 1px solid var(--border);
       z-index: 100;
       display: flex;
       flex-direction: column;
-      transition: transform 0.3s ease;
     }
     .sidebar-header {
       padding: 1.5rem;
@@ -64,33 +56,26 @@
       height: 70px;
       object-fit: contain;
       margin-bottom: 0.75rem;
-      filter: drop-shadow(0 0 15px var(--gold-glow));
+      filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.3));
     }
     .sidebar-title {
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.5rem;
       font-weight: 700;
-      color: var(--text);
-      letter-spacing: 1px;
     }
-    .sidebar-title span {
-      color: var(--gold);
-    }
+    .sidebar-title span { color: var(--gold); }
     .sidebar-subtitle {
       font-size: 0.75rem;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-top: 0.25rem;
     }
     .sidebar-nav {
       flex: 1;
       padding: 1.5rem 1rem;
       overflow-y: auto;
     }
-    .nav-section {
-      margin-bottom: 1.5rem;
-    }
+    .nav-section { margin-bottom: 1.5rem; }
     .nav-section-title {
       font-size: 0.7rem;
       text-transform: uppercase;
@@ -109,31 +94,21 @@
       text-decoration: none;
       border-radius: 8px;
       margin-bottom: 0.25rem;
-      transition: all 0.2s ease;
       cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 500;
+      transition: all 0.2s;
     }
     .nav-item:hover {
       background: rgba(255, 255, 255, 0.05);
       color: var(--text);
     }
     .nav-item.active {
-      background: linear-gradient(90deg, var(--cyan-glow), transparent);
+      background: linear-gradient(90deg, rgba(0, 217, 255, 0.2), transparent);
       color: var(--cyan);
       border-left: 3px solid var(--cyan);
     }
-    .nav-item i {
-      width: 20px;
-      text-align: center;
-      font-size: 1rem;
-    }
-    .nav-item.admin-only {
-      color: var(--gold);
-    }
-    .nav-item.admin-only i {
-      color: var(--gold);
-    }
+    .nav-item i { width: 20px; text-align: center; }
+    .nav-item.admin-only { display: none; color: var(--gold); }
+    .nav-item.admin-only i { color: var(--gold); }
     .sidebar-footer {
       padding: 1rem;
       border-top: 1px solid var(--border);
@@ -156,21 +131,11 @@
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 1rem;
       color: var(--bg-deep);
     }
-    .user-details {
-      flex: 1;
-    }
-    .user-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text);
-    }
-    .user-role {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
+    .user-details { flex: 1; }
+    .user-name { font-weight: 600; font-size: 0.9rem; }
+    .user-role { font-size: 0.75rem; color: var(--text-muted); }
     .btn-logout {
       width: 100%;
       padding: 0.75rem;
@@ -180,21 +145,15 @@
       color: #ef4444;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
     }
-    .btn-logout:hover {
-      background: rgba(239, 68, 68, 0.2);
-    }
-    /* Main Content */
+    .btn-logout:hover { background: rgba(239, 68, 68, 0.2); }
     .main-content {
       margin-left: var(--sidebar-width);
       min-height: 100vh;
-      position: relative;
-      z-index: 1;
     }
     .top-bar {
       background: var(--bg-panel);
@@ -211,36 +170,8 @@
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.75rem;
       font-weight: 700;
-      color: var(--text);
     }
-    .page-title span {
-      color: var(--cyan);
-    }
-    .top-actions {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-    .btn-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-    .btn-icon:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--cyan);
-    }
-    .content-area {
-      padding: 2rem;
-    }
+    .content-area { padding: 2rem; }
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -256,12 +187,6 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      transition: all 0.3s ease;
-    }
-    .stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      border-color: var(--cyan);
     }
     .stat-icon {
       width: 50px;
@@ -276,16 +201,8 @@
     .stat-icon.gold { background: rgba(245, 158, 11, 0.1); color: var(--gold); }
     .stat-icon.green { background: rgba(16, 185, 129, 0.1); color: var(--success); }
     .stat-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
-    .stat-info h3 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 0.25rem;
-    }
-    .stat-info p {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
+    .stat-info h3 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .stat-info p { font-size: 0.875rem; color: var(--text-muted); }
     .content-section {
       background: var(--bg-card);
       backdrop-filter: blur(10px);
@@ -293,7 +210,9 @@
       border-radius: 12px;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
+      display: none;
     }
+    .content-section.active { display: block; }
     .section-header {
       display: flex;
       align-items: center;
@@ -306,19 +225,36 @@
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.25rem;
       font-weight: 600;
-      color: var(--text);
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
-    .section-title i {
-      color: var(--gold);
+    .btn {
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
     }
-    .document-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #0ea5e9);
+      color: var(--bg-deep);
     }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3); }
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+    .btn-danger {
+      background: var(--error);
+      color: white;
+    }
+    .btn-sm { padding: 0.5rem 0.75rem; font-size: 0.875rem; }
+    .document-list { display: flex; flex-direction: column; gap: 0.75rem; }
     .document-item {
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid var(--border);
@@ -344,18 +280,9 @@
       justify-content: center;
       color: var(--cyan);
     }
-    .doc-info {
-      flex: 1;
-    }
-    .doc-title {
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 0.25rem;
-    }
-    .doc-meta {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
+    .doc-info { flex: 1; }
+    .doc-title { font-weight: 600; margin-bottom: 0.25rem; }
+    .doc-meta { font-size: 0.8rem; color: var(--text-muted); }
     .doc-badge {
       padding: 0.25rem 0.75rem;
       border-radius: 20px;
@@ -365,7 +292,6 @@
     }
     .doc-badge.new { background: rgba(16, 185, 129, 0.1); color: var(--success); }
     .doc-badge.important { background: rgba(245, 158, 11, 0.1); color: var(--gold); }
-    /* Mobile Menu Toggle */
     .menu-toggle {
       display: none;
       position: fixed;
@@ -380,37 +306,98 @@
       font-size: 1.5rem;
       cursor: pointer;
       z-index: 200;
-      box-shadow: 0 4px 20px rgba(0, 217, 255, 0.4);
     }
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .modal-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .btn-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(10, 14, 39, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+    }
+    .form-textarea { min-height: 150px; resize: vertical; }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--cyan);
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table th, .table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .table th {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-pendente { background: rgba(245, 158, 11, 0.1); color: var(--gold); }
+    .badge-ativo { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+    .badge-inativo { background: rgba(156, 163, 175, 0.1); color: var(--text-muted); }
+    .badge-banido { background: rgba(239, 68, 68, 0.1); color: var(--error); }
     @media (max-width: 1024px) {
-      .sidebar {
-        transform: translateX(-100%);
-      }
-      .sidebar.open {
-        transform: translateX(0);
-      }
-      .main-content {
-        margin-left: 0;
-      }
-      .menu-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .content-area {
-        padding: 1rem;
-      }
-    }
-    @media (max-width: 640px) {
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-      .top-bar {
-        padding: 1rem;
-      }
-      .page-title {
-        font-size: 1.25rem;
-      }
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .menu-toggle { display: flex; align-items: center; justify-content: center; }
     }
   </style>
 </head>
@@ -422,53 +409,41 @@
       <div class="sidebar-title">POLÍCIA <span>FEB</span></div>
       <div class="sidebar-subtitle">Recursos Humanos</div>
     </div>
-    
     <nav class="sidebar-nav">
       <div class="nav-section">
         <div class="nav-section-title">Principal</div>
         <a class="nav-item active" onclick="showSection('dashboard')">
-          <i class="fas fa-home"></i>
-          <span>Dashboard</span>
+          <i class="fas fa-home"></i><span>Dashboard</span>
         </a>
         <a class="nav-item" onclick="showSection('documentos')">
-          <i class="fas fa-folder-open"></i>
-          <span>Documentos</span>
+          <i class="fas fa-folder-open"></i><span>Documentos</span>
         </a>
         <a class="nav-item" onclick="showSection('manuais')">
-          <i class="fas fa-book"></i>
-          <span>Manuais e Códigos</span>
+          <i class="fas fa-book"></i><span>Manuais e Códigos</span>
         </a>
       </div>
-      
       <div class="nav-section">
         <div class="nav-section-title">Oficial</div>
         <a class="nav-item" onclick="showSection('diario')">
-          <i class="fas fa-newspaper"></i>
-          <span>Diário Oficial</span>
+          <i class="fas fa-newspaper"></i><span>Diário Oficial</span>
         </a>
         <a class="nav-item" onclick="showSection('atas')">
-          <i class="fas fa-clipboard-list"></i>
-          <span>Atas de Reunião</span>
+          <i class="fas fa-clipboard-list"></i><span>Atas de Reunião</span>
         </a>
         <a class="nav-item" onclick="showSection('anuncios')">
-          <i class="fas fa-bullhorn"></i>
-          <span>Anúncios</span>
+          <i class="fas fa-bullhorn"></i><span>Anúncios</span>
         </a>
       </div>
-      
       <div class="nav-section">
         <div class="nav-section-title">Sistema</div>
         <a class="nav-item" onclick="showSection('backups')">
-          <i class="fas fa-database"></i>
-          <span>Backups</span>
+          <i class="fas fa-database"></i><span>Backups</span>
         </a>
-        <a class="nav-item admin-only" onclick="showSection('admin')" id="nav-admin" style="display:none;">
-          <i class="fas fa-shield-alt"></i>
-          <span>Painel Admin</span>
+        <a class="nav-item admin-only" onclick="showSection('admin')" id="nav-admin">
+          <i class="fas fa-shield-alt"></i><span>Painel Admin</span>
         </a>
       </div>
     </nav>
-    
     <div class="sidebar-footer">
       <div class="user-info">
         <div class="user-avatar" id="user-avatar">U</div>
@@ -478,8 +453,7 @@
         </div>
       </div>
       <button class="btn-logout" onclick="logout()">
-        <i class="fas fa-sign-out-alt"></i>
-        Sair do Sistema
+        <i class="fas fa-sign-out-alt"></i> Sair
       </button>
     </div>
   </aside>
@@ -487,93 +461,163 @@
   <!-- Main Content -->
   <main class="main-content">
     <div class="top-bar">
-      <h1 class="page-title">Dashboard</h1>
-      <div class="top-actions">
-        <button class="btn-icon" onclick="location.reload()">
-          <i class="fas fa-sync-alt"></i>
-        </button>
-        <button class="btn-icon" onclick="toggleSidebar()">
-          <i class="fas fa-bars"></i>
-        </button>
-      </div>
+      <h1 class="page-title" id="page-title">Dashboard</h1>
+      <button class="btn btn-primary btn-sm" onclick="openModal()">
+        <i class="fas fa-plus"></i> Novo
+      </button>
     </div>
-    
+
     <div class="content-area">
-      <!-- Stats -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon blue">
-            <i class="fas fa-file-alt"></i>
+      <!-- Dashboard Section -->
+      <section id="section-dashboard" class="content-section active">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fas fa-file-alt"></i></div>
+            <div class="stat-info">
+              <h3 id="stat-docs">0</h3>
+              <p>Documentos</p>
+            </div>
           </div>
-          <div class="stat-info">
-            <h3 id="stat-docs">0</h3>
-            <p>Documentos</p>
+          <div class="stat-card">
+            <div class="stat-icon gold"><i class="fas fa-users"></i></div>
+            <div class="stat-info">
+              <h3 id="stat-members">0</h3>
+              <p>Membros Ativos</p>
+            </div>
           </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon gold">
-            <i class="fas fa-users"></i>
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-info">
+              <h3 id="stat-pending">0</h3>
+              <p>Solicitações</p>
+            </div>
           </div>
-          <div class="stat-info">
-            <h3 id="stat-members">0</h3>
-            <p>Membros Ativos</p>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon green">
-            <i class="fas fa-check-circle"></i>
-          </div>
-          <div class="stat-info">
-            <h3 id="stat-pending">0</h3>
-            <p>Solicitações</p>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon purple">
-            <i class="fas fa-clock"></i>
-          </div>
-          <div class="stat-info">
-            <h3 id="stat-updates">Hoje</h3>
-            <p>Última Atualização</p>
+          <div class="stat-card">
+            <div class="stat-icon purple"><i class="fas fa-clock"></i></div>
+            <div class="stat-info">
+              <h3>Hoje</h3>
+              <p>Última Atualização</p>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <!-- Recent Documents -->
-      <div class="content-section">
+        <div class="content-section" style="display:block;">
+          <div class="section-header">
+            <h2 class="section-title"><i class="fas fa-folder"></i> Documentos Recentes</h2>
+          </div>
+          <div class="document-list" id="recent-docs">
+            <p style="color: var(--text-muted); text-align: center; padding: 2rem;">
+              Nenhum documento encontrado.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Documentos Section -->
+      <section id="section-documentos" class="content-section">
         <div class="section-header">
-          <h2 class="section-title">
-            <i class="fas fa-folder"></i>
-            Documentos Recentes
-          </h2>
-          <button class="btn-icon" style="width:auto; padding:0 1rem; gap:0.5rem;">
-            <i class="fas fa-plus"></i>
-            <span>Novo</span>
-          </button>
+          <h2 class="section-title"><i class="fas fa-folder-open"></i> Documentos</h2>
         </div>
-        <div class="document-list" id="recent-docs">
-          <div class="document-item">
-            <div class="doc-icon">
-              <i class="fas fa-file-pdf"></i>
-            </div>
-            <div class="doc-info">
-              <div class="doc-title">Manual de Procedimentos - 2026</div>
-              <div class="doc-meta">Atualizado em 10/06/2026 por RH</div>
-            </div>
-            <span class="doc-badge important">Importante</span>
-          </div>
-          <div class="document-item">
-            <div class="doc-icon">
-              <i class="fas fa-file-alt"></i>
-            </div>
-            <div class="doc-info">
-              <div class="doc-title">Código de Conduta da Polícia FEB</div>
-              <div class="doc-meta">Publicado em 05/06/2026 por Diretoria</div>
-            </div>
-            <span class="doc-badge new">Novo</span>
-          </div>
+        <div class="document-list" id="docs-list"></div>
+      </section>
+
+      <!-- Manuais Section -->
+      <section id="section-manuais" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-book"></i> Manuais e Códigos</h2>
         </div>
-      </div>
+        <div class="document-list" id="manuais-list"></div>
+      </section>
+
+      <!-- Diário Oficial Section -->
+      <section id="section-diario" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-newspaper"></i> Diário Oficial</h2>
+        </div>
+        <div class="document-list" id="diario-list"></div>
+      </section>
+
+      <!-- Atas Section -->
+      <section id="section-atas" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Atas de Reunião</h2>
+        </div>
+        <div class="document-list" id="atas-list"></div>
+      </section>
+
+      <!-- Anúncios Section -->
+      <section id="section-anuncios" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-bullhorn"></i> Anúncios</h2>
+        </div>
+        <div class="document-list" id="anuncios-list"></div>
+      </section>
+
+      <!-- Backups Section -->
+      <section id="section-backups" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-database"></i> Backups</h2>
+        </div>
+        <p style="color: var(--text-muted);">Backups automáticos são realizados diariamente.</p>
+      </section>
+
+      <!-- Admin Section -->
+      <section id="section-admin" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-shield-alt"></i> Painel Administrativo</h2>
+        </div>
+        
+        <h3 style="margin: 2rem 0 1rem; font-family: 'Rajdhani', sans-serif;">
+          <i class="fas fa-user-clock" style="color: var(--gold);"></i> Solicitações Pendentes
+        </h3>
+        <div style="overflow-x: auto;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nickname</th>
+                <th>Data Solicitação</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="pending-users"></tbody>
+          </table>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem; font-family: 'Rajdhani', sans-serif;">
+          <i class="fas fa-users" style="color: var(--cyan);"></i> Todos os Usuários
+        </h3>
+        <div style="overflow-x: auto;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nickname</th>
+                <th>Cargo</th>
+                <th>Status</th>
+                <th>Último Acesso</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="all-users"></tbody>
+          </table>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem; font-family: 'Rajdhani', sans-serif;">
+          <i class="fas fa-history" style="color: var(--success);"></i> Logs do Sistema
+        </h3>
+        <div style="overflow-x: auto;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Usuário</th>
+                <th>Ação</th>
+                <th>IP</th>
+                <th>Data/Hora</th>
+              </tr>
+            </thead>
+            <tbody id="system-logs"></tbody>
+          </table>
+        </div>
+      </section>
     </div>
   </main>
 
@@ -581,35 +625,66 @@
     <i class="fas fa-bars"></i>
   </button>
 
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">Novo Documento</h3>
+        <button class="btn-close" onclick="closeModal()">&times;</button>
+      </div>
+      <form id="doc-form" onsubmit="saveDocument(event)">
+        <div class="form-group">
+          <label class="form-label">Título</label>
+          <input type="text" class="form-input" id="doc-title" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Categoria</label>
+          <select class="form-select" id="doc-category" required>
+            <option value="Documento">Documento</option>
+            <option value="Manual">Manual</option>
+            <option value="Diario Oficial">Diário Oficial</option>
+            <option value="Ata">Ata de Reunião</option>
+            <option value="Anuncio">Anúncio</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Conteúdo (BBCode permitido)</label>
+          <textarea class="form-textarea" id="doc-content" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">
+            <input type="checkbox" id="doc-important"> Marcar como importante
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+          <i class="fas fa-save"></i> Salvar
+        </button>
+      </form>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const supabase = window.supabase.createClient(
-      'https://hxcvjokstmwdcvwhvvvr.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI'
-    );
+    const SUPABASE_URL = 'https://hxcvjokstmwdcvwhvvvr.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI';
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let currentUser = null;
     let userProfile = null;
 
-    // Verificar autenticação
+    // Inicialização
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await sb.auth.getSession();
       if (!session) {
         window.location.href = 'auth/login.html';
         return;
       }
       
       currentUser = session.user;
+      const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
       
-      // Buscar perfil
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', currentUser.id)
-        .single();
-      
-      if (error || !profile) {
-        await supabase.auth.signOut();
+      if (!profile) {
+        await sb.auth.signOut();
         window.location.href = 'auth/login.html';
         return;
       }
@@ -617,38 +692,27 @@
       userProfile = profile;
       loadUserData();
       loadStats();
+      loadDocuments();
+      
+      if (userProfile.role === 'Administrador' || userProfile.role === 'Diretoria') {
+        document.getElementById('nav-admin').style.display = 'flex';
+        loadAdminData();
+      }
     })();
 
     function loadUserData() {
       document.getElementById('user-name').textContent = userProfile.habbo_nick;
       document.getElementById('user-role').textContent = userProfile.role;
       document.getElementById('user-avatar').textContent = userProfile.habbo_nick.charAt(0).toUpperCase();
-      
-      // Mostrar menu admin se for administrador
-      if (userProfile.role === 'Administrador' || userProfile.role === 'Diretoria') {
-        document.getElementById('nav-admin').style.display = 'flex';
-      }
     }
 
     async function loadStats() {
-      // Contar documentos
-      const { count: docsCount } = await supabase
-        .from('contents')
-        .select('*', { count: 'exact', head: true });
+      const { count: docsCount } = await sb.from('contents').select('*', { count: 'exact', head: true });
+      const { count: membersCount } = await sb.from('profiles').select('*', { count: 'exact', head: true }).eq('status', 'ativo');
       
-      // Contar membros ativos
-      const { count: membersCount } = await supabase
-        .from('profiles')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'ativo');
-      
-      // Contar pendentes (só admins veem)
       let pendingCount = 0;
       if (userProfile.role === 'Administrador' || userProfile.role === 'Diretoria') {
-        const { count } = await supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true })
-          .eq('status', 'pendente');
+        const { count } = await sb.from('profiles').select('*', { count: 'exact', head: true }).eq('status', 'pendente');
         pendingCount = count || 0;
       }
       
@@ -657,15 +721,241 @@
       document.getElementById('stat-pending').textContent = pendingCount;
     }
 
+    async function loadDocuments() {
+      const { data: docs } = await sb.from('contents').select('*').order('created_at', { ascending: false }).limit(5);
+      
+      const container = document.getElementById('recent-docs');
+      if (!docs || docs.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Nenhum documento encontrado.</p>';
+        return;
+      }
+      
+      container.innerHTML = docs.map(doc => `
+        <div class="document-item" onclick="viewDocument('${doc.id}')">
+          <div class="doc-icon"><i class="fas fa-file-alt"></i></div>
+          <div class="doc-info">
+            <div class="doc-title">${doc.title}</div>
+            <div class="doc-meta">Criado em ${new Date(doc.created_at).toLocaleDateString('pt-BR')}</div>
+          </div>
+          ${doc.is_pinned ? '<span class="doc-badge important">Importante</span>' : '<span class="doc-badge new">Novo</span>'}
+        </div>
+      `).join('');
+    }
+
     function showSection(section) {
-      // Atualizar navegação ativa
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-      });
+      document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      
+      document.getElementById('section-' + section).classList.add('active');
       event.target.closest('.nav-item').classList.add('active');
       
-      // Aqui você implementaria a lógica para mostrar diferentes seções
-      console.log('Mostrando seção:', section);
+      const titles = {
+        'dashboard': 'Dashboard',
+        'documentos': 'Documentos',
+        'manuais': 'Manuais e Códigos',
+        'diario': 'Diário Oficial',
+        'atas': 'Atas de Reunião',
+        'anuncios': 'Anúncios',
+        'backups': 'Backups',
+        'admin': 'Painel Administrativo'
+      };
+      document.getElementById('page-title').textContent = titles[section];
+      
+      if (section === 'admin') loadAdminData();
+    }
+
+    async function loadAdminData() {
+      // Carregar usuários pendentes
+      const { data: pending } = await sb.from('profiles')
+        .select('*')
+        .eq('status', 'pendente')
+        .order('created_at', { ascending: false });
+      
+      const pendingContainer = document.getElementById('pending-users');
+      if (pending && pending.length > 0) {
+        pendingContainer.innerHTML = pending.map(u => `
+          <tr>
+            <td>${u.habbo_nick}</td>
+            <td>${new Date(u.created_at).toLocaleString('pt-BR')}</td>
+            <td><span class="badge badge-pendente">Pendente</span></td>
+            <td>
+              <button class="btn btn-success btn-sm" onclick="approveUser('${u.id}', '${u.habbo_nick}')">
+                <i class="fas fa-check"></i> Aprovar
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="rejectUser('${u.id}')">
+                <i class="fas fa-times"></i> Rejeitar
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      } else {
+        pendingContainer.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Nenhuma solicitação pendente</td></tr>';
+      }
+      
+      // Carregar todos os usuários
+      const { data: allUsers } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
+      const allUsersContainer = document.getElementById('all-users');
+      
+      if (allUsers && allUsers.length > 0) {
+        allUsersContainer.innerHTML = allUsers.map(u => `
+          <tr>
+            <td>${u.habbo_nick}</td>
+            <td>${u.role}</td>
+            <td><span class="badge badge-${u.status}">${u.status}</span></td>
+            <td>${u.updated_at ? new Date(u.updated_at).toLocaleString('pt-BR') : '-'}</td>
+            <td>
+              ${u.status !== 'pendente' ? `
+                <button class="btn btn-sm" style="background: var(--gold); color: var(--bg-deep);" onclick="editUserRole('${u.id}', '${u.habbo_nick}', '${u.role}')">
+                  <i class="fas fa-edit"></i> Cargo
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="toggleUserStatus('${u.id}', '${u.status}')">
+                  <i class="fas fa-${u.status === 'ativo' ? 'ban' : 'check'}"></i> ${u.status === 'ativo' ? 'Banir' : 'Ativar'}
+                </button>
+              ` : '-'}
+            </td>
+          </tr>
+        `).join('');
+      }
+      
+      // Carregar logs
+      const { data: logs } = await sb.from('system_logs').select('*').order('created_at', { ascending: false }).limit(20);
+      const logsContainer = document.getElementById('system-logs');
+      
+      if (logs && logs.length > 0) {
+        logsContainer.innerHTML = logs.map(log => `
+          <tr>
+            <td>${log.user_id ? 'Usuário' : 'Sistema'}</td>
+            <td>${log.action}</td>
+            <td>${log.ip_address || '-'}</td>
+            <td>${new Date(log.created_at).toLocaleString('pt-BR')}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    async function approveUser(userId, nick) {
+      if (!confirm(`Aprovar acesso de ${nick}?`)) return;
+      
+      const { error } = await sb.from('profiles')
+        .update({ status: 'ativo', first_login: true })
+        .eq('id', userId);
+      
+      if (error) {
+        alert('Erro ao aprovar: ' + error.message);
+        return;
+      }
+      
+      await sb.from('system_logs').insert({
+        user_id: currentUser.id,
+        action: 'APROVAR_USUARIO',
+        details: `Aprovou usuário ${nick}`,
+        ip_address: 'system'
+      });
+      
+      alert(`Usuário ${nick} aprovado com sucesso!`);
+      loadAdminData();
+      loadStats();
+    }
+
+    async function rejectUser(userId) {
+      if (!confirm('Rejeitar esta solicitação? O usuário será removido.')) return;
+      
+      const { error } = await sb.from('profiles').delete().eq('id', userId);
+      if (error) {
+        alert('Erro ao rejeitar: ' + error.message);
+        return;
+      }
+      
+      alert('Solicitação rejeitada.');
+      loadAdminData();
+      loadStats();
+    }
+
+    async function toggleUserStatus(userId, currentStatus) {
+      const newStatus = currentStatus === 'ativo' ? 'banido' : 'ativo';
+      const { error } = await sb.from('profiles').update({ status: newStatus }).eq('id', userId);
+      
+      if (error) {
+        alert('Erro: ' + error.message);
+        return;
+      }
+      
+      await sb.from('system_logs').insert({
+        user_id: currentUser.id,
+        action: 'ALTERAR_STATUS_USUARIO',
+        details: `Mudou status para ${newStatus}`,
+        ip_address: 'system'
+      });
+      
+      loadAdminData();
+    }
+
+    function editUserRole(userId, nick, currentRole) {
+      const newRole = prompt(`Editar cargo de ${nick}:\n\nCargos disponíveis:\n- Administrador\n- Diretoria\n- Coordenação\n- Membro\n\nCargo atual: ${currentRole}`, currentRole);
+      
+      if (!newRole || newRole === currentRole) return;
+      
+      const validRoles = ['Administrador', 'Diretoria', 'Coordenação', 'Membro'];
+      if (!validRoles.includes(newRole)) {
+        alert('Cargo inválido!');
+        return;
+      }
+      
+      sb.from('profiles').update({ role: newRole }).eq('id', userId).then(({ error }) => {
+        if (error) {
+          alert('Erro: ' + error.message);
+          return;
+        }
+        alert(`Cargo de ${nick} alterado para ${newRole}`);
+        loadAdminData();
+      });
+    }
+
+    function openModal() {
+      document.getElementById('modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      document.getElementById('doc-form').reset();
+    }
+
+    async function saveDocument(e) {
+      e.preventDefault();
+      
+      const title = document.getElementById('doc-title').value;
+      const category = document.getElementById('doc-category').value;
+      const content = document.getElementById('doc-content').value;
+      const isImportant = document.getElementById('doc-important').checked;
+      
+      const { error } = await sb.from('contents').insert({
+        category: category,
+        title: title,
+        content_bbcode: content,
+        author_id: currentUser.id,
+        is_pinned: isImportant
+      });
+      
+      if (error) {
+        alert('Erro ao salvar: ' + error.message);
+        return;
+      }
+      
+      await sb.from('system_logs').insert({
+        user_id: currentUser.id,
+        action: 'CRIAR_DOCUMENTO',
+        details: `Criou documento: ${title}`,
+        ip_address: 'system'
+      });
+      
+      alert('Documento salvo com sucesso!');
+      closeModal();
+      loadDocuments();
+      loadStats();
+    }
+
+    function viewDocument(id) {
+      alert('Visualização de documento ID: ' + id + '\n\nEm breve: visualizador completo com BBCode!');
     }
 
     function toggleSidebar() {
@@ -673,8 +963,8 @@
     }
 
     async function logout() {
-      if (confirm('Deseja realmente sair do sistema?')) {
-        await supabase.auth.signOut();
+      if (confirm('Deseja realmente sair?')) {
+        await sb.auth.signOut();
         window.location.href = 'auth/login.html';
       }
     }
