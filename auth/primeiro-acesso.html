@@ -65,6 +65,13 @@
       text-align: center;
       margin-bottom: 2rem;
     }
+    .logo-img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.3));
+    }
     .badge {
       display: inline-flex;
       align-items: center;
@@ -238,15 +245,33 @@
       background: rgba(239, 68, 68, 0.1);
       border: 1px solid rgba(239, 68, 68, 0.3);
     }
+    .footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding-bottom: 20px;
+    }
+    .footer-logo {
+      margin-top: 10px;
+      opacity: 0.5;
+    }
+    .footer-logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
     @media (max-width: 480px) {
       .card { padding: 2rem 1.5rem; }
       .logo { font-size: 1.8rem; }
+      .logo-img { width: 80px; height: 80px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
+      <img src="../rh.png" alt="Polícia FEB - RH" class="logo-img">
       <div class="badge">Primeiro Acesso</div>
       <h1 class="logo">POLÍCIA <span>FEB</span></h1>
       <p class="subtitle">Configuração de Segurança</p>
@@ -276,16 +301,20 @@
       <button id="btn-save">Finalizar e Acessar</button>
       <div class="msg" id="msg"></div>
     </div>
+
+    <div class="footer">
+      <div class="footer-logo">
+        <img src="../rh.png" alt="RH">
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const supabase = window.supabase.createClient(
-      'https://hxcvjokstmwdcvwhvvvr.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI'
-    );
+    const supabaseUrl = 'https://hxcvjokstmwdcvwhvvvr.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Verifica autenticação
     (async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
@@ -293,7 +322,6 @@
       }
     })();
 
-    // Medidor de força da senha
     document.getElementById('new-pass').addEventListener('input', (e) => {
       const pass = e.target.value;
       const fill = document.getElementById('strength-fill');
@@ -368,7 +396,6 @@
       } catch (e) { console.warn(e); }
     }
 
-    // Enter para enviar
     document.getElementById('confirm-pass').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') document.getElementById('btn-save').click();
     });
