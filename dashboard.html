@@ -28,6 +28,8 @@
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
     }
     body::before {
       content: '';
@@ -41,29 +43,16 @@
     }
     
     /* Scrollbar Personalizada */
-    ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg-deep);
-      border-left: 1px solid var(--border);
-    }
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); border-left: 1px solid var(--border); }
     ::-webkit-scrollbar-thumb {
       background: linear-gradient(180deg, var(--cyan), #0891b2);
       border-radius: 5px;
       border: 2px solid var(--bg-deep);
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, var(--gold), #d97706);
-    }
-    ::-webkit-scrollbar-corner {
-      background: var(--bg-deep);
-    }
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: var(--cyan) var(--bg-deep);
-    }
+    ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, var(--gold), #d97706); }
+    ::-webkit-scrollbar-corner { background: var(--bg-deep); }
+    * { scrollbar-width: thin; scrollbar-color: var(--cyan) var(--bg-deep); }
 
     .sidebar {
       position: fixed;
@@ -127,10 +116,7 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .nav-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text);
-    }
+    .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text); }
     .nav-item.active {
       background: linear-gradient(90deg, rgba(0, 217, 255, 0.2), transparent);
       color: var(--cyan);
@@ -182,9 +168,13 @@
       transition: all 0.2s;
     }
     .btn-logout:hover { background: rgba(239, 68, 68, 0.2); }
+    
     .main-content {
       margin-left: var(--sidebar-width);
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
     .top-bar {
       background: var(--bg-panel);
@@ -202,7 +192,10 @@
       font-size: 1.75rem;
       font-weight: 700;
     }
-    .content-area { padding: 2rem; }
+    .content-area { 
+      padding: 2rem; 
+      flex: 1;
+    }
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -501,10 +494,91 @@
     }
     .toast.hiding { animation: fadeOut 0.3s forwards; }
 
+    /* Status Online/Offline */
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .status-online {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .status-offline {
+      background: rgba(156, 163, 175, 0.15);
+      color: var(--text-muted);
+      border: 1px solid rgba(156, 163, 175, 0.3);
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    .status-online .status-dot { background: var(--success); }
+    .status-offline .status-dot { background: var(--text-muted); animation: none; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Rodapé */
+    .footer {
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      margin-left: var(--sidebar-width);
+      text-align: center;
+    }
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .footer-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      margin: 0 auto 0.5rem;
+      opacity: 0.6;
+    }
+    .footer-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .footer-text strong {
+      color: var(--cyan);
+      font-weight: 600;
+    }
+    .footer-dev {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .footer-dev a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-dev a:hover {
+      text-decoration: underline;
+    }
+    .footer-divider {
+      width: 100px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      margin: 0.5rem auto;
+    }
+
     @media (max-width: 1024px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; }
+      .footer { margin-left: 0; }
       .menu-toggle { display: flex; }
       .content-area { padding: 1rem; }
     }
@@ -633,7 +707,7 @@
         <div class="table-container" style="margin-bottom: 2rem;">
           <table class="table">
             <thead>
-              <tr><th>Nickname</th><th>Cargo</th><th>Status</th><th>Último Acesso</th><th>Ações</th></tr>
+              <tr><th>Nickname</th><th>Cargo</th><th>Status</th><th>Online/Offline</th><th>Último Acesso</th><th>Ações</th></tr>
             </thead>
             <tbody id="all-users"></tbody>
           </table>
@@ -693,6 +767,24 @@
         <p style="color: var(--text-muted);">Backups automáticos são realizados diariamente.</p>
       </section>
     </div>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+      <div class="footer-content">
+        <img src="rh.png" alt="RH" class="footer-logo">
+        <div class="footer-divider"></div>
+        <div class="footer-text">
+          <strong>POLÍCIA FEB</strong> - Órgão de Recursos Humanos
+        </div>
+        <div class="footer-text">
+          &copy; 2026 Todos os direitos reservados
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-dev">
+          Desenvolvido por <a href="#">Janaelson667</a>
+        </div>
+      </div>
+    </footer>
   </main>
 
   <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
@@ -826,6 +918,7 @@
     let confirmCallback = null;
     const INACTIVITY_LIMIT = 30 * 60 * 1000;
     const WARNING_TIME = 5 * 60 * 1000;
+    const ONLINE_THRESHOLD = 5 * 60 * 1000; // 5 minutos
 
     // Toast Notifications
     function showToast(message, type = 'info') {
@@ -878,8 +971,17 @@
       document.addEventListener(event, () => {
         lastActivity = Date.now();
         resetInactivityTimer();
+        updateLastActivity();
       }, true);
     });
+
+    async function updateLastActivity() {
+      if (currentUser) {
+        await sb.from('profiles')
+          .update({ last_activity: new Date().toISOString() })
+          .eq('id', currentUser.id);
+      }
+    }
 
     function resetInactivityTimer() {
       clearTimeout(inactivityTimer);
@@ -928,6 +1030,7 @@
       }
       
       resetInactivityTimer();
+      await updateLastActivity();
       showToast('Bem-vindo ao sistema, ' + profile.habbo_nick + '!', 'success');
     })();
 
@@ -996,6 +1099,13 @@
       lastActivity = Date.now();
     }
 
+    function isUserOnline(lastActivity) {
+      if (!lastActivity) return false;
+      const lastSeen = new Date(lastActivity).getTime();
+      const now = Date.now();
+      return (now - lastSeen) < ONLINE_THRESHOLD;
+    }
+
     async function loadAdminData() {
       // Load pending users
       const { data: pending } = await sb.from('profiles')
@@ -1024,10 +1134,9 @@
         pendingContainer.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhuma solicitação pendente</td></tr>';
       }
       
-      // Load ALL users - CORREÇÃO AQUI
+      // Load ALL users - CORREÇÃO: remover filtro neq para mostrar todos
       const { data: allUsers, error } = await sb.from('profiles')
         .select('*')
-        .neq('status', 'pendente')
         .order('created_at', { ascending: false });
       
       if (error) {
@@ -1038,30 +1147,52 @@
       
       const allUsersContainer = document.getElementById('all-users');
       if (allUsers && allUsers.length > 0) {
-        allUsersContainer.innerHTML = allUsers.map(u => `
-          <tr>
-            <td><strong>${u.habbo_nick}</strong></td>
-            <td>${u.role}</td>
-            <td><span class="badge badge-${u.status}">${u.status}</span></td>
-            <td>${u.updated_at ? new Date(u.updated_at).toLocaleString('pt-BR') : '-'}</td>
-            <td class="action-buttons">
-              <button class="btn btn-warning btn-sm" onclick="editUser('${u.id}')">
-                <i class="fas fa-edit"></i> Editar
-              </button>
-              ${u.status !== 'banido' ? `
-                <button class="btn btn-danger btn-sm" onclick="banUser('${u.id}', '${u.habbo_nick}')">
-                  <i class="fas fa-ban"></i> Banir
-                </button>
-              ` : `
-                <button class="btn btn-success btn-sm" onclick="activateUser('${u.id}', '${u.habbo_nick}')">
-                  <i class="fas fa-check"></i> Ativar
-                </button>
-              `}
-            </td>
-          </tr>
-        `).join('');
+        allUsersContainer.innerHTML = allUsers.map(u => {
+          const online = isUserOnline(u.last_activity);
+          const statusClass = u.status === 'pendente' ? 'badge-pendente' : 
+                             u.status === 'ativo' ? 'badge-ativo' : 
+                             u.status === 'banido' ? 'badge-banido' : 'badge-inativo';
+          
+          return `
+            <tr>
+              <td><strong>${u.habbo_nick}</strong></td>
+              <td>${u.role}</td>
+              <td><span class="badge ${statusClass}">${u.status}</span></td>
+              <td>
+                <span class="status-indicator ${online ? 'status-online' : 'status-offline'}">
+                  <span class="status-dot"></span>
+                  ${online ? 'Online' : 'Offline'}
+                </span>
+              </td>
+              <td>${u.updated_at ? new Date(u.updated_at).toLocaleString('pt-BR') : '-'}</td>
+              <td class="action-buttons">
+                ${u.status !== 'pendente' ? `
+                  <button class="btn btn-warning btn-sm" onclick="editUser('${u.id}')">
+                    <i class="fas fa-edit"></i> Editar
+                  </button>
+                  ${u.status !== 'banido' ? `
+                    <button class="btn btn-danger btn-sm" onclick="banUser('${u.id}', '${u.habbo_nick}')">
+                      <i class="fas fa-ban"></i> Banir
+                    </button>
+                  ` : `
+                    <button class="btn btn-success btn-sm" onclick="activateUser('${u.id}', '${u.habbo_nick}')">
+                      <i class="fas fa-check"></i> Ativar
+                    </button>
+                  `}
+                ` : `
+                  <button class="btn btn-success btn-sm" onclick="approveUser('${u.id}', '${u.habbo_nick}')">
+                    <i class="fas fa-check"></i> Aprovar
+                  </button>
+                  <button class="btn btn-danger btn-sm" onclick="rejectUser('${u.id}', '${u.habbo_nick}')">
+                    <i class="fas fa-times"></i> Rejeitar
+                  </button>
+                `}
+              </td>
+            </tr>
+          `;
+        }).join('');
       } else {
-        allUsersContainer.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhum usuário encontrado</td></tr>';
+        allUsersContainer.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhum usuário encontrado</td></tr>';
       }
       
       // Load logs
