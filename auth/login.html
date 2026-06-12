@@ -3,548 +3,500 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Polícia FEB - RH</title>
+  <title>Login Ultra | Polícia FEB - RH</title>
   <link rel="icon" type="image/png" href="../rh.png">
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+    
     :root {
-      --bg-deep: #0a0e27;
-      --bg-card: rgba(26, 31, 58, 0.7);
-      --cyan: #00d9ff;
-      --gold: #f59e0b;
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-      --border: rgba(0, 217, 255, 0.2);
-      --success: #10b981;
-      --error: #ef4444;
+      --bg-deep: #030512; /* Fundo mais escuro para contraste neon */
+      --bg-card: rgba(6, 10, 29, 0.6);
+      --cyan: #00f2fe; /* Ciano mais vibrante */
+      --cyan-glow: rgba(0, 242, 254, 0.5);
+      --gold: #ffac00; /* Ouro mais saturado */
+      --gold-glow: rgba(255, 172, 0, 0.5);
+      --text: #ffffff;
+      --text-muted: #8b9bb4;
+      --border: rgba(0, 242, 254, 0.15);
+      --success: #00ff88;
+      --error: #ff4444;
+      --font-tech: 'Rajdhani', sans-serif;
+      --font-body: 'Inter', sans-serif;
     }
+
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-body);
       background: var(--bg-deep);
       color: var(--text);
       min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 20px;
-      position: relative;
+      align-items: center;
       overflow: hidden;
+      position: relative;
     }
-    
-    /* Background animado personalizado */
+
+    /* --- Background Tecnológico Avançado --- */
     .bg-container {
       position: fixed;
       inset: 0;
       z-index: 0;
-      overflow: hidden;
-      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+      background: 
+        radial-gradient(circle at 10% 10%, rgba(0, 242, 254, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(255, 172, 0, 0.05) 0%, transparent 40%),
+        linear-gradient(180deg, #030512 0%, #0a0e27 50%, #030512 100%);
     }
-    
-    /* Grid animado */
+
+    /* Grid com perspectiva */
     .bg-grid {
       position: absolute;
-      inset: 0;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
       background-image: 
-        linear-gradient(rgba(0, 217, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 217, 255, 0.05) 1px, transparent 1px);
-      background-size: 60px 60px;
-      animation: gridPulse 4s ease-in-out infinite;
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 50px 50px;
+      transform: perspective(500px) rotateX(60deg);
+      animation: gridMove 20s linear infinite;
+      opacity: 0.2;
     }
-    
-    @keyframes gridPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.6; }
+
+    @keyframes gridMove {
+      0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+      100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
     }
-    
-    /* Círculos decorativos */
-    .bg-circle {
+
+    /* Linhas de varredura (Scanlines) */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.02) 50%, rgba(0,0,0,0.02) 50%);
+      background-size: 100% 4px;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* --- Sistema de Avatares Laterais (Foco RH + Tech) --- */
+    .avatar-panel {
+      position: fixed;
+      bottom: 0;
+      height: 80vh;
+      width: 25vw;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 5vh;
+      pointer-events: none;
+    }
+
+    .avatar-panel.left { left: 0; }
+    .avatar-panel.right { right: 0; }
+
+    /* Círculos de dados atrás dos avatares */
+    .data-ring {
       position: absolute;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(0, 217, 255, 0.15) 0%, transparent 70%);
-      animation: float 20s infinite ease-in-out;
+      border: 2px dashed;
+      animation: rotate 10s linear infinite;
+      opacity: 0.2;
     }
-    .bg-circle:nth-child(1) {
-      width: 400px;
-      height: 400px;
-      top: -100px;
-      left: -100px;
-      animation-delay: 0s;
+
+    .left .data-ring {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px var(--cyan-glow);
+      width: 300px; height: 300px;
+      bottom: 10vh;
     }
-    .bg-circle:nth-child(2) {
-      width: 300px;
-      height: 300px;
-      bottom: -50px;
-      right: -50px;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
-      animation-delay: 5s;
+
+    .right .data-ring {
+      border-color: var(--gold);
+      box-shadow: 0 0 15px var(--gold-glow);
+      width: 300px; height: 300px;
+      bottom: 10vh;
+      animation-direction: reverse;
     }
-    .bg-circle:nth-child(3) {
-      width: 250px;
-      height: 250px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: radial-gradient(circle, rgba(0, 217, 255, 0.08) 0%, transparent 70%);
-      animation-delay: 10s;
+
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .avatar-img {
+      height: 70vh; /* Aumentado para destaque */
+      object-fit: contain;
+      position: relative;
+      z-index: 3;
+      filter: drop-shadow(0 0 15px rgba(0,0,0,0.8));
+      animation: avatarFloat 4s ease-in-out infinite;
     }
-    
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -30px) scale(1.1); }
-      66% { transform: translate(-20px, 20px) scale(0.9); }
+
+    /* Efeito holográfico específico por lado */
+    .left .avatar-img {
+      filter: drop-shadow(0 0 20px var(--cyan-glow)) hue-rotate(-10deg);
     }
-    
-    /* Avatares decorativos */
-    .avatar-decoration {
-      position: absolute;
-      opacity: 0.15;
-      filter: drop-shadow(0 0 20px rgba(0, 217, 255, 0.5));
-      animation: avatarFloat 6s ease-in-out infinite;
+    .right .avatar-img {
+      filter: drop-shadow(0 0 20px var(--gold-glow)) hue-rotate(10deg);
+      animation-delay: -2s; /* Desincronizar flutuação */
     }
-    .avatar-left {
-      bottom: 10%;
-      left: 5%;
-      width: 150px;
-      height: 150px;
-      animation-delay: 0s;
-    }
-    .avatar-right {
-      bottom: 10%;
-      right: 5%;
-      width: 150px;
-      height: 150px;
-      animation-delay: 3s;
-    }
-    
+
     @keyframes avatarFloat {
-      0%, 100% { transform: translateY(0) rotate(-5deg); }
-      50% { transform: translateY(-20px) rotate(5deg); }
+      0%, 100% { transform: translateY(0); opacity: 0.8; }
+      50% { transform: translateY(-15px); opacity: 1; }
     }
-    
-    /* Partículas */
-    .particles {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
+
+    /* Labels técnicos abaixo dos avatares */
+    .status-label {
+      font-family: var(--font-tech);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 5px 15px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid;
+      border-radius: 4px;
+      margin-top: -50px; /* Sobrepor levemente a base do avatar */
+      z-index: 4;
+      position: relative;
     }
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: var(--cyan);
-      border-radius: 50%;
-      opacity: 0;
-      animation: particleRise 15s infinite;
-      box-shadow: 0 0 10px var(--cyan);
-    }
-    .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
-    .particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 14s; }
-    .particle:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 16s; }
-    .particle:nth-child(4) { left: 50%; animation-delay: 1s; animation-duration: 13s; }
-    .particle:nth-child(5) { left: 70%; animation-delay: 3s; animation-duration: 15s; }
-    .particle:nth-child(6) { left: 90%; animation-delay: 5s; animation-duration: 17s; }
-    .particle:nth-child(7) { left: 15%; animation-delay: 2.5s; animation-duration: 14s; }
-    .particle:nth-child(8) { left: 85%; animation-delay: 4.5s; animation-duration: 16s; }
-    
-    @keyframes particleRise {
-      0% { 
-        transform: translateY(100vh) scale(0); 
-        opacity: 0; 
-      }
-      10% { 
-        opacity: 0.6; 
-      }
-      90% { 
-        opacity: 0.6; 
-      }
-      100% { 
-        transform: translateY(-100vh) scale(1); 
-        opacity: 0; 
-      }
-    }
-    
-    /* Linhas de conexão */
-    .connection-lines {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      opacity: 0.1;
-    }
-    .connection-line {
-      position: absolute;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-      animation: lineMove 8s linear infinite;
-    }
-    .connection-line:nth-child(1) { top: 20%; width: 100%; animation-delay: 0s; }
-    .connection-line:nth-child(2) { top: 40%; width: 100%; animation-delay: 2s; }
-    .connection-line:nth-child(3) { top: 60%; width: 100%; animation-delay: 4s; }
-    .connection-line:nth-child(4) { top: 80%; width: 100%; animation-delay: 6s; }
-    
-    @keyframes lineMove {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-    
+    .left .status-label { color: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 10px var(--cyan-glow); }
+    .right .status-label { color: var(--gold); border-color: var(--gold); box-shadow: 0 0 10px var(--gold-glow); }
+
+    /* --- Container Principal de Login --- */
     .container {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 440px;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      perspective: 1000px;
     }
+
+    /* Cabeçalho */
     .header {
       text-align: center;
-      margin-bottom: 2.5rem;
-      animation: slideDown 0.8s ease-out;
+      margin-bottom: 2rem;
+      animation: fadeInDown 1s ease-out;
     }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-30px); }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .logo-container {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 1.5rem;
-    }
-    .logo-glow {
-      position: absolute;
-      inset: -20px;
-      background: radial-gradient(circle, rgba(0, 217, 255, 0.4) 0%, transparent 70%);
-      animation: logoPulse 3s ease-in-out infinite;
-      border-radius: 50%;
-    }
-    @keyframes logoPulse {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.15); opacity: 0.8; }
-    }
+
     .logo-img {
-      width: 110px;
-      height: 110px;
+      width: 90px; height: 90px;
       object-fit: contain;
-      position: relative;
-      filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.6));
-      animation: logoFloat 6s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px var(--cyan-glow));
+      animation: logoGlitch 5s infinite;
     }
-    @keyframes logoFloat {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(2deg); }
+
+    /* Efeito Glitch sutil na logo */
+    @keyframes logoGlitch {
+      0%, 90%, 100% { transform: translate(0); filter: drop-shadow(0 0 15px var(--cyan-glow)); }
+      92% { transform: translate(-2px, 2px); filter: drop-shadow(2px 0 red) drop-shadow(-2px 0 blue); }
+      95% { transform: translate(2px, -2px); }
     }
-    .badge {
-      display: inline-block;
-      padding: 6px 20px;
-      background: rgba(245, 158, 11, 0.1);
-      border: 1px solid var(--gold);
-      border-radius: 20px;
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      animation: glow 2s ease-in-out infinite;
-    }
-    @keyframes glow {
-      0%, 100% { box-shadow: 0 0 5px rgba(245, 158, 11, 0.3); }
-      50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.6); }
-    }
+
     .logo {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 2.8rem;
+      font-family: var(--font-tech);
+      font-size: 2.5rem;
       font-weight: 700;
-      color: var(--text);
-      letter-spacing: 3px;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #fff;
+      margin-top: 10px;
+      text-shadow: 0 0 20px var(--cyan-glow);
     }
     .logo span {
-      background: linear-gradient(135deg, var(--cyan) 0%, var(--gold) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--gold);
+      text-shadow: 0 0 20px var(--gold-glow);
     }
+
     .subtitle {
       color: var(--text-muted);
-      font-size: 0.95rem;
-      letter-spacing: 2px;
+      font-size: 0.85rem;
       text-transform: uppercase;
+      letter-spacing: 3px;
+      font-family: var(--font-tech);
     }
+
+    /* --- O Card de Login (Estilo Float/Holograma) --- */
     .card {
       background: var(--bg-card);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 3rem 2.5rem;
-      box-shadow: 
-        0 25px 80px rgba(0, 0, 0, 0.6),
-        0 0 60px rgba(0, 217, 255, 0.1);
+      padding: 2.5rem;
+      width: 100%;
       position: relative;
-      overflow: hidden;
-      animation: slideUp 0.8s ease-out 0.2s both;
+      
+      /* Cortar cantos tecnologicamente */
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+      
+      box-shadow: 
+        0 15px 35px rgba(0,0,0,0.5),
+        inset 0 0 15px rgba(0, 242, 254, 0.05);
+      
+      animation: cardSpawn 1s ease-out 0.3s both;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+
+    .card:hover {
+      transform: translateY(-5px) rotateX(2deg);
+      box-shadow: 
+        0 20px 40px rgba(0,0,0,0.6),
+        0 0 20px rgba(0, 242, 254, 0.1);
     }
+
+    @keyframes cardSpawn {
+      from { opacity: 0; transform: translateY(30px) rotateX(-10deg); }
+      to { opacity: 1; transform: translateY(0) rotateX(0deg); }
+    }
+
+    /* Linha brilhante no topo */
     .card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--gold), var(--cyan), var(--gold), transparent);
-      animation: borderGlow 3s linear infinite;
+      top: 0; left: 0; width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--gold), transparent);
     }
-    @keyframes borderGlow {
-      0% { filter: brightness(1); }
-      50% { filter: brightness(1.5); }
-      100% { filter: brightness(1); }
+
+    /* Reflexo na parte inferior (efeito flutuante) */
+    .card-reflection {
+      position: absolute;
+      bottom: -40px; left: 10%; width: 80%; height: 20px;
+      background: linear-gradient(to bottom, rgba(0, 242, 254, 0.1), transparent);
+      filter: blur(5px);
+      border-radius: 50%;
+      z-index: -1;
     }
+
     .card-title {
-      font-family: 'Rajdhani', sans-serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-      color: var(--text);
+      font-family: var(--font-tech);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 2rem;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
+    
+    /* Ponto pulsante de "Link Estabelecido" */
     .card-title::before {
       content: '';
-      width: 5px;
-      height: 28px;
-      background: linear-gradient(180deg, var(--gold), var(--cyan));
-      border-radius: 3px;
-      box-shadow: 0 0 15px var(--gold);
+      width: 8px; height: 8px;
+      background-color: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--success);
+      animation: pulse 1.5s infinite;
     }
-    .card-desc {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 2.5rem;
-      line-height: 1.6;
-    }
-    .input-group {
-      margin-bottom: 1.75rem;
-      position: relative;
-    }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* --- Formulário --- */
+    .input-group { margin-bottom: 1.5rem; position: relative; }
+
     .input-label {
-      display: block;
+      font-family: var(--font-tech);
       font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
+      color: var(--cyan);
       text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      display: block;
     }
+
+    .input-wrapper { position: relative; }
+
+    /* Ícone visual (Tech bracket) */
+    .input-wrapper::before {
+      content: '[';
+      position: absolute; left: 12px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--border);
+      font-family: monospace;
+      transition: color 0.3s;
+    }
+
     input {
       width: 100%;
-      padding: 16px 18px;
-      background: rgba(10, 14, 39, 0.6);
+      padding: 15px 15px 15px 30px;
+      background: rgba(0, 0, 0, 0.3);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      color: var(--text);
-      font-size: 1rem;
-      font-family: 'Inter', sans-serif;
-      transition: all 0.3s;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
     }
+
     input:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15), 0 0 30px rgba(245, 158, 11, 0.2);
-      background: rgba(10, 14, 39, 0.9);
-      transform: translateY(-2px);
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px var(--cyan-glow);
+      background: rgba(0, 0, 0, 0.5);
     }
-    input::placeholder { color: #475569; }
+
+    input:focus + .input-label { color: #fff; }
+    
+    /* Mudar bracket pra ouro no focus */
+    input:focus-within ~ .input-wrapper::before,
+    .input-group:focus-within ::before { color: var(--gold); }
+
+    input::placeholder { color: #4e5d72; }
+
+    /* Botão de Login (Neon Ouro) */
     button {
       width: 100%;
       padding: 16px;
-      background: linear-gradient(135deg, var(--gold) 0%, #d97706 100%);
-      border: none;
-      border-radius: 12px;
-      color: var(--bg-deep);
-      font-size: 1rem;
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--font-tech);
+      font-size: 1.1rem;
       font-weight: 700;
-      font-family: 'Rajdhani', sans-serif;
-      letter-spacing: 2px;
       text-transform: uppercase;
+      letter-spacing: 3px;
       cursor: pointer;
-      transition: all 0.3s;
       position: relative;
       overflow: hidden;
+      transition: all 0.3s ease;
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
     }
-    button::before {
+
+    button:hover:not(:disabled) {
+      background: var(--gold);
+      color: var(--bg-deep);
+      box-shadow: 0 0 30px var(--gold-glow);
+    }
+
+    button:disabled { opacity: 0.5; cursor: not-allowed; border-color: var(--text-muted); color: var(--text-muted); }
+
+    /* Efeito de brilho passando no botão ao passar o mouse */
+    button::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      top: -50%; left: -60%; width: 20%; height: 200%;
+      background: rgba(255,255,255,0.5);
+      transform: rotate(30deg);
       transition: left 0.5s;
     }
-    button:hover::before {
-      left: 100%;
-    }
-    button:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
-    }
-    button:active:not(:disabled) {
-      transform: translateY(-1px);
-    }
-    button:disabled { 
-      opacity: 0.6; 
-      cursor: not-allowed;
-    }
+    button:hover::after { left: 120%; }
+
+    /* Mensagens de erro/sucesso */
     .msg {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-align: center;
-      margin-top: 1.5rem;
-      padding: 14px;
-      border-radius: 10px;
+      margin-top: 1rem;
+      padding: 10px;
       display: none;
-      animation: shake 0.5s;
+      font-family: var(--font-tech);
+      letter-spacing: 1px;
     }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      75% { transform: translateX(10px); }
-    }
-    .msg.show { display: block; }
-    .msg.success { 
-      color: var(--success); 
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-    }
-    .msg.error { 
-      color: var(--error); 
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
-    }
+    .msg.show { display: block; animation: shake 0.4s ease-in-out; }
+    
+    .msg.error { color: var(--error); border-left: 2px solid var(--error); background: rgba(255,68,68,0.1); }
+    .msg.success { color: var(--success); border-left: 2px solid var(--success); background: rgba(0,255,136,0.1); }
+
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+    /* Footer */
     .footer {
       text-align: center;
-      margin-top: 2rem;
-      font-size: 0.85rem;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      animation: fadeIn 1s ease-out 0.5s both;
+      animation: fadeIn 1s ease-out 0.6s both;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+
     .footer a {
       color: var(--cyan);
       text-decoration: none;
       font-weight: 600;
-      position: relative;
+      transition: color 0.3s;
     }
-    .footer a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--cyan);
-      transition: width 0.3s;
-    }
-    .footer a:hover::after {
-      width: 100%;
-    }
+    .footer a:hover { color: #fff; text-shadow: 0 0 10px var(--cyan); }
+
+    /* Linha técnica rodapé */
     .tech-line {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--cyan), var(--gold), var(--cyan), transparent);
-      animation: lineMove 10s linear infinite;
+      position: fixed; bottom: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--gold), var(--cyan));
+      box-shadow: 0 0 15px var(--cyan);
       z-index: 100;
     }
-    @media (max-width: 480px) {
-      .card { padding: 2.5rem 1.5rem; }
-      .logo { font-size: 2.2rem; }
-      .logo-img { width: 90px; height: 90px; }
-      .avatar-decoration {
-        width: 100px;
-        height: 100px;
-      }
+
+    /* Responsividade */
+    @media (max-width: 1200px) {
+      .avatar-panel { width: 20vw; }
+      .avatar-img { height: 50vh; }
+    }
+
+    @media (max-width: 900px) {
+      .avatar-panel { display: none; } /* Esconde avatares em telas pequenas */
+      .bg-grid { opacity: 0.1; }
+      .card { padding: 2rem 1.5rem; width: 90%; }
     }
   </style>
 </head>
 <body>
-  <!-- Background personalizado -->
+  
+  <div class="scanlines"></div>
+
   <div class="bg-container">
     <div class="bg-grid"></div>
-    <div class="bg-circle"></div>
-    <div class="bg-circle"></div>
-    <div class="bg-circle"></div>
-    
-    <!-- Avatares decorativos -->
-    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=_JhonCortes_&action=std&direction=2&head_direction=3&gesture=sml&size=l" 
-         alt="JhonCortes" 
-         class="avatar-decoration avatar-left">
-    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=Janaelson667&action=std&direction=2&head_direction=3&gesture=sml&size=l" 
-         alt="Janaelson667" 
-         class="avatar-decoration avatar-right">
-    
-    <!-- Partículas -->
-    <div class="particles">
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-    </div>
-    
-    <!-- Linhas de conexão -->
-    <div class="connection-lines">
-      <div class="connection-line"></div>
-      <div class="connection-line"></div>
-      <div class="connection-line"></div>
-      <div class="connection-line"></div>
-    </div>
+  </div>
+
+  <div class="avatar-panel left">
+    <div class="data-ring"></div>
+    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=_JhonCortes_&action=std&direction=2&head_direction=2&gesture=sml&size=l&head_direction=3" 
+         alt="JhonCortes" class="avatar-img">
+    <div class="status-label">Diretor _JhonCortes_</div>
+  </div>
+
+  <div class="avatar-panel right">
+    <div class="data-ring"></div>
+    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=Janaelson667&action=std&direction=4&head_direction=4&gesture=sml&size=l&head_direction=3" 
+         alt="Janaelson667" class="avatar-img">
+    <div class="status-label">Vice-Diretor Janaelson667</div>
   </div>
 
   <div class="container">
     <div class="header">
-      <div class="logo-container">
-        <div class="logo-glow"></div>
-        <img src="../rh.png" alt="RH" class="logo-img">
-      </div>
-      <br><div class="badge">Acesso Restrito</div>
+      <img src="../rh.png" alt="RH FEB" class="logo-img">
       <h1 class="logo">POLÍCIA <span>FEB</span></h1>
-      <p class="subtitle">Órgão de Recursos Humanos</p>
+      <p class="subtitle">Recursos Humanos Digital</p>
     </div>
 
     <div class="card">
+      <div class="card-reflection"></div>
       <h2 class="card-title">Autenticação</h2>
-      <p class="card-desc">Insira suas credenciais para acessar o sistema interno de gestão de recursos humanos.</p>
       
       <div class="input-group">
-        <label class="input-label" for="nick">Nickname</label>
-        <input type="text" id="nick" placeholder="Seu nick do Habbo" autocomplete="username" spellcheck="false">
+        <label class="input-label" for="nick">Identificador (Nick)</label>
+        <div class="input-wrapper">
+            <input type="text" id="nick" placeholder="Seu nick Habbo" autocomplete="username" spellcheck="false">
+        </div>
       </div>
       
       <div class="input-group">
-        <label class="input-label" for="pass">Senha</label>
-        <input type="password" id="pass" placeholder="Sua senha pessoal" autocomplete="current-password">
+        <label class="input-label" for="pass">Chave de Acesso</label>
+        <div class="input-wrapper">
+            <input type="password" id="pass" placeholder="Sua senha criptografada" autocomplete="current-password">
+        </div>
       </div>
       
-      <button id="btn-login">Entrar no Sistema</button>
+      <button id="btn-login">Acessar Terminal</button>
       <div class="msg" id="msg"></div>
     </div>
 
     <div class="footer">
-      Não tem acesso? <a href="solicitar.html">Solicite credenciais</a>
+      Terminal não autorizado? <a href="solicitar.html">Solicitar Credenciais</a>
     </div>
   </div>
   
@@ -568,12 +520,12 @@
       const pass = document.getElementById('pass').value;
 
       if (!nick || !pass) {
-        showMessage('❌ Preencha todos os campos.', 'error');
+        showMessage('⚠️ Preencha todos os campos do terminal.', 'error');
         return;
       }
 
       btn.disabled = true;
-      btn.textContent = 'Autenticando...';
+      btn.textContent = 'Criptografando...';
       showMessage('', '');
 
       const email = nick.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() + '@feb.internal';
@@ -584,10 +536,7 @@
           password: pass 
         });
         
-        if (error) {
-          console.error('Auth error:', error);
-          throw error;
-        }
+        if (error) throw error;
 
         const { data: profile, error: profError } = await sb
           .from('profiles')
@@ -595,22 +544,19 @@
           .eq('id', data.user.id)
           .single();
         
-        if (profError) {
-          console.error('Profile error:', profError);
-          throw profError;
-        }
+        if (profError) throw profError;
 
         if (profile.status === 'pendente') {
           await sb.auth.signOut();
-          throw new Error('⏳ Seu acesso ainda está pendente. Aguarde a aprovação.');
+          throw new Error('⏳ Acesso pendente de aprovação superior.');
         }
         if (profile.status === 'banido') {
           await sb.auth.signOut();
-          throw new Error('🚫 Sua conta foi banida.');
+          throw new Error('🚫 Acesso revogado permanentemente.');
         }
         if (profile.status === 'inativo') {
           await sb.auth.signOut();
-          throw new Error('⚠️ Sua conta está inativa.');
+          throw new Error('⚠️ Conta inativa no sistema.');
         }
         
         if (profile.first_login) {
@@ -622,25 +568,23 @@
           await sb.from('system_logs').insert({
             user_id: data.user.id,
             action: 'LOGIN_SUCESSO',
-            details: 'Nick: ' + profile.habbo_nick,
-            ip_address: 'web'
+            details: 'Terminal Web - Nick: ' + profile.habbo_nick,
+            ip_address: 'web_hk'
           });
-        } catch (logErr) {
-          console.warn('Erro ao registrar log:', logErr);
-        }
+        } catch (logErr) { console.warn('Erro log:', logErr); }
         
-        showMessage('✅ Acesso autorizado! Redirecionando...', 'success');
-        setTimeout(() => {
-          window.location.href = '../dashboard.html';
-        }, 800);
+        showMessage('✅ Bio-autorização confirmada. Redirecionando...', 'success');
+        setTimeout(() => { window.location.href = '../dashboard.html'; }, 1000);
+
       } catch (err) {
         console.error('Login error:', err);
-        showMessage('❌ ' + (err.message || 'Credenciais inválidas.'), 'error');
+        showMessage('❌ ' + (err.message || 'Falha na autenticação.'), 'error');
         btn.disabled = false;
-        btn.textContent = 'Entrar no Sistema';
+        btn.textContent = 'Acessar Terminal';
       }
     });
 
+    // Inputs de atalho
     document.getElementById('pass').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') document.getElementById('btn-login').click();
     });
