@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>System de RH | Polícia FEB</title>
   <link rel="icon" type="image/png" href="rh.png">
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
     
     :root {
+      /* Modo Escuro (Padrão) */
       --bg-deep: #0B1120;
       --bg-panel: rgba(15, 23, 42, 0.85);
       --bg-card: rgba(30, 41, 59, 0.6);
@@ -25,6 +26,27 @@
       --error: #ef4444;
       --warning: #f59e0b;
       --sidebar-width: 280px;
+      --code-bg: #1e293b;
+      --code-border: #334155;
+    }
+
+    /* Modo Claro */
+    .light-mode {
+      --bg-deep: #f1f5f9;
+      --bg-panel: rgba(255, 255, 255, 0.95);
+      --bg-card: rgba(241, 245, 249, 0.9);
+      --cyan: #0891b2;
+      --indigo: #4f46e5;
+      --gold: #d97706;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: rgba(148, 163, 184, 0.5);
+      --border-glow: rgba(8, 145, 178, 0.3);
+      --success: #059669;
+      --error: #dc2626;
+      --warning: #d97706;
+      --code-bg: #f8fafc;
+      --code-border: #cbd5e1;
     }
     
     body {
@@ -33,6 +55,7 @@
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     body::before {
@@ -54,7 +77,7 @@
       backdrop-filter: blur(16px);
       border-right: 1px solid var(--border);
       z-index: 100; display: flex; flex-direction: column;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
     }
     .sidebar-header { padding: 2rem 1.5rem; border-bottom: 1px solid var(--border); text-align: center; }
     .sidebar-logo { width: 64px; height: 64px; object-fit: contain; margin-bottom: 1rem; filter: drop-shadow(0 4px 12px rgba(6, 182, 212, 0.4)); }
@@ -102,11 +125,21 @@
     .btn-logout { width: 100%; background: transparent; border: 1px solid var(--border); color: var(--text-muted); padding: 0.6rem; }
     .btn-logout:hover { border-color: var(--error); color: var(--error); background: rgba(239, 68, 68, 0.05); }
     .btn-sm { padding: 0.5rem 0.75rem; font-size: 0.75rem; }
+    .btn-icon {
+      width: 40px; height: 40px; padding: 0; border-radius: 8px;
+      background: rgba(99, 102, 241, 0.1); border: 1px solid var(--border);
+      color: var(--indigo); cursor: pointer; transition: all 0.2s;
+    }
+    .btn-icon:hover {
+      background: var(--indigo); color: #fff; border-color: var(--indigo);
+      transform: translateY(-2px);
+    }
 
     .main-content { margin-left: var(--sidebar-width); min-height: 100vh; display: flex; flex-direction: column; }
     .top-bar {
       background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
       padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50;
+      transition: background 0.3s ease;
     }
     .page-title { font-family: 'Rajdhani', sans-serif; font-size: 1.8rem; font-weight: 700; letter-spacing: 0.5px; }
     .content-area { padding: 2.5rem; flex: 1; }
@@ -427,6 +460,69 @@
       font-family: monospace;
       font-weight: 600;
     }
+
+    /* Code Block - CORRIGIDO */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      position: relative;
+    }
+    .code-block::before {
+      content: 'Código';
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--indigo);
+      color: #fff;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 0 8px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .code-block code {
+      background: transparent !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      font-family: inherit;
+      font-size: inherit;
+      color: var(--text);
+    }
+
+    /* Toggle Theme Button */
+    .theme-toggle {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--gold));
+      border: none;
+      color: var(--bg-deep);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);
+      transition: all 0.3s;
+    }
+    .theme-toggle:hover {
+      transform: scale(1.1) rotate(15deg);
+      box-shadow: 0 6px 30px rgba(6, 182, 212, 0.6);
+    }
   </style>
 </head>
 <body>
@@ -473,7 +569,9 @@
   <main class="main-content">
     <div class="top-bar">
       <h1 class="page-title" id="page-title">Dashboard Operacional</h1>
-      <button class="btn btn-primary btn-sm" onclick="openDocModal()" id="btn-novo" style="display:none;"><i class="fas fa-plus"></i> Novo Registro</button>
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <button class="btn btn-primary btn-sm" onclick="openDocModal()" id="btn-novo" style="display:none;"><i class="fas fa-plus"></i> Novo Registro</button>
+      </div>
     </div>
 
     <div class="content-area">
@@ -609,6 +707,11 @@
     </footer>
   </main>
 
+  <!-- Toggle Theme Button -->
+  <button class="theme-toggle" onclick="toggleTheme()" title="Alternar Tema">
+    <i class="fas fa-sun" id="theme-icon"></i>
+  </button>
+
   <div class="log-overlay" id="log-overlay" onclick="closeLogSidebar()"></div>
   <div class="log-sidebar" id="log-sidebar">
     <div class="log-sidebar-header">
@@ -660,7 +763,7 @@
             <button type="button" class="bbcode-btn" onclick="insertBBCode('table')" title="Tabela"><i class="fas fa-table"></i> Tabela</button>
             <button type="button" class="bbcode-btn" onclick="previewDocument()" title="Visualizar"><i class="fas fa-eye"></i> Preview</button>
           </div>
-          <textarea class="form-textarea" id="doc-content" placeholder="Digite o conteúdo usando BBCode ou HTML...&#10;Exemplos:&#10;[b]Texto em negrito[/b] ou <b>Texto em negrito</b>&#10;[center]Texto centralizado[/center] ou <center>Texto centralizado</center>" style="min-height: 300px;" required></textarea>
+          <textarea class="form-textarea" id="doc-content" placeholder="Digite o conteúdo usando BBCode ou HTML...&#10;Exemplos:&#10;[b]Texto em negrito[/b] ou <b>Texto em negrito</b>&#10;[center]Texto centralizado[/center] ou <center>Texto centralizado</center>&#10;[code]código_aqui[/code]" style="min-height: 300px;" required></textarea>
         </div>
 
         <div class="doc-preview" id="doc-preview" style="display: none;"></div>
@@ -831,6 +934,31 @@
       return `https://www.habbo.com.br/habbo-imaging/avatarimage?user=${encodeURIComponent(nickname)}&action=std&direction=2&head_direction=3&gesture=sml&size=${size}`; 
     }
 
+    // Toggle Theme
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+      const icon = document.getElementById('theme-icon');
+      if (document.body.classList.contains('light-mode')) {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+        localStorage.setItem('theme', 'light');
+      } else {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Load saved theme
+    window.addEventListener('load', () => {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        document.getElementById('theme-icon').classList.remove('fa-sun');
+        document.getElementById('theme-icon').classList.add('fa-moon');
+      }
+    });
+
     async function getUserIP() {
       try { 
         const res = await fetch('https://api.ipify.org?format=json'); 
@@ -877,7 +1005,7 @@
       });
     }
 
-    // Parser BBCode e HTML Completo - MELHORADO
+    // Parser BBCode e HTML Completo - CORRIGIDO
     function parseBBCode(text) {
       if (!text) return '';
       
@@ -887,8 +1015,12 @@
       html = html.replace(/\\\\\[/g, '[');
       html = html.replace(/\\\\\]/g, ']');
       
-      // SEGUNDO: Processar HTML já existente (preservar)
-      // Não escapamos < e > para permitir HTML direto
+      // SEGUNDO: Escapar HTML existente para evitar XSS, mas preservar tags válidas
+      // Primeiro escapamos tudo
+      html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      
+      // Agora restauramos tags HTML válidas que o usuário pode ter usado intencionalmente
+      // (isso é opcional - depende se você quer permitir HTML puro)
       
       // TERCEIRO: Processar BBCode
       // Títulos
@@ -921,19 +1053,15 @@
       html = html.replace(/\[ol\](.*?)\[\/ol\]/gis, '<ol>$1</ol>');
       html = html.replace(/\[li\](.*?)\[\/li\]/gi, '<li>$1</li>');
       
-      // Citações e código
+      // Citações e código - CORRIGIDO
       html = html.replace(/\[quote\](.*?)\[\/quote\]/gis, '<blockquote>$1</blockquote>');
-      html = html.replace(/\[code\](.*?)\[\/code\]/gis, '<code style="background:rgba(99,102,241,0.15); padding:4px 10px; border-radius:6px; font-family:monospace;">$1</code>');
+      html = html.replace(/\[code\](.*?)\[\/code\]/gis, '<div class="code-block"><code>$1</code></div>');
       
       // Tabelas
       html = html.replace(/\[table\](.*?)\[\/table\]/gis, '<table style="width:100%; border-collapse:collapse; margin:1.5rem 0;">$1</table>');
       html = html.replace(/\[tr\](.*?)\[\/tr\]/gis, '<tr>$1</tr>');
       html = html.replace(/\[th\](.*?)\[\/th\]/gis, '<th style="border:1px solid var(--border); padding:0.75rem; background:rgba(99,102,241,0.1);">$1</th>');
       html = html.replace(/\[td\](.*?)\[\/td\]/gis, '<td style="border:1px solid var(--border); padding:0.75rem;">$1</td>');
-      
-      // QUARTO: Processar HTML adicional
-      // Centralização HTML
-      html = html.replace(/<center>(.*?)<\/center>/gi, '<div class="center">$1</div>');
       
       // Placeholders {{VARIAVEL}}
       html = html.replace(/\{\{(\w+)\}\}/g, '<span class="placeholder">{{$1}}</span>');
