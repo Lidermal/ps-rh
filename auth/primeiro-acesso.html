@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="rh.png">
   <title>Primeiro Acesso | Polícia FEB - RH</title>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -11,6 +12,8 @@
       --bg-deep: #0a0e27;
       --bg-card: rgba(26, 31, 58, 0.7);
       --green: #10b981;
+      --cyan: #00d9ff;
+      --gold: #f59e0b;
       --text: #e2e8f0;
       --text-muted: #94a3b8;
       --border: rgba(16, 185, 129, 0.2);
@@ -25,78 +28,159 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
+      position: relative;
+      overflow: hidden;
     }
-    .container { width: 100%; max-width: 440px; }
-    .header { text-align: center; margin-bottom: 2rem; }
-    .logo-img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      margin-bottom: 1rem;
-      filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.3));
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
     }
     .badge {
-      display: inline-flex;
-      padding: 6px 14px;
+      display: inline-block;
+      padding: 6px 16px;
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid var(--green);
       border-radius: 20px;
       font-family: 'Rajdhani', sans-serif;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--green);
+      letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
     .logo {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       font-weight: 700;
+      color: var(--text);
+      letter-spacing: 2px;
       margin-bottom: 0.5rem;
     }
     .logo span {
-      background: linear-gradient(135deg, var(--green) 0%, #00d9ff 100%);
+      background: linear-gradient(135deg, var(--green) 0%, var(--cyan) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .subtitle { color: var(--text-muted); }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
     .card {
       background: var(--bg-card);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 2.5rem 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
     }
     .card-title {
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.5rem;
+      font-weight: 600;
       margin-bottom: 0.5rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .card-desc { color: var(--text-muted); margin-bottom: 2rem; }
-    .input-group { margin-bottom: 1.2rem; }
+    .card-title::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: var(--green);
+      border-radius: 2px;
+      box-shadow: 0 0 10px var(--green);
+    }
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+    .security-notice {
+      background: rgba(245, 158, 11, 0.08);
+      border-left: 3px solid var(--gold);
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .security-notice strong { color: var(--gold); }
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
     .input-label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
       margin-bottom: 8px;
+      font-weight: 600;
+      letter-spacing: 1px;
       text-transform: uppercase;
     }
     input {
       width: 100%;
-      padding: 14px;
+      padding: 14px 16px;
       background: rgba(10, 14, 39, 0.6);
       border: 1px solid var(--border);
       border-radius: 10px;
       color: var(--text);
       font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
     }
     input:focus {
       outline: none;
       border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+      background: rgba(10, 14, 39, 0.9);
     }
+    input::placeholder { color: #475569; }
     .strength-bar {
       height: 4px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       margin-top: 8px;
       border-radius: 2px;
       overflow: hidden;
@@ -105,6 +189,7 @@
       height: 100%;
       width: 0;
       transition: all 0.3s;
+      border-radius: 2px;
     }
     button {
       width: 100%;
@@ -114,45 +199,66 @@
       border-radius: 10px;
       color: var(--bg-deep);
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 700;
       font-family: 'Rajdhani', sans-serif;
-      cursor: pointer;
+      letter-spacing: 1px;
       text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
       margin-top: 0.5rem;
     }
-    button:hover:not(:disabled) { transform: translateY(-2px); }
-    button:disabled { opacity: 0.6; }
-    .msg {
-      margin-top: 1.2rem;
-      padding: 10px;
-      border-radius: 8px;
-      text-align: center;
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
     }
-    .msg.error { color: var(--error); background: rgba(239, 68, 68, 0.1); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .msg {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: 1.2rem;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+    }
+    .msg.show { display: block; }
+    .msg.error { 
+      color: var(--error); 
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.5rem; }
+      .logo { font-size: 2rem; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="../rh.png" alt="RH" class="logo-img">
       <div class="badge">Primeiro Acesso</div>
       <h1 class="logo">POLÍCIA <span>FEB</span></h1>
-      <p class="subtitle">Crie sua senha pessoal</p>
+      <p class="subtitle">Configuração de Segurança</p>
     </div>
 
     <div class="card">
-      <h2 class="card-title">Definir Senha</h2>
-      <p class="card-desc">Sua conta foi aprovada. Crie uma senha segura.</p>
+      <h2 class="card-title">Criar Senha Pessoal</h2>
+      <p class="card-desc">Sua conta foi aprovada. Crie agora sua senha pessoal para acessar o sistema.</p>
       
+      <div class="security-notice">
+        <strong>⚠️ Segurança:</strong> Use uma senha única com no mínimo 6 caracteres. Não compartilhe com ninguém.
+      </div>
+
       <div class="input-group">
-        <label class="input-label">Nova Senha (mín. 6 caracteres)</label>
-        <input type="password" id="new-pass" placeholder="••••••">
-        <div class="strength-bar"><div class="strength-fill" id="strength"></div></div>
+        <label class="input-label" for="new-pass">Nova Senha</label>
+        <input type="password" id="new-pass" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+        <div class="strength-bar">
+          <div class="strength-fill" id="strength-fill"></div>
+        </div>
       </div>
       
       <div class="input-group">
-        <label class="input-label">Confirmar Senha</label>
-        <input type="password" id="confirm-pass" placeholder="••••••">
+        <label class="input-label" for="confirm-pass">Confirmar Senha</label>
+        <input type="password" id="confirm-pass" placeholder="Repita a senha" autocomplete="new-password">
       </div>
       
       <button id="btn-save">Finalizar e Acessar</button>
@@ -172,27 +278,37 @@
     })();
 
     document.getElementById('new-pass').addEventListener('input', (e) => {
-      const len = e.target.value.length;
-      const fill = document.getElementById('strength');
-      const pct = Math.min(len * 10, 100);
-      fill.style.width = pct + '%';
-      fill.style.background = len < 6 ? '#ef4444' : len < 10 ? '#f59e0b' : '#10b981';
+      const pass = e.target.value;
+      const fill = document.getElementById('strength-fill');
+      let strength = 0;
+      if (pass.length >= 6) strength += 25;
+      if (pass.length >= 10) strength += 25;
+      if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) strength += 25;
+      if (/[0-9]/.test(pass) || /[^A-Za-z0-9]/.test(pass)) strength += 25;
+      
+      fill.style.width = strength + '%';
+      if (strength < 40) fill.style.background = '#ef4444';
+      else if (strength < 70) fill.style.background = '#f59e0b';
+      else fill.style.background = '#10b981';
     });
+
+    function showMessage(text, type) {
+      const msg = document.getElementById('msg');
+      msg.textContent = text;
+      msg.className = `msg show ${type}`;
+    }
 
     document.getElementById('btn-save').addEventListener('click', async () => {
       const btn = document.getElementById('btn-save');
-      const msg = document.getElementById('msg');
       const pass = document.getElementById('new-pass').value;
       const confirm = document.getElementById('confirm-pass').value;
 
       if (pass.length < 6) {
-        msg.textContent = '❌ Mínimo 6 caracteres.';
-        msg.className = 'msg error';
+        showMessage('❌ A senha deve ter no mínimo 6 caracteres.', 'error');
         return;
       }
       if (pass !== confirm) {
-        msg.textContent = '❌ Senhas não coincidem.';
-        msg.className = 'msg error';
+        showMessage('❌ As senhas não coincidem.', 'error');
         return;
       }
 
@@ -206,16 +322,19 @@
         const { data: { user } } = await sb.auth.getUser();
         await sb.from('profiles').update({ first_login: false }).eq('id', user.id);
 
-        msg.textContent = '✅ Concluído! Redirecionando...';
-        msg.style.color = '#10b981';
-        msg.style.background = 'rgba(16, 185, 129, 0.1)';
-        
+        await sb.from('system_logs').insert({
+          user_id: user.id,
+          action: 'PRIMEIRO_ACESSO_CONCLUIDO',
+          details: 'Senha pessoal criada',
+          ip_address: 'web'
+        });
+
+        showMessage('✅ Senha criada! Redirecionando...', 'success');
         setTimeout(() => {
           window.location.href = '../dashboard.html';
         }, 1000);
       } catch (err) {
-        msg.textContent = '❌ ' + err.message;
-        msg.className = 'msg error';
+        showMessage('❌ ' + err.message, 'error');
         btn.disabled = false;
         btn.textContent = 'Finalizar e Acessar';
       }
