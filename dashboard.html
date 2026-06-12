@@ -523,7 +523,6 @@
       50% { opacity: 0.5; }
     }
 
-    /* Rodapé corrigido - ocupa toda a largura */
     .footer {
       background: var(--bg-panel);
       border-top: 1px solid var(--border);
@@ -572,7 +571,6 @@
       background: linear-gradient(90deg, transparent, var(--cyan), transparent);
     }
 
-    /* Paginação */
     .pagination {
       display: flex;
       justify-content: center;
@@ -758,7 +756,6 @@
             </thead>
             <tbody id="system-logs"></tbody>
           </table>
-          <!-- Paginação -->
           <div class="pagination" id="logs-pagination"></div>
         </div>
       </section>
@@ -955,24 +952,45 @@
     let lastActivity = Date.now();
     let inactivityTimer;
     let confirmCallback = null;
-    let userIP = 'indisponível';
+    let userIP = null;
+    let ipReady = false;
     let logsCurrentPage = 1;
     const LOGS_PER_PAGE = 15;
     const INACTIVITY_LIMIT = 30 * 60 * 1000;
     const WARNING_TIME = 5 * 60 * 1000;
     const ONLINE_THRESHOLD = 5 * 60 * 1000;
 
-    // Capturar IP real do usuário
+    // Capturar IP real do usuário - CHAMADA IMEDIATA
     async function getUserIP() {
+      if (ipReady && userIP) return userIP;
+      
       try {
         const response = await fetch('https://api.ipify.org?format=json');
         const data = await response.json();
         userIP = data.ip;
+        ipReady = true;
         console.log('IP capturado:', userIP);
+        return userIP;
       } catch (error) {
         console.warn('Não foi possível capturar IP:', error);
         userIP = 'indisponível';
+        ipReady = true;
+        return userIP;
       }
+    }
+
+    // Função para aguardar o IP estar pronto
+    async function waitForIP() {
+      if (ipReady && userIP) return userIP;
+      
+      // Aguarda até o IP estar disponível (máximo 5 segundos)
+      let attempts = 0;
+      while (!ipReady && attempts < 50) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        attempts++;
+      }
+      
+      return userIP || 'indisponível';
     }
 
     function showToast(message, type = 'info') {
@@ -1072,7 +1090,10 @@
       }
       
       userProfile = profile;
+      
+      // AGUARDA O IP ESTAR PRONTO ANTES DE CONTINUAR
       await getUserIP();
+      
       loadUserData();
       loadStats();
       loadDocuments();
@@ -1160,7 +1181,6 @@
     }
 
     async function loadAdminData() {
-      // Carregar usuários pendentes
       const { data: pending } = await sb.from('profiles')
         .select('*')
         .eq('status', 'pendente')
@@ -1187,7 +1207,6 @@
         pendingContainer.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhuma solicitação pendente</td></tr>';
       }
       
-      // Carregar TODOS os usuários
       const { data: allUsers } = await sb.from('profiles')
         .select('*')
         .order('created_at', { ascending: false });
@@ -1242,18 +1261,14 @@
         allUsersContainer.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhum usuário encontrado</td></tr>';
       }
       
-      // Carregar logs com paginação
       await loadLogs();
     }
 
     async function loadLogs() {
-      // Buscar total de logs
       const { count: totalLogs } = await sb.from('system_logs')
         .select('*', { count: 'exact', head: true });
       
       const totalPages = Math.ceil(totalLogs / LOGS_PER_PAGE);
-      
-      // Buscar logs da página atual
       const from = (logsCurrentPage - 1) * LOGS_PER_PAGE;
       const to = from + LOGS_PER_PAGE - 1;
       
@@ -1262,7 +1277,6 @@
         .order('created_at', { ascending: false })
         .range(from, to);
       
-      // Buscar todos os perfis para mapear user_id -> habbo_nick
       const { data: profiles } = await sb.from('profiles').select('id, habbo_nick');
       const userMap = {};
       if (profiles) {
@@ -1290,7 +1304,6 @@
         logsContainer.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhum log registrado</td></tr>';
       }
       
-      // Renderizar paginação
       renderPagination(totalPages);
     }
 
@@ -1304,15 +1317,12 @@
       
       let paginationHTML = '';
       
-      // Botão anterior
       paginationHTML += `<button ${logsCurrentPage === 1 ? 'disabled' : ''} onclick="changeLogPage(${logsCurrentPage - 1})">
         <i class="fas fa-chevron-left"></i> Anterior
       </button>`;
       
-      // Informações da página
       paginationHTML += `<span class="pagination-info">Página ${logsCurrentPage} de ${totalPages}</span>`;
       
-      // Botão próximo
       paginationHTML += `<button ${logsCurrentPage === totalPages ? 'disabled' : ''} onclick="changeLogPage(${logsCurrentPage + 1})">
         Próximo <i class="fas fa-chevron-right"></i>
       </button>`;
@@ -1351,11 +1361,12 @@
         
         if (profileError) throw profileError;
         
+        const currentIP = await waitForIP();
         await sb.from('system_logs').insert({
           user_id: currentUser.id,
           action: 'APROVAR_USUARIO',
           details: `Aprovou usuário ${nick}. Email: ${tempEmail}`,
-          ip_address: userIP
+          ip_address: currentIP
         });
         
         showToast(`Usuário ${nick} aprovado com sucesso!`, 'success');
@@ -1376,11 +1387,12 @@
         return;
       }
       
+      const currentIP = await waitForIP();
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
         action: 'REJEITAR_USUARIO',
         details: `Rejeitou solicitação de ${nick}`,
-        ip_address: userIP
+        ip_address: currentIP
       });
       
       showToast('Solicitação rejeitada.', 'success');
@@ -1430,11 +1442,12 @@
         return;
       }
       
+      const currentIP = await waitForIP();
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
         action: 'EDITAR_USUARIO',
         details: `Editou usuário - Cargo: ${newRole}, Status: ${newStatus}${resetPassword ? ', Resetou senha' : ''}`,
-        ip_address: userIP
+        ip_address: currentIP
       });
       
       showToast('Usuário atualizado com sucesso!', 'success');
@@ -1447,11 +1460,13 @@
       if (!confirmed) return;
       
       await sb.from('profiles').update({ status: 'banido', updated_at: new Date().toISOString() }).eq('id', userId);
+      
+      const currentIP = await waitForIP();
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
         action: 'BANIR_USUARIO',
         details: `Baniu usuário ${nick}`,
-        ip_address: userIP
+        ip_address: currentIP
       });
       
       showToast(`Usuário ${nick} banido.`, 'warning');
@@ -1463,11 +1478,13 @@
       if (!confirmed) return;
       
       await sb.from('profiles').update({ status: 'ativo', updated_at: new Date().toISOString() }).eq('id', userId);
+      
+      const currentIP = await waitForIP();
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
         action: 'ATIVAR_USUARIO',
         details: `Ativou usuário ${nick}`,
-        ip_address: userIP
+        ip_address: currentIP
       });
       
       showToast(`Usuário ${nick} ativado.`, 'success');
@@ -1503,11 +1520,12 @@
         return;
       }
       
+      const currentIP = await waitForIP();
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
         action: 'CRIAR_DOCUMENTO',
         details: `Criou documento: ${title}`,
-        ip_address: userIP
+        ip_address: currentIP
       });
       
       showToast('Documento salvo com sucesso!', 'success');
@@ -1527,11 +1545,22 @@
         if (!confirmed) return;
       }
       
+      // ATUALIZA last_activity para timestamp antigo (marca como offline imediatamente)
+      if (currentUser) {
+        const oldTimestamp = new Date();
+        oldTimestamp.setHours(oldTimestamp.getHours() - 1); // 1 hora atrás
+        
+        await sb.from('profiles')
+          .update({ last_activity: oldTimestamp.toISOString() })
+          .eq('id', currentUser.id);
+      }
+      
+      const currentIP = await waitForIP();
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
         action: 'LOGOUT',
         details: timeout ? 'Sessão expirada por inatividade' : 'Logout manual',
-        ip_address: userIP
+        ip_address: currentIP
       });
       
       await sb.auth.signOut();
