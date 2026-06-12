@@ -39,6 +39,32 @@
       background-size: 40px 40px;
       pointer-events: none;
     }
+    
+    /* Scrollbar Personalizada */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-deep);
+      border-left: 1px solid var(--border);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--cyan), #0891b2);
+      border-radius: 5px;
+      border: 2px solid var(--bg-deep);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, var(--gold), #d97706);
+    }
+    ::-webkit-scrollbar-corner {
+      background: var(--bg-deep);
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--cyan) var(--bg-deep);
+    }
+
     .sidebar {
       position: fixed;
       left: 0; top: 0; bottom: 0;
@@ -438,6 +464,43 @@
     }
     .timeout-warning.show { display: block; animation: slideIn 0.3s; }
     @keyframes slideIn { from { transform: translateX(400px); } to { transform: translateX(0); } }
+    
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 3000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toast {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--cyan);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 300px;
+      animation: slideInRight 0.3s;
+    }
+    .toast.success { border-left-color: var(--success); }
+    .toast.error { border-left-color: var(--error); }
+    .toast.warning { border-left-color: var(--warning); }
+    @keyframes slideInRight {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    .toast.hiding { animation: fadeOut 0.3s forwards; }
+
     @media (max-width: 1024px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.open { transform: translateX(0); }
@@ -587,7 +650,7 @@
         </div>
       </section>
 
-      <!-- Outras seções (Documentos, Manuais, etc) -->
+      <!-- Outras seções -->
       <section id="section-documentos" class="content-section">
         <div class="section-header">
           <h2 class="section-title"><i class="fas fa-folder-open"></i> Documentos</h2>
@@ -633,6 +696,9 @@
   </main>
 
   <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
 
   <!-- Modal Editar Usuário -->
   <div class="modal" id="modal-edit-user">
@@ -682,6 +748,25 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Modal Confirm -->
+  <div class="modal" id="modal-confirm">
+    <div class="modal-content" style="max-width: 400px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="confirm-title">Confirmação</h3>
+        <button class="btn-close" onclick="closeModal('modal-confirm')">&times;</button>
+      </div>
+      <p id="confirm-message" style="margin-bottom: 1.5rem; color: var(--text-muted);"></p>
+      <div style="display:flex; gap:1rem;">
+        <button class="btn btn-success" id="confirm-yes" style="flex:1;">
+          <i class="fas fa-check"></i> Sim
+        </button>
+        <button class="btn btn-danger" onclick="closeModal('modal-confirm')" style="flex:1;">
+          <i class="fas fa-times"></i> Não
+        </button>
+      </div>
     </div>
   </div>
 
@@ -738,8 +823,55 @@
     let userProfile = null;
     let lastActivity = Date.now();
     let inactivityTimer;
-    const INACTIVITY_LIMIT = 30 * 60 * 1000; // 30 minutos
-    const WARNING_TIME = 5 * 60 * 1000; // Alertar 5 minutos antes
+    let confirmCallback = null;
+    const INACTIVITY_LIMIT = 30 * 60 * 1000;
+    const WARNING_TIME = 5 * 60 * 1000;
+
+    // Toast Notifications
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle',
+        info: 'fa-info-circle'
+      };
+      
+      toast.innerHTML = `
+        <i class="fas ${icons[type]}" style="font-size: 1.25rem;"></i>
+        <span>${message}</span>
+      `;
+      
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('hiding');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // Custom Confirm
+    function customConfirm(message, title = 'Confirmação') {
+      return new Promise((resolve) => {
+        document.getElementById('confirm-title').textContent = title;
+        document.getElementById('confirm-message').textContent = message;
+        document.getElementById('modal-confirm').classList.add('active');
+        
+        const yesBtn = document.getElementById('confirm-yes');
+        const newYesBtn = yesBtn.cloneNode(true);
+        yesBtn.parentNode.replaceChild(newYesBtn, yesBtn);
+        
+        newYesBtn.addEventListener('click', () => {
+          closeModal('modal-confirm');
+          resolve(true);
+        });
+        
+        confirmCallback = resolve;
+      });
+    }
 
     // Track activity
     ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
@@ -790,13 +922,13 @@
       loadStats();
       loadDocuments();
       
-      // Show admin menu for Administrador or Diretoria
       if (userProfile.role === 'Administrador' || userProfile.role === 'Diretoria') {
         document.getElementById('nav-admin').style.display = 'flex';
         document.getElementById('btn-novo').style.display = 'inline-flex';
       }
       
       resetInactivityTimer();
+      showToast('Bem-vindo ao sistema, ' + profile.habbo_nick + '!', 'success');
     })();
 
     function loadUserData() {
@@ -892,11 +1024,17 @@
         pendingContainer.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhuma solicitação pendente</td></tr>';
       }
       
-      // Load ALL users (including admins)
-      const { data: allUsers } = await sb.from('profiles')
+      // Load ALL users - CORREÇÃO AQUI
+      const { data: allUsers, error } = await sb.from('profiles')
         .select('*')
         .neq('status', 'pendente')
         .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Erro ao carregar usuários:', error);
+        showToast('Erro ao carregar usuários: ' + error.message, 'error');
+        return;
+      }
       
       const allUsersContainer = document.getElementById('all-users');
       if (allUsers && allUsers.length > 0) {
@@ -922,6 +1060,8 @@
             </td>
           </tr>
         `).join('');
+      } else {
+        allUsersContainer.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhum usuário encontrado</td></tr>';
       }
       
       // Load logs
@@ -944,14 +1084,13 @@
     }
 
     async function approveUser(userId, nick) {
-      if (!confirm(`Aprovar acesso de ${nick}?\n\nO usuário receberá um email temporário e poderá fazer login.`)) return;
+      const confirmed = await customConfirm(`Aprovar acesso de ${nick}?\n\nO usuário receberá um email temporário e poderá fazer login.`, 'Aprovar Usuário');
+      if (!confirmed) return;
       
-      // Generate temporary email and password
       const tempEmail = `${nick.toLowerCase().replace(/[^a-z0-9]/g, '')}@feb-temp.internal`;
       const tempPassword = 'Temp' + Math.random().toString(36).slice(-8) + '!';
       
       try {
-        // Create auth user
         const { data: authData, error: authError } = await sb.auth.admin.createUser({
           email: tempEmail,
           password: tempPassword,
@@ -960,7 +1099,6 @@
         
         if (authError) throw authError;
         
-        // Update profile
         const { error: profileError } = await sb.from('profiles')
           .update({ 
             status: 'ativo', 
@@ -971,28 +1109,28 @@
         
         if (profileError) throw profileError;
         
-        // Log action
         await sb.from('system_logs').insert({
           user_id: currentUser.id,
           action: 'APROVAR_USUARIO',
-          details: `Aprovou usuário ${nick}. Email temporário: ${tempEmail}`,
+          details: `Aprovou usuário ${nick}. Email: ${tempEmail}`,
           ip_address: 'admin-panel'
         });
         
-        alert(`✅ Usuário ${nick} aprovado com sucesso!\n\nEmail temporário: ${tempEmail}\nSenha temporária: ${tempPassword}\n\nO usuário deverá alterar a senha no primeiro login.`);
+        showToast(`Usuário ${nick} aprovado com sucesso!`, 'success');
         loadAdminData();
         loadStats();
       } catch (err) {
-        alert('❌ Erro ao aprovar usuário: ' + err.message);
+        showToast('Erro ao aprovar: ' + err.message, 'error');
       }
     }
 
     async function rejectUser(userId, nick) {
-      if (!confirm(`Rejeitar solicitação de ${nick}?\n\nO registro será permanentemente removido.`)) return;
+      const confirmed = await customConfirm(`Rejeitar solicitação de ${nick}?\n\nO registro será permanentemente removido.`, 'Rejeitar Usuário');
+      if (!confirmed) return;
       
       const { error } = await sb.from('profiles').delete().eq('id', userId);
       if (error) {
-        alert('Erro: ' + error.message);
+        showToast('Erro: ' + error.message, 'error');
         return;
       }
       
@@ -1003,7 +1141,7 @@
         ip_address: 'admin-panel'
       });
       
-      alert('Solicitação rejeitada.');
+      showToast('Solicitação rejeitada.', 'success');
       loadAdminData();
       loadStats();
     }
@@ -1011,7 +1149,7 @@
     function editUser(userId) {
       sb.from('profiles').select('*').eq('id', userId).single().then(({ data, error }) => {
         if (error) {
-          alert('Erro: ' + error.message);
+          showToast('Erro: ' + error.message, 'error');
           return;
         }
         
@@ -1046,7 +1184,7 @@
       const { error } = await sb.from('profiles').update(updates).eq('id', userId);
       
       if (error) {
-        alert('Erro: ' + error.message);
+        showToast('Erro: ' + error.message, 'error');
         return;
       }
       
@@ -1057,13 +1195,14 @@
         ip_address: 'admin-panel'
       });
       
-      alert('Usuário atualizado com sucesso!');
+      showToast('Usuário atualizado com sucesso!', 'success');
       closeModal('modal-edit-user');
       loadAdminData();
     }
 
     async function banUser(userId, nick) {
-      if (!confirm(`Banir usuário ${nick}?`)) return;
+      const confirmed = await customConfirm(`Banir usuário ${nick}?`, 'Banir Usuário');
+      if (!confirmed) return;
       
       await sb.from('profiles').update({ status: 'banido', updated_at: new Date().toISOString() }).eq('id', userId);
       await sb.from('system_logs').insert({
@@ -1073,11 +1212,13 @@
         ip_address: 'admin-panel'
       });
       
+      showToast(`Usuário ${nick} banido.`, 'warning');
       loadAdminData();
     }
 
     async function activateUser(userId, nick) {
-      if (!confirm(`Ativar usuário ${nick}?`)) return;
+      const confirmed = await customConfirm(`Ativar usuário ${nick}?`, 'Ativar Usuário');
+      if (!confirmed) return;
       
       await sb.from('profiles').update({ status: 'ativo', updated_at: new Date().toISOString() }).eq('id', userId);
       await sb.from('system_logs').insert({
@@ -1087,6 +1228,7 @@
         ip_address: 'admin-panel'
       });
       
+      showToast(`Usuário ${nick} ativado.`, 'success');
       loadAdminData();
     }
 
@@ -1115,7 +1257,7 @@
       });
       
       if (error) {
-        alert('Erro: ' + error.message);
+        showToast('Erro: ' + error.message, 'error');
         return;
       }
       
@@ -1126,7 +1268,7 @@
         ip_address: 'admin-panel'
       });
       
-      alert('Documento salvo!');
+      showToast('Documento salvo com sucesso!', 'success');
       closeModal('modal-doc');
       document.getElementById('doc-form').reset();
       loadDocuments();
@@ -1138,7 +1280,10 @@
     }
 
     async function logout(timeout = false) {
-      if (!timeout && !confirm('Deseja realmente sair?')) return;
+      if (!timeout) {
+        const confirmed = await customConfirm('Deseja realmente sair do sistema?', 'Confirmar Logout');
+        if (!confirmed) return;
+      }
       
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
@@ -1151,7 +1296,6 @@
       window.location.href = 'auth/login.html';
     }
 
-    // Close modals on outside click
     document.querySelectorAll('.modal').forEach(modal => {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) modal.classList.remove('active');
