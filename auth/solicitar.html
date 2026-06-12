@@ -19,17 +19,19 @@
       --success: #10b981;
       --error: #ef4444;
     }
+    /* CORREÇÃO: Flexbox para layout perfeito */
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg-deep);
       color: var(--text);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 20px;
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden;
     }
     .bg-animation {
       position: fixed;
@@ -97,6 +99,10 @@
       z-index: 10;
       width: 100%;
       max-width: 520px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     .header {
       text-align: center;
@@ -247,7 +253,6 @@
       to { opacity: 1; }
     }
     .info-box strong { color: var(--cyan); }
-    .info-box br { margin-bottom: 8px; }
     .input-group {
       margin-bottom: 1.75rem;
       position: relative;
@@ -328,32 +333,27 @@
       padding: 14px;
       border-radius: 10px;
       display: none;
-      animation: shake 0.5s;
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      75% { transform: translateX(10px); }
     }
     .msg.show { display: block; }
     .msg.success { 
       color: var(--success); 
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid rgba(16, 185, 129, 0.3);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
     }
     .msg.error { 
       color: var(--error); 
       background: rgba(239, 68, 68, 0.1);
       border: 1px solid rgba(239, 68, 68, 0.3);
-      box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
     }
+    /* CORREÇÃO: Rodapé fixo na parte inferior */
     .footer {
       text-align: center;
       margin-top: 2rem;
+      padding: 1rem;
       font-size: 0.85rem;
       color: var(--text-muted);
       animation: fadeIn 1s ease-out 0.5s both;
+      width: 100%;
     }
     .footer a {
       color: var(--cyan);
@@ -382,6 +382,7 @@
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--cyan), var(--gold), var(--cyan), transparent);
       animation: lineMove 10s linear infinite;
+      z-index: 100;
     }
     @keyframes lineMove {
       0% { transform: translateX(-100%); }
@@ -411,7 +412,7 @@
         <div class="logo-glow"></div>
         <img src="../rh.png" alt="RH" class="logo-img">
       </div>
-      <br><div class="badge">Sistema Oficial</div>
+      <div class="badge">Sistema Oficial</div>
       <h1 class="logo">POLÍCIA <span>FEB</span></h1>
       <p class="subtitle">Órgão de Recursos Humanos</p>
     </div>
