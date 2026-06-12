@@ -628,33 +628,52 @@
       height: 100px;
     }
     
-    /* Team List Styles */
+    /* Team List Styles - INSPIRADO NOS PRINTS */
     .team-section {
-      margin-bottom: 2.5rem;
+      margin-bottom: 3rem;
     }
     .team-section-title {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 1.3rem;
+      font-size: 2rem;
       font-weight: 700;
-      color: var(--gold);
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 2px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 0.5rem;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .team-section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+    }
+    .team-intro {
+      text-align: center;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 2rem auto 3rem;
+      line-height: 1.8;
+      font-size: 0.95rem;
     }
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
     }
     .team-card {
       background: var(--bg-card);
       backdrop-filter: blur(10px);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -662,26 +681,90 @@
       transition: all 0.3s;
     }
     .team-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0, 217, 255, 0.2);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 50px rgba(0, 217, 255, 0.2);
       border-color: var(--cyan);
     }
     .team-card img {
       width: 120px;
       height: 120px;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      border-radius: 12px;
     }
     .team-card-name {
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1.3rem;
       color: var(--text);
       margin-bottom: 0.5rem;
     }
     .team-card-role {
-      font-size: 0.85rem;
-      color: var(--cyan);
+      font-size: 0.9rem;
+      color: var(--gold);
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+    }
+    .team-card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .functions-box {
+      background: rgba(245, 158, 11, 0.05);
+      border-left: 3px solid var(--gold);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-align: left;
+      width: 100%;
+    }
+    .functions-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .functions-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .functions-list li {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+      padding-left: 1.5rem;
+      position: relative;
+      line-height: 1.5;
+    }
+    .functions-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-weight: bold;
+    }
+    .empty-slot {
+      background: rgba(255, 255, 255, 0.03);
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .empty-slot i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.3;
     }
 
     @media (max-width: 1024px) {
@@ -1166,7 +1249,79 @@
     const INACTIVITY_LIMIT = 30 * 60 * 1000;
     const WARNING_TIME = 5 * 60 * 1000;
     const ONLINE_THRESHOLD = 5 * 60 * 1000;
-    const HABBO_IMAGER_URL = 'https://www.habbonight.com.br/facenter/habbo-imager?user=';
+    
+    // Hierarquia e descrições das funções - BASEADO NOS ARTIGOS
+    const hierarchy = {
+      'Diretoria': { 
+        title: 'Diretor', 
+        icon: 'fa-crown', 
+        order: 1,
+        description: 'Responsável pela liderança estratégica e gestão geral do setor de Recursos Humanos.',
+        functions: [
+          'Definir diretrizes estratégicas e objetivos institucionais do RH',
+          'Representar o órgão perante a alta gestão e órgãos externos',
+          'Aprovar decisões administrativas, financeiras e operacionais',
+          'Supervisionar todas as áreas técnicas e coordenadores',
+          'Garantir o cumprimento da missão e dos princípios do órgão',
+          'Validar relatórios, pareceres e documentos oficiais',
+          'Conduzir reuniões de planejamento e avaliação de resultados',
+          'Promover o desenvolvimento institucional e crescimento da equipe'
+        ]
+      },
+      'Vice-Diretoria': { 
+        title: 'Vice-Diretor', 
+        icon: 'fa-user-shield', 
+        order: 2,
+        description: 'Responsável pela supervisão operacional e administração diária do setor.',
+        functions: [
+          'Exercer função estratégica promovendo alinhamento com a alta gestão',
+          'Validar decisões relevantes antes da deliberação final',
+          'Acompanhar indicadores de desempenho e metas institucionais',
+          'Substituir o Diretor em suas ausências e impedimentos',
+          'Coordenar a execução das atividades das áreas técnicas',
+          'Mediar conflitos e garantir integração entre as equipes',
+          'Implementar melhorias nos processos administrativos',
+          'Apoiar o Diretor no acompanhamento das equipes'
+        ]
+      },
+      'Coordenação': { 
+        title: 'Coordenador', 
+        icon: 'fa-user-tie', 
+        order: 3,
+        description: 'Responsável pela supervisão das equipes e controle dos processos internos.',
+        functions: [
+          'Supervisionar as atividades do setor e distribuir demandas',
+          'Garantir o cumprimento das diretrizes estabelecidas',
+          'Acompanhamento de metas e fiscalização das atividades',
+          'Atuar na resolução de questões operacionais',
+          'Controlar processos internos e fluxos de trabalho',
+          'Monitorar indicadores de desempenho da equipe',
+          'Administrar recursos, prazos e prioridades',
+          'Elaborar relatórios gerenciais para a Direção'
+        ]
+      },
+      'Analista': { 
+        title: 'Analista', 
+        icon: 'fa-user', 
+        order: 4,
+        description: 'Responsável pelo suporte operacional e execução das atividades técnicas.',
+        functions: [
+          'Prestar suporte operacional ao setor',
+          'Organização de registros e documentação',
+          'Auxílio em processos seletivos e recrutamento',
+          'Apoio administrativo às demais funções',
+          'Desenvolver relatórios e análises técnicas',
+          'Elaborar pareceres e estudos relacionados às áreas',
+          'Executar atividades de auditoria e controladoria',
+          'Apoiar no planejamento financeiro e compras'
+        ]
+      }
+    };
+
+    // Função para gerar URL do Habbo Imager via API
+    function getHabboImagerUrl(nickname, size = 'l') {
+      return `https://www.habbonight.com.br/facenter/habbo-imager?user=${encodeURIComponent(nickname)}&action=std&direction=2&head_direction=3&gesture=sml&size=${size}`;
+    }
 
     async function getUserIP() {
       if (ipReady && userIP) return userIP;
@@ -1354,7 +1509,7 @@
           .single();
         
         if (profile) {
-          const avatarUrl = HABBO_IMAGER_URL + encodeURIComponent(profile.habbo_nick) + '&action=std&direction=2&head_direction=3&gesture=sml&size=l';
+          const avatarUrl = getHabboImagerUrl(profile.habbo_nick, 'l');
           
           document.getElementById('last-updater-avatar').src = avatarUrl;
           document.getElementById('last-updater-avatar').style.display = 'block';
@@ -1398,7 +1553,7 @@
       
       container.innerHTML = schedules.map(schedule => {
         const user = userMap[schedule.user_id];
-        const avatarUrl = user ? HABBO_IMAGER_URL + encodeURIComponent(user.habbo_nick) + '&action=std&direction=2&head_direction=3&gesture=sml&size=l' : '';
+        const avatarUrl = user ? getHabboImagerUrl(user.habbo_nick, 'l') : '';
         
         const days = schedule.days ? JSON.parse(schedule.days) : [];
         const timeDisplay = schedule.schedule_type === 'turno' ? schedule.turno : `${schedule.time_start} - ${schedule.time_end}`;
@@ -1471,7 +1626,7 @@
       
       if (users && users.length > 0) {
         resultsContainer.innerHTML = users.map(user => {
-          const avatarUrl = HABBO_IMAGER_URL + encodeURIComponent(user.habbo_nick) + '&action=std&direction=2&head_direction=3&gesture=sml&size=s';
+          const avatarUrl = getHabboImagerUrl(user.habbo_nick, 's');
           return `
             <div class="search-result-item" onclick="selectUser('${user.id}', '${user.habbo_nick}', '${user.role}')">
               <img src="${avatarUrl}" alt="${user.habbo_nick}" style="width: 30px; height: 30px;">
@@ -1624,52 +1779,57 @@
         return;
       }
       
-      // Hierarquia: Diretor > Vice-Diretor > Coordenador > Analistas
-      const hierarchy = {
-        'Diretoria': { title: 'Diretor', icon: 'fa-crown', order: 1 },
-        'Vice-Diretoria': { title: 'Vice-Diretor', icon: 'fa-user-shield', order: 2 },
-        'Coordenação': { title: 'Coordenador', icon: 'fa-user-tie', order: 3 },
-        'Analista': { title: 'Analista', icon: 'fa-user', order: 4 }
-      };
-      
-      // Agrupar membros por cargo
+      // Agrupar membros por cargo (excluindo Administrador)
       const grouped = {};
       members.forEach(member => {
-        const roleKey = member.role;
-        if (!grouped[roleKey]) {
-          grouped[roleKey] = [];
+        // Não incluir Administrador na listagem
+        if (member.role !== 'Administrador') {
+          if (!grouped[member.role]) {
+            grouped[member.role] = [];
+          }
+          grouped[member.role].push(member);
         }
-        grouped[roleKey].push(member);
       });
       
       // Ordenar por hierarquia e montar HTML
       let html = '';
-      const sortedRoles = Object.keys(grouped).sort((a, b) => {
-        const orderA = hierarchy[a]?.order || 99;
-        const orderB = hierarchy[b]?.order || 99;
-        return orderA - orderB;
-      });
+      const sortedRoles = Object.keys(hierarchy).sort((a, b) => hierarchy[a].order - hierarchy[b].order);
       
       sortedRoles.forEach(role => {
-        const roleInfo = hierarchy[role] || { title: role, icon: 'fa-user', order: 99 };
+        const roleInfo = hierarchy[role];
+        const roleMembers = grouped[role] || [];
         
         html += `
           <div class="team-section">
-            <h3 class="team-section-title">
-              <i class="fas ${roleInfo.icon}"></i>
-              ${roleInfo.title}
-            </h3>
+            <h2 class="team-section-title">${roleInfo.title}</h2>
+            <p class="team-intro">${roleInfo.description}</p>
             <div class="team-grid">
-              ${grouped[role].map(member => {
-                const avatarUrl = HABBO_IMAGER_URL + encodeURIComponent(member.habbo_nick) + '&action=std&direction=2&head_direction=3&gesture=sml&size=l';
+              ${roleMembers.length > 0 ? roleMembers.map(member => {
+                const avatarUrl = getHabboImagerUrl(member.habbo_nick, 'l');
                 return `
                   <div class="team-card">
                     <img src="${avatarUrl}" alt="${member.habbo_nick}">
                     <div class="team-card-name">${member.habbo_nick}</div>
                     <div class="team-card-role">${role}</div>
+                    <div class="team-card-desc">${roleInfo.description}</div>
+                    <div class="functions-box">
+                      <div class="functions-title">
+                        <i class="fas fa-tasks"></i>
+                        Funções do ${roleInfo.title}:
+                      </div>
+                      <ul class="functions-list">
+                        ${roleInfo.functions.map(fn => `<li>${fn}</li>`).join('')}
+                      </ul>
+                    </div>
                   </div>
                 `;
-              }).join('')}
+              }).join('') : `
+                <div class="empty-slot">
+                  <i class="fas fa-user-slash"></i>
+                  <div>Vago</div>
+                  <div style="font-size: 0.8rem; margin-top: 0.5rem;">Aguardando alocação</div>
+                </div>
+              `}
             </div>
           </div>
         `;
