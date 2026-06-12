@@ -258,31 +258,100 @@
     .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
     .pagination-info { color: var(--text-muted); font-size: 0.875rem; margin: 0 1rem; }
 
-    /* BBCode Editor */
-    .bbcode-toolbar { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid var(--border); }
-    .bbcode-btn { padding: 6px 12px; background: rgba(99, 102, 241, 0.1); border: 1px solid var(--border); border-radius: 4px; color: var(--text); cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
-    .bbcode-btn:hover { background: var(--indigo); color: #fff; }
+    /* BBCode Editor - DESIGN MELHORADO */
+    .bbcode-toolbar { 
+      display: flex; 
+      gap: 8px; 
+      flex-wrap: wrap; 
+      margin-bottom: 15px; 
+      padding: 15px; 
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(6, 182, 212, 0.1)); 
+      border: 1px solid var(--border-glow); 
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .bbcode-btn { 
+      padding: 10px 16px; 
+      background: rgba(15, 23, 42, 0.8); 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      color: var(--text); 
+      cursor: pointer; 
+      font-size: 0.85rem; 
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+    .bbcode-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.5s;
+    }
+    .bbcode-btn:hover::before {
+      left: 100%;
+    }
+    .bbcode-btn:hover { 
+      background: var(--indigo); 
+      color: #fff;
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    .bbcode-btn i {
+      font-size: 1rem;
+    }
     
     /* Document Preview */
-    .doc-preview { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-top: 1rem; max-height: 400px; overflow-y: auto; }
-    .doc-preview h1, .doc-preview h2, .doc-preview h3 { color: var(--cyan); margin: 1rem 0 0.5rem; }
-    .doc-preview p { margin-bottom: 1rem; line-height: 1.6; }
+    .doc-preview { 
+      background: rgba(0,0,0,0.3); 
+      border: 1px solid var(--border); 
+      border-radius: 12px; 
+      padding: 2rem; 
+      margin-top: 1.5rem; 
+      max-height: 500px; 
+      overflow-y: auto;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .doc-preview h1, .doc-preview h2, .doc-preview h3 { color: var(--cyan); margin: 1.5rem 0 0.75rem; }
+    .doc-preview p { margin-bottom: 1rem; line-height: 1.8; }
     .doc-preview ul, .doc-preview ol { margin: 1rem 0; padding-left: 2rem; }
     .doc-preview li { margin-bottom: 0.5rem; }
-    .doc-preview code { background: rgba(99, 102, 241, 0.2); padding: 2px 6px; border-radius: 4px; font-family: monospace; }
-    .doc-preview blockquote { border-left: 3px solid var(--cyan); padding-left: 1rem; margin: 1rem 0; color: var(--text-muted); }
-    .doc-preview img { max-width: 100%; border-radius: 8px; margin: 1rem 0; }
-    .doc-preview table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-    .doc-preview table th, .doc-preview table td { border: 1px solid var(--border); padding: 0.5rem; }
-    .doc-preview table th { background: rgba(99, 102, 241, 0.1); }
+    .doc-preview code { background: rgba(99, 102, 241, 0.2); padding: 3px 8px; border-radius: 6px; font-family: monospace; }
+    .doc-preview blockquote { border-left: 4px solid var(--cyan); padding-left: 1.5rem; margin: 1.5rem 0; color: var(--text-muted); font-style: italic; }
+    .doc-preview img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+    .doc-preview table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    .doc-preview table th, .doc-preview table td { border: 1px solid var(--border); padding: 0.75rem; }
+    .doc-preview table th { background: rgba(99, 102, 241, 0.1); font-weight: 700; }
+    .doc-preview .center { text-align: center; }
+    .doc-preview .right { text-align: right; }
+    .doc-preview .justify { text-align: justify; }
 
     /* Document View Modal */
     .doc-view-modal { max-width: 900px; }
-    .doc-view-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border); }
-    .doc-view-title { font-family: 'Rajdhani', sans-serif; font-size: 2rem; color: #fff; margin-bottom: 0.5rem; }
-    .doc-view-meta { display: flex; gap: 1.5rem; color: var(--text-muted); font-size: 0.85rem; }
+    .doc-view-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
+    .doc-view-title { font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; color: #fff; margin-bottom: 0.75rem; }
+    .doc-view-meta { display: flex; gap: 2rem; color: var(--text-muted); font-size: 0.9rem; }
     .doc-view-meta div { display: flex; align-items: center; gap: 0.5rem; }
-    .doc-view-content { line-height: 1.8; color: var(--text); }
+    .doc-view-content { line-height: 1.8; color: var(--text); font-size: 1.05rem; }
+    .doc-view-content h1, .doc-view-content h2, .doc-view-content h3 { color: var(--cyan); margin: 2rem 0 1rem; }
+    .doc-view-content p { margin-bottom: 1.25rem; }
+    .doc-view-content blockquote { border-left: 4px solid var(--cyan); padding-left: 1.5rem; margin: 1.5rem 0; color: var(--text-muted); font-style: italic; background: rgba(99, 102, 241, 0.05); padding: 1.5rem; border-radius: 0 8px 8px 0; }
+    .doc-view-content code { background: rgba(99, 102, 241, 0.15); padding: 4px 10px; border-radius: 6px; font-family: 'Courier New', monospace; }
+    .doc-view-content img { max-width: 100%; border-radius: 12px; margin: 1.5rem 0; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+    .doc-view-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    .doc-view-content table th, .doc-view-content table td { border: 1px solid var(--border); padding: 1rem; }
+    .doc-view-content table th { background: rgba(99, 102, 241, 0.1); font-weight: 700; }
+    .doc-view-content ul, .doc-view-content ol { margin: 1.5rem 0; padding-left: 2.5rem; }
+    .doc-view-content li { margin-bottom: 0.75rem; line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -495,25 +564,28 @@
         <div class="form-group">
           <label class="form-label">Conteúdo (BBCode e HTML suportados) *</label>
           <div class="bbcode-toolbar">
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('b')"><b>Negrito</b></button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('i')"><i>Itálico</i></button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('u')"><u>Sublinhado</u></button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('s')"><s>Riscado</s></button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('color')">🎨 Cor</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('size')">📏 Tamanho</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('url')">🔗 Link</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('img')">🖼️ Imagem</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('h1')">H1</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('h2')">H2</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('h3')">H3</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('ul')">• Lista</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('ol')">1. Lista Num.</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('quote')">💬 Citação</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('code')">💻 Código</button>
-            <button type="button" class="bbcode-btn" onclick="insertBBCode('table')">📊 Tabela</button>
-            <button type="button" class="bbcode-btn" onclick="previewDocument()"><i class="fas fa-eye"></i> Preview</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('b')" title="Negrito"><i class="fas fa-bold"></i> Negrito</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('i')" title="Itálico"><i class="fas fa-italic"></i> Itálico</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('u')" title="Sublinhado"><i class="fas fa-underline"></i> Sublinhado</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('s')" title="Riscado"><i class="fas fa-strikethrough"></i> Riscado</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('h1')" title="Título H1"><i class="fas fa-heading"></i> H1</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('h2')" title="Título H2"><i class="fas fa-heading"></i> H2</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('h3')" title="Título H3"><i class="fas fa-heading"></i> H3</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('color')" title="Cor do Texto"><i class="fas fa-palette"></i> Cor</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('size')" title="Tamanho"><i class="fas fa-text-height"></i> Tamanho</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('center')" title="Centralizar"><i class="fas fa-align-center"></i> Centro</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('right')" title="Direita"><i class="fas fa-align-right"></i> Direita</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('justify')" title="Justificar"><i class="fas fa-align-justify"></i> Justificar</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('url')" title="Link"><i class="fas fa-link"></i> Link</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('img')" title="Imagem"><i class="fas fa-image"></i> Imagem</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('ul')" title="Lista"><i class="fas fa-list-ul"></i> Lista</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('ol')" title="Lista Numerada"><i class="fas fa-list-ol"></i> Num.</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('quote')" title="Citação"><i class="fas fa-quote-left"></i> Citação</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('code')" title="Código"><i class="fas fa-code"></i> Código</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('table')" title="Tabela"><i class="fas fa-table"></i> Tabela</button>
+            <button type="button" class="bbcode-btn" onclick="previewDocument()" title="Visualizar"><i class="fas fa-eye"></i> Preview</button>
           </div>
-          <textarea class="form-textarea" id="doc-content" placeholder="Digite o conteúdo usando BBCode ou HTML..." style="min-height: 300px;" required></textarea>
+          <textarea class="form-textarea" id="doc-content" placeholder="Digite o conteúdo usando BBCode ou HTML...&#10;Exemplos:&#10;[b]Texto em negrito[/b] ou <b>Texto em negrito</b>&#10;[center]Texto centralizado[/center] ou <center>Texto centralizado</center>" style="min-height: 300px;" required></textarea>
         </div>
 
         <div class="doc-preview" id="doc-preview" style="display: none;"></div>
@@ -707,8 +779,10 @@
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
       const t = document.createElement('div');
-      t.style = `background: var(--bg-panel); border-left: 4px solid var(--${type === 'info' ? 'cyan' : type}); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); font-size: 0.9rem; font-weight: 500; display:flex; align-items:center; gap:10px; animation: scaleIn 0.3s ease-out;`;
-      t.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}" style="color:var(--${type === 'info' ? 'cyan' : type})"></i> ${message}`;
+      const color = type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--error)' : 'var(--cyan)';
+      t.style = `background: var(--bg-panel); border-left: 4px solid ${color}; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); font-size: 0.9rem; font-weight: 500; display:flex; align-items:center; gap:10px; animation: scaleIn 0.3s ease-out;`;
+      const icon = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle';
+      t.innerHTML = `<i class="fas fa-${icon}" style="color:${color}"></i> ${message}`;
       container.appendChild(t); 
       setTimeout(() => t.remove(), 4000);
     }
@@ -728,48 +802,58 @@
       });
     }
 
-    // BBCode Parser Completo
+    // Parser BBCode e HTML Completo
     function parseBBCode(text) {
       if (!text) return '';
       
       let html = text;
       
-      // Escapar HTML primeiro (exceto tags BBCode)
-      html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      // Primeiro, preservar tags HTML existentes escapando apenas o necessário
+      // Não escapamos < e > para permitir HTML direto
       
-      // Títulos
+      // BBCode - Títulos
       html = html.replace(/\[h1\](.*?)\[\/h1\]/gi, '<h1>$1</h1>');
       html = html.replace(/\[h2\](.*?)\[\/h2\]/gi, '<h2>$1</h2>');
       html = html.replace(/\[h3\](.*?)\[\/h3\]/gi, '<h3>$1</h3>');
       
-      // Formatação básica
+      // BBCode - Formatação básica
       html = html.replace(/\[b\](.*?)\[\/b\]/gi, '<strong>$1</strong>');
       html = html.replace(/\[i\](.*?)\[\/i\]/gi, '<em>$1</em>');
       html = html.replace(/\[u\](.*?)\[\/u\]/gi, '<u>$1</u>');
       html = html.replace(/\[s\](.*?)\[\/s\]/gi, '<s>$1</s>');
       
-      // Cores e tamanhos
+      // BBCode - Alinhamento
+      html = html.replace(/\[center\](.*?)\[\/center\]/gi, '<div class="center">$1</div>');
+      html = html.replace(/\[right\](.*?)\[\/right\]/gi, '<div class="right">$1</div>');
+      html = html.replace(/\[left\](.*?)\[\/left\]/gi, '<div class="left">$1</div>');
+      html = html.replace(/\[justify\](.*?)\[\/justify\]/gi, '<div class="justify">$1</div>');
+      
+      // BBCode - Cores e tamanhos
       html = html.replace(/\[color=(.*?)\](.*?)\[\/color\]/gi, '<span style="color:$1;">$2</span>');
       html = html.replace(/\[size=(.*?)\](.*?)\[\/size\]/gi, '<span style="font-size:$1;">$2</span>');
       
-      // Links e imagens
-      html = html.replace(/\[url=(.*?)\](.*?)\[\/url\]/gi, '<a href="$1" target="_blank" style="color:var(--cyan);">$2</a>');
-      html = html.replace(/\[img\](.*?)\[\/img\]/gi, '<img src="$1" alt="Imagem">');
+      // BBCode - Links e imagens
+      html = html.replace(/\[url=(.*?)\](.*?)\[\/url\]/gi, '<a href="$1" target="_blank" style="color:var(--cyan); text-decoration:underline;">$2</a>');
+      html = html.replace(/\[img\](.*?)\[\/img\]/gi, '<img src="$1" alt="Imagem" style="max-width:100%; border-radius:8px;">');
       
-      // Listas
+      // BBCode - Listas
       html = html.replace(/\[ul\](.*?)\[\/ul\]/gis, '<ul>$1</ul>');
       html = html.replace(/\[ol\](.*?)\[\/ol\]/gis, '<ol>$1</ol>');
       html = html.replace(/\[li\](.*?)\[\/li\]/gi, '<li>$1</li>');
       
-      // Citações e código
+      // BBCode - Citações e código
       html = html.replace(/\[quote\](.*?)\[\/quote\]/gis, '<blockquote>$1</blockquote>');
-      html = html.replace(/\[code\](.*?)\[\/code\]/gis, '<code>$1</code>');
+      html = html.replace(/\[code\](.*?)\[\/code\]/gis, '<code style="background:rgba(99,102,241,0.15); padding:4px 10px; border-radius:6px; font-family:monospace;">$1</code>');
       
-      // Tabelas
-      html = html.replace(/\[table\](.*?)\[\/table\]/gis, '<table>$1</table>');
+      // BBCode - Tabelas
+      html = html.replace(/\[table\](.*?)\[\/table\]/gis, '<table style="width:100%; border-collapse:collapse; margin:1.5rem 0;">$1</table>');
       html = html.replace(/\[tr\](.*?)\[\/tr\]/gis, '<tr>$1</tr>');
-      html = html.replace(/\[th\](.*?)\[\/th\]/gis, '<th>$1</th>');
-      html = html.replace(/\[td\](.*?)\[\/td\]/gis, '<td>$1</td>');
+      html = html.replace(/\[th\](.*?)\[\/th\]/gis, '<th style="border:1px solid var(--border); padding:0.75rem; background:rgba(99,102,241,0.1);">$1</th>');
+      html = html.replace(/\[td\](.*?)\[\/td\]/gis, '<td style="border:1px solid var(--border); padding:0.75rem;">$1</td>');
+      
+      // HTML já existente é preservado, mas garantimos que tags comuns funcionem
+      // Centralização HTML
+      html = html.replace(/<center>(.*?)<\/center>/gi, '<div class="center">$1</div>');
       
       // Quebras de linha
       html = html.replace(/\n/g, '<br>');
@@ -790,6 +874,13 @@
         case 'i': insertText = `[i]${selectedText || 'Texto em itálico'}[/i]`; break;
         case 'u': insertText = `[u]${selectedText || 'Texto sublinhado'}[/u]`; break;
         case 's': insertText = `[s]${selectedText || 'Texto riscado'}[/s]`; break;
+        case 'h1': insertText = `[h1]${selectedText || 'Título Principal'}[/h1]`; break;
+        case 'h2': insertText = `[h2]${selectedText || 'Subtítulo'}[/h2]`; break;
+        case 'h3': insertText = `[h3]${selectedText || 'Seção'}[/h3]`; break;
+        case 'center': insertText = `[center]${selectedText || 'Texto centralizado'}[/center]`; break;
+        case 'right': insertText = `[right]${selectedText || 'Texto à direita'}[/right]`; break;
+        case 'left': insertText = `[left]${selectedText || 'Texto à esquerda'}[/left]`; break;
+        case 'justify': insertText = `[justify]${selectedText || 'Texto justificado'}[/justify]`; break;
         case 'color': 
           const color = prompt('Digite a cor (ex: #ff0000, red, rgb(255,0,0)):', '#06b6d4');
           if (color) insertText = `[color=${color}]${selectedText || 'Texto colorido'}[/color]`;
@@ -806,9 +897,6 @@
           const imgUrl = prompt('Digite a URL da imagem:', 'https://');
           if (imgUrl) insertText = `[img]${imgUrl}[/img]`;
           break;
-        case 'h1': insertText = `[h1]${selectedText || 'Título Principal'}[/h1]`; break;
-        case 'h2': insertText = `[h2]${selectedText || 'Subtítulo'}[/h2]`; break;
-        case 'h3': insertText = `[h3]${selectedText || 'Seção'}[/h3]`; break;
         case 'ul': insertText = `[ul]\n[li]Item 1[/li]\n[li]Item 2[/li]\n[li]Item 3[/li]\n[/ul]`; break;
         case 'ol': insertText = `[ol]\n[li]Primeiro item[/li]\n[li]Segundo item[/li]\n[li]Terceiro item[/li]\n[/ol]`; break;
         case 'quote': insertText = `[quote]${selectedText || 'Citação ou texto destacado'}[/quote]`; break;
@@ -821,7 +909,8 @@
       if (insertText) {
         textarea.value = textarea.value.substring(0, start) + insertText + textarea.value.substring(end);
         textarea.focus();
-        textarea.selectionStart = textarea.selectionEnd = start + insertText.length;
+        const newPos = start + insertText.length;
+        textarea.selectionStart = textarea.selectionEnd = newPos;
       }
     }
 
@@ -832,6 +921,7 @@
       if (content) {
         preview.innerHTML = parseBBCode(content);
         preview.style.display = 'block';
+        preview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       } else {
         preview.style.display = 'none';
       }
@@ -842,8 +932,8 @@
       const { data: { session } } = await sb.auth.getSession();
       if (!session) return window.location.href = 'auth/login.html';
       currentUser = session.user;
-      const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
-      if (!profile) { await sb.auth.signOut(); return window.location.href = 'auth/login.html'; }
+      const { data: profile, error } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+      if (error || !profile) { await sb.auth.signOut(); return window.location.href = 'auth/login.html'; }
       userProfile = profile; 
       await getUserIP();
       
@@ -907,7 +997,12 @@
         query = query.eq('category', category);
       }
       
-      const { data: docs } = await query.limit(10);
+      const { data: docs, error } = await query.limit(10);
+      
+      if (error) {
+        console.error('Erro ao carregar documentos:', error);
+        return;
+      }
       
       const containers = {
         'Documento': 'docs-list',
@@ -956,18 +1051,21 @@
     }
 
     async function viewDocument(id) {
-      const { data: doc } = await sb.from('contents').select('*').eq('id', id).single();
+      const { data: doc, error } = await sb.from('contents').select('*').eq('id', id).single();
       
-      if (doc) {
-        document.getElementById('view-doc-title').textContent = doc.title;
-        document.getElementById('view-doc-meta').innerHTML = `
-          <div><i class="fas fa-folder"></i> ${doc.category}</div>
-          <div><i class="fas fa-calendar"></i> ${new Date(doc.created_at).toLocaleDateString('pt-BR')}</div>
-          ${doc.is_pinned ? '<div style="color:var(--gold);"><i class="fas fa-star"></i> Importante</div>' : ''}
-        `;
-        document.getElementById('view-doc-content').innerHTML = parseBBCode(doc.content_bbcode);
-        document.getElementById('modal-view-doc').classList.add('active');
+      if (error || !doc) {
+        showToast('Erro ao carregar documento.', 'error');
+        return;
       }
+      
+      document.getElementById('view-doc-title').textContent = doc.title;
+      document.getElementById('view-doc-meta').innerHTML = `
+        <div><i class="fas fa-folder"></i> ${doc.category}</div>
+        <div><i class="fas fa-calendar"></i> ${new Date(doc.created_at).toLocaleDateString('pt-BR')}</div>
+        ${doc.is_pinned ? '<div style="color:var(--gold);"><i class="fas fa-star"></i> Importante</div>' : ''}
+      `;
+      document.getElementById('view-doc-content').innerHTML = parseBBCode(doc.content_bbcode);
+      document.getElementById('modal-view-doc').classList.add('active');
     }
 
     function openDocModal(category = null) {
@@ -999,43 +1097,61 @@
       
       const ip = await waitForIP();
       
-      if (id) {
-        await sb.from('contents').update(data).eq('id', id);
-        await sb.from('system_logs').insert({
-          user_id: currentUser.id,
-          action: 'EDITAR_DOCUMENTO',
-          details: `Editou documento: ${title}`,
-          ip_address: ip
-        });
-        showToast('Documento atualizado com sucesso.', 'success');
-      } else {
-        data.created_at = new Date().toISOString();
-        await sb.from('contents').insert([data]);
-        await sb.from('system_logs').insert({
-          user_id: currentUser.id,
-          action: 'CRIAR_DOCUMENTO',
-          details: `Criou documento: ${title}`,
-          ip_address: ip
-        });
-        showToast('Documento criado com sucesso.', 'success');
+      try {
+        if (id) {
+          const { error } = await sb.from('contents').update(data).eq('id', id);
+          if (error) throw error;
+          await sb.from('system_logs').insert({
+            user_id: currentUser.id,
+            action: 'EDITAR_DOCUMENTO',
+            details: `Editou documento: ${title}`,
+            ip_address: ip
+          });
+          showToast('Documento atualizado com sucesso.', 'success');
+        } else {
+          data.created_at = new Date().toISOString();
+          const { error } = await sb.from('contents').insert([data]);
+          if (error) throw error;
+          await sb.from('system_logs').insert({
+            user_id: currentUser.id,
+            action: 'CRIAR_DOCUMENTO',
+            details: `Criou documento: ${title}`,
+            ip_address: ip
+          });
+          showToast('Documento criado com sucesso.', 'success');
+        }
+        
+        closeModal('modal-doc');
+        loadDocuments(category);
+        loadDocuments(); // Atualizar dashboard também
+        loadStats();
+      } catch (err) {
+        console.error('Erro ao salvar documento:', err);
+        showToast('Erro ao salvar: ' + err.message, 'error');
       }
-      
-      closeModal('modal-doc');
-      loadDocuments(category);
-      loadDocuments(); // Atualizar dashboard também
-      loadStats();
     }
 
     async function loadLogs() {
-      const { count: totalLogs } = await sb.from('system_logs').select('*', { count: 'exact', head: true });
+      const { count: totalLogs, error: countError } = await sb.from('system_logs').select('*', { count: 'exact', head: true });
+      
+      if (countError) {
+        console.error('Erro ao contar logs:', countError);
+        return;
+      }
+      
       const totalPages = Math.ceil(totalLogs / LOGS_PER_PAGE);
       const from = (logsCurrentPage - 1) * LOGS_PER_PAGE;
       const to = from + LOGS_PER_PAGE - 1;
       
-      const { data: logs } = await sb.from('system_logs')
+      const { data: logs, error } = await sb.from('system_logs')
         .select('*, profiles(habbo_nick)')
         .order('created_at', { ascending: false })
         .range(from, to);
+      
+      if (error) {
+        console.error('Erro ao carregar logs:', error);
+        return;
+      }
       
       const container = document.getElementById('system-logs');
       
@@ -1140,11 +1256,35 @@
     }
 
     function editUser(userId) {
-      sb.from('profiles').select('*').eq('id', userId).single().then(({ data }) => {
+      sb.from('profiles').select('*').eq('id', userId).single().then(({ data, error }) => {
+        if (error) {
+          showToast('Erro ao carregar usuário: ' + error.message, 'error');
+          return;
+        }
+        if (!data) {
+          showToast('Usuário não encontrado', 'error');
+          return;
+        }
+        
         document.getElementById('edit-user-id').value = data.id;
         document.getElementById('edit-user-nick').value = data.habbo_nick;
-        let roleVal = ['Analista','Coordenação','Diretoria','Administrador'].includes(data.role) ? data.role : 'Analista';
-        document.getElementById('edit-user-role').value = roleVal;
+        
+        // Garantir que o cargo atual esteja disponível no select
+        const roleSelect = document.getElementById('edit-user-role');
+        const currentRole = data.role;
+        
+        // Se o cargo atual não estiver no select, adicionamos
+        const roles = ['Analista', 'Coordenação', 'Diretoria', 'Administrador'];
+        if (!roles.includes(currentRole)) {
+          const option = document.createElement('option');
+          option.value = currentRole;
+          option.textContent = currentRole;
+          option.selected = true;
+          roleSelect.insertBefore(option, roleSelect.firstChild);
+        } else {
+          roleSelect.value = currentRole;
+        }
+        
         document.getElementById('edit-user-status').value = data.status;
         document.getElementById('modal-edit-user').classList.add('active');
       });
@@ -1152,25 +1292,46 @@
 
     async function saveUserEdit(e) {
       e.preventDefault();
+      
       const id = document.getElementById('edit-user-id').value;
       const nick = document.getElementById('edit-user-nick').value;
       const role = document.getElementById('edit-user-role').value;
       const status = document.getElementById('edit-user-status').value;
 
-      await sb.from('profiles').update({ role, status, updated_at: new Date().toISOString() }).eq('id', id);
-      
-      const ip = await waitForIP();
-      await sb.from('system_logs').insert({
-        user_id: currentUser.id, 
-        action: 'EDITAR_USUARIO',
-        details: `Editou o usuário: ${nick} | Novo Cargo: ${role} | Status: ${status}`,
-        ip_address: ip
-      });
+      try {
+        // Atualizar no banco de dados
+        const { data, error } = await sb.from('profiles')
+          .update({ 
+            role: role, 
+            status: status, 
+            updated_at: new Date().toISOString() 
+          })
+          .eq('id', id)
+          .select();
+        
+        if (error) {
+          console.error('Erro ao atualizar:', error);
+          throw error;
+        }
+        
+        console.log('Usuário atualizado com sucesso:', data);
+        
+        const ip = await waitForIP();
+        await sb.from('system_logs').insert({
+          user_id: currentUser.id, 
+          action: 'EDITAR_USUARIO',
+          details: `Editou o usuário: ${nick} | Novo Cargo: ${role} | Status: ${status}`,
+          ip_address: ip
+        });
 
-      showToast('Credenciais atualizadas com sucesso.', 'success');
-      closeModal('modal-edit-user'); 
-      loadAdminData(); 
-      loadListagem();
+        showToast('Credenciais atualizadas com sucesso.', 'success');
+        closeModal('modal-edit-user'); 
+        await loadAdminData(); 
+        await loadListagem();
+      } catch (err) {
+        console.error('Erro completo:', err);
+        showToast('Erro ao atualizar: ' + err.message, 'error');
+      }
     }
 
     async function saveCheckpoint(e) {
@@ -1200,67 +1361,86 @@
       const cpId = document.getElementById('checkpoint-id').value;
       const ip = await waitForIP();
 
-      if (cpId) {
-        await sb.from('checkpoint_schedules').update(data).eq('id', cpId);
-        await sb.from('system_logs').insert({ 
-          user_id: currentUser.id, 
-          action: 'ATUALIZACAO_CHECKPOINT', 
-          details: `Atualizou cronograma para: ${nick}`, 
-          ip_address: ip 
-        });
-      } else {
-        data.created_at = new Date().toISOString();
-        await sb.from('checkpoint_schedules').insert([data]);
-        await sb.from('system_logs').insert({ 
-          user_id: currentUser.id, 
-          action: 'CRIAR_CHECKPOINT', 
-          details: `Criou cronograma para: ${nick}`, 
-          ip_address: ip 
-        });
-      }
+      try {
+        if (cpId) {
+          const { error } = await sb.from('checkpoint_schedules').update(data).eq('id', cpId);
+          if (error) throw error;
+          await sb.from('system_logs').insert({ 
+            user_id: currentUser.id, 
+            action: 'ATUALIZACAO_CHECKPOINT', 
+            details: `Atualizou cronograma para: ${nick}`, 
+            ip_address: ip 
+          });
+        } else {
+          data.created_at = new Date().toISOString();
+          const { error } = await sb.from('checkpoint_schedules').insert([data]);
+          if (error) throw error;
+          await sb.from('system_logs').insert({ 
+            user_id: currentUser.id, 
+            action: 'CRIAR_CHECKPOINT', 
+            details: `Criou cronograma para: ${nick}`, 
+            ip_address: ip 
+          });
+        }
 
-      showToast('Escala operacional registrada.', 'success');
-      closeModal('modal-checkpoint'); 
-      loadCheckpoint(); 
-      loadLastUpdater();
+        showToast('Escala operacional registrada.', 'success');
+        closeModal('modal-checkpoint'); 
+        await loadCheckpoint(); 
+        await loadLastUpdater();
+      } catch (err) {
+        console.error('Erro ao salvar checkpoint:', err);
+        showToast('Erro ao salvar: ' + err.message, 'error');
+      }
     }
 
     async function editCheckpoint(id) {
-      const { data: schedule } = await sb.from('checkpoint_schedules').select('*').eq('id', id).single();
+      const { data: schedule, error } = await sb.from('checkpoint_schedules').select('*').eq('id', id).single();
       
-      if (schedule) {
-        const { data: user } = await sb.from('profiles').select('habbo_nick').eq('id', schedule.user_id).single();
-        
-        document.getElementById('checkpoint-modal-title').textContent = 'Editar Escala';
-        document.getElementById('checkpoint-id').value = schedule.id;
-        document.getElementById('checkpoint-user-id').value = schedule.user_id;
-        document.getElementById('checkpoint-user-search').value = user ? user.habbo_nick : '';
-        
-        const days = schedule.days ? JSON.parse(schedule.days) : [];
-        document.querySelectorAll('input[name="checkpoint-days"]').forEach(cb => {
-          cb.checked = days.includes(cb.value);
-        });
-        
-        document.getElementById('checkpoint-schedule-type').value = schedule.schedule_type;
-        toggleScheduleType();
-        
-        if (schedule.schedule_type === 'turno') {
-          document.getElementById('checkpoint-turno').value = schedule.turno;
-        } else {
-          document.getElementById('checkpoint-time-start').value = schedule.time_start;
-          document.getElementById('checkpoint-time-end').value = schedule.time_end;
-        }
-        
-        document.getElementById('checkpoint-observations').value = schedule.observations || '';
-        
-        document.getElementById('modal-checkpoint').classList.add('active');
+      if (error || !schedule) {
+        showToast('Erro ao carregar escala: ' + (error?.message || 'Não encontrado'), 'error');
+        return;
       }
+      
+      const { data: user } = await sb.from('profiles').select('habbo_nick').eq('id', schedule.user_id).single();
+      
+      document.getElementById('checkpoint-modal-title').textContent = 'Editar Escala';
+      document.getElementById('checkpoint-id').value = schedule.id;
+      document.getElementById('checkpoint-user-id').value = schedule.user_id;
+      document.getElementById('checkpoint-user-search').value = user ? user.habbo_nick : '';
+      
+      const days = schedule.days ? JSON.parse(schedule.days) : [];
+      document.querySelectorAll('input[name="checkpoint-days"]').forEach(cb => {
+        cb.checked = days.includes(cb.value);
+      });
+      
+      document.getElementById('checkpoint-schedule-type').value = schedule.schedule_type;
+      toggleScheduleType();
+      
+      if (schedule.schedule_type === 'turno') {
+        document.getElementById('checkpoint-turno').value = schedule.turno;
+      } else {
+        document.getElementById('checkpoint-time-start').value = schedule.time_start;
+        document.getElementById('checkpoint-time-end').value = schedule.time_end;
+      }
+      
+      document.getElementById('checkpoint-observations').value = schedule.observations || '';
+      
+      document.getElementById('modal-checkpoint').classList.add('active');
     }
 
     async function loadListagem() {
-      const { data: m } = await sb.from('profiles').select('*').eq('status', 'ativo').order('habbo_nick');
+      const { data: m, error } = await sb.from('profiles').select('*').eq('status', 'ativo').order('habbo_nick');
+      
+      if (error) {
+        console.error('Erro ao carregar listagem:', error);
+        return;
+      }
+      
       const container = document.getElementById('team-container');
-      if (!m || !m.length) return container.innerHTML = '<p style="color:var(--text-muted);">Nenhum registro ativo.</p>';
+      if (!m || m.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-muted); text-align:center; padding:2rem;">Nenhum registro ativo.</p>';
+        return;
+      }
       
       const g = {};
       m.forEach(x => { 
@@ -1291,11 +1471,16 @@
           html += `</div></div>`;
         }
       });
-      container.innerHTML = html || '<p style="color:var(--text-muted);">Nenhum membro encontrado na hierarquia.</p>';
+      container.innerHTML = html || '<p style="color:var(--text-muted); text-align:center;">Nenhum membro encontrado na hierarquia.</p>';
     }
 
     async function loadAdminData() {
-      const { data: pending } = await sb.from('profiles').select('*').eq('status', 'pendente').order('created_at', { ascending: false });
+      const { data: pending, error: pendingError } = await sb.from('profiles').select('*').eq('status', 'pendente').order('created_at', { ascending: false });
+      
+      if (pendingError) {
+        console.error('Erro ao carregar pendentes:', pendingError);
+        return;
+      }
       
       const pendingContainer = document.getElementById('pending-users');
       if (pending && pending.length > 0) {
@@ -1314,7 +1499,13 @@
         pendingContainer.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhuma solicitação pendente</td></tr>';
       }
       
-      const { data: u } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
+      const { data: u, error: usersError } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
+      
+      if (usersError) {
+        console.error('Erro ao carregar usuários:', usersError);
+        return;
+      }
+      
       document.getElementById('all-users').innerHTML = u.map(usr => {
         const stClass = usr.status === 'ativo' ? 'badge-ativo' : usr.status === 'banido' ? 'badge-banido' : usr.status === 'pendente' ? 'badge-pendente' : 'badge-inativo';
         return `
@@ -1329,45 +1520,53 @@
         `;
       }).join('');
       
-      loadLogs();
+      await loadLogs();
     }
 
     async function approveUser(userId, nick) {
       const confirmed = await customConfirm(`Aprovar acesso de ${nick}?`);
       if (!confirmed) return;
       
-      await sb.from('profiles').update({ status: 'ativo', first_login: true, updated_at: new Date().toISOString() }).eq('id', userId);
-      
-      const ip = await waitForIP();
-      await sb.from('system_logs').insert({
-        user_id: currentUser.id,
-        action: 'APROVAR_USUARIO',
-        details: `Aprovou usuário: ${nick}`,
-        ip_address: ip
-      });
-      
-      showToast(`Usuário ${nick} aprovado com sucesso!`, 'success');
-      loadAdminData();
-      loadStats();
+      try {
+        await sb.from('profiles').update({ status: 'ativo', first_login: true, updated_at: new Date().toISOString() }).eq('id', userId);
+        
+        const ip = await waitForIP();
+        await sb.from('system_logs').insert({
+          user_id: currentUser.id,
+          action: 'APROVAR_USUARIO',
+          details: `Aprovou usuário: ${nick}`,
+          ip_address: ip
+        });
+        
+        showToast(`Usuário ${nick} aprovado com sucesso!`, 'success');
+        await loadAdminData();
+        await loadStats();
+      } catch (err) {
+        showToast('Erro ao aprovar: ' + err.message, 'error');
+      }
     }
 
     async function rejectUser(userId, nick) {
       const confirmed = await customConfirm(`Rejeitar solicitação de ${nick}?`);
       if (!confirmed) return;
       
-      await sb.from('profiles').delete().eq('id', userId);
-      
-      const ip = await waitForIP();
-      await sb.from('system_logs').insert({
-        user_id: currentUser.id,
-        action: 'REJEITAR_USUARIO',
-        details: `Rejeitou solicitação de: ${nick}`,
-        ip_address: ip
-      });
-      
-      showToast('Solicitação rejeitada.', 'success');
-      loadAdminData();
-      loadStats();
+      try {
+        await sb.from('profiles').delete().eq('id', userId);
+        
+        const ip = await waitForIP();
+        await sb.from('system_logs').insert({
+          user_id: currentUser.id,
+          action: 'REJEITAR_USUARIO',
+          details: `Rejeitou solicitação de: ${nick}`,
+          ip_address: ip
+        });
+        
+        showToast('Solicitação rejeitada.', 'success');
+        await loadAdminData();
+        await loadStats();
+      } catch (err) {
+        showToast('Erro ao rejeitar: ' + err.message, 'error');
+      }
     }
 
     function showSection(section, event) {
@@ -1402,9 +1601,17 @@
     document.getElementById('checkpoint-user-search')?.addEventListener('input', async function(e) {
       const q = e.target.value.trim(); 
       const res = document.getElementById('user-search-results');
-      if (q.length < 2) return res.style.display = 'none';
+      if (q.length < 2) {
+        res.style.display = 'none';
+        return;
+      }
       
-      const { data: users } = await sb.from('profiles').select('id, habbo_nick, role').ilike('habbo_nick', `%${q}%`).eq('status', 'ativo').limit(5);
+      const { data: users, error } = await sb.from('profiles').select('id, habbo_nick, role').ilike('habbo_nick', `%${q}%`).eq('status', 'ativo').limit(5);
+      
+      if (error) {
+        console.error('Erro na busca:', error);
+        return;
+      }
       
       if (users && users.length) {
         res.innerHTML = users.map(u => `
@@ -1444,7 +1651,13 @@
 
     async function loadCheckpoint() {
       const container = document.getElementById('checkpoint-container');
-      const { data: schedules } = await sb.from('checkpoint_schedules').select('*').order('created_at', { ascending: false });
+      const { data: schedules, error } = await sb.from('checkpoint_schedules').select('*').order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Erro ao carregar cronogramas:', error);
+        container.innerHTML = '<p style="color:var(--error); padding:2rem; text-align:center;">Erro ao carregar dados.</p>';
+        return;
+      }
       
       if(!schedules || schedules.length === 0) { 
         container.innerHTML = '<p style="color:var(--text-muted); padding:2rem; text-align:center;">Sem cronogramas ativos.</p>'; 
@@ -1482,7 +1695,9 @@
     
     async function deleteCheckpoint(id) {
       const confirm = await customConfirm('Deletar Escala?');
-      if(confirm){ 
+      if(!confirm) return;
+      
+      try {
         await sb.from('checkpoint_schedules').delete().eq('id',id); 
         const ip = await waitForIP();
         await sb.from('system_logs').insert({
@@ -1492,8 +1707,10 @@
           ip_address: ip
         });
         showToast('Escala deletada.', 'success');
-        loadCheckpoint(); 
-        loadLastUpdater(); 
+        await loadCheckpoint(); 
+        await loadLastUpdater(); 
+      } catch (err) {
+        showToast('Erro ao deletar: ' + err.message, 'error');
       }
     }
 
