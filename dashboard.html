@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>System de RH | Polícia FEB</title>
   <link rel="icon" type="image/png" href="rh.png">
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
@@ -166,7 +166,7 @@
     .doc-title { font-weight: 600; color: #fff; margin-bottom: 0.25rem; font-size: 0.95rem; }
     .doc-meta { font-size: 0.8rem; color: var(--text-muted); }
 
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
     .modal.active { display: flex; animation: scaleIn 0.2s ease-out; }
     @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     .modal-content { background: var(--bg-panel); border: 1px solid var(--border); border-top: 4px solid var(--cyan); border-radius: 12px; padding: 2rem; max-width: 600px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); max-height: 90vh; overflow-y: auto; }
@@ -335,23 +335,98 @@
     .doc-preview .right { text-align: right; }
     .doc-preview .justify { text-align: justify; }
 
-    /* Document View Modal */
+    /* Document View Modal - MELHORADO */
     .doc-view-modal { max-width: 900px; }
     .doc-view-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
     .doc-view-title { font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; color: #fff; margin-bottom: 0.75rem; }
     .doc-view-meta { display: flex; gap: 2rem; color: var(--text-muted); font-size: 0.9rem; }
     .doc-view-meta div { display: flex; align-items: center; gap: 0.5rem; }
-    .doc-view-content { line-height: 1.8; color: var(--text); font-size: 1.05rem; }
+    .doc-view-content { 
+      line-height: 1.8; 
+      color: var(--text); 
+      font-size: 1.05rem;
+      font-family: 'Poppins', sans-serif;
+    }
     .doc-view-content h1, .doc-view-content h2, .doc-view-content h3 { color: var(--cyan); margin: 2rem 0 1rem; }
     .doc-view-content p { margin-bottom: 1.25rem; }
-    .doc-view-content blockquote { border-left: 4px solid var(--cyan); padding-left: 1.5rem; margin: 1.5rem 0; color: var(--text-muted); font-style: italic; background: rgba(99, 102, 241, 0.05); padding: 1.5rem; border-radius: 0 8px 8px 0; }
-    .doc-view-content code { background: rgba(99, 102, 241, 0.15); padding: 4px 10px; border-radius: 6px; font-family: 'Courier New', monospace; }
-    .doc-view-content img { max-width: 100%; border-radius: 12px; margin: 1.5rem 0; box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
-    .doc-view-content table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
-    .doc-view-content table th, .doc-view-content table td { border: 1px solid var(--border); padding: 1rem; }
-    .doc-view-content table th { background: rgba(99, 102, 241, 0.1); font-weight: 700; }
-    .doc-view-content ul, .doc-view-content ol { margin: 1.5rem 0; padding-left: 2.5rem; }
-    .doc-view-content li { margin-bottom: 0.75rem; line-height: 1.6; }
+    .doc-view-content blockquote { 
+      border-left: 4px solid var(--cyan); 
+      padding-left: 1.5rem; 
+      margin: 1.5rem 0; 
+      color: var(--text-muted); 
+      font-style: italic; 
+      background: rgba(99, 102, 241, 0.05); 
+      padding: 1.5rem; 
+      border-radius: 0 8px 8px 0; 
+    }
+    .doc-view-content code { 
+      background: rgba(99, 102, 241, 0.15); 
+      padding: 4px 10px; 
+      border-radius: 6px; 
+      font-family: 'Courier New', monospace; 
+    }
+    .doc-view-content img { 
+      max-width: 100%; 
+      border-radius: 12px; 
+      margin: 1.5rem 0; 
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4); 
+    }
+    .doc-view-content table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin: 1.5rem 0; 
+    }
+    .doc-view-content table th, .doc-view-content table td { 
+      border: 1px solid var(--border); 
+      padding: 1rem; 
+    }
+    .doc-view-content table th { 
+      background: rgba(99, 102, 241, 0.1); 
+      font-weight: 700; 
+    }
+    .doc-view-content ul, .doc-view-content ol { 
+      margin: 1.5rem 0; 
+      padding-left: 2.5rem; 
+    }
+    .doc-view-content li { 
+      margin-bottom: 0.75rem; 
+      line-height: 1.6; 
+    }
+    
+    /* Estilo específico para notificações tipo MO */
+    .notification-box {
+      background: #0b1a4a;
+      border: 1px solid #000;
+      border-radius: 5px;
+      border-left: 0.5rem solid #999;
+      padding: 2%;
+      font-family: 'Poppins', sans-serif;
+      margin: 1.5rem 0;
+    }
+    .notification-header {
+      font-size: 14px;
+      color: #fff;
+      background: #0b1a4a;
+      padding: 10px;
+      border-radius: 0 5px 0 0;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .notification-content {
+      color: #fff;
+      line-height: 1.8;
+    }
+    .notification-content strong {
+      color: var(--gold);
+    }
+    .placeholder {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--gold);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -802,58 +877,66 @@
       });
     }
 
-    // Parser BBCode e HTML Completo
+    // Parser BBCode e HTML Completo - MELHORADO
     function parseBBCode(text) {
       if (!text) return '';
       
       let html = text;
       
-      // Primeiro, preservar tags HTML existentes escapando apenas o necessário
+      // PRIMEIRO: Remover backslashes de escape (\\\[ -> [)
+      html = html.replace(/\\\\\[/g, '[');
+      html = html.replace(/\\\\\]/g, ']');
+      
+      // SEGUNDO: Processar HTML já existente (preservar)
       // Não escapamos < e > para permitir HTML direto
       
-      // BBCode - Títulos
+      // TERCEIRO: Processar BBCode
+      // Títulos
       html = html.replace(/\[h1\](.*?)\[\/h1\]/gi, '<h1>$1</h1>');
       html = html.replace(/\[h2\](.*?)\[\/h2\]/gi, '<h2>$1</h2>');
       html = html.replace(/\[h3\](.*?)\[\/h3\]/gi, '<h3>$1</h3>');
       
-      // BBCode - Formatação básica
+      // Formatação básica
       html = html.replace(/\[b\](.*?)\[\/b\]/gi, '<strong>$1</strong>');
       html = html.replace(/\[i\](.*?)\[\/i\]/gi, '<em>$1</em>');
       html = html.replace(/\[u\](.*?)\[\/u\]/gi, '<u>$1</u>');
       html = html.replace(/\[s\](.*?)\[\/s\]/gi, '<s>$1</s>');
       
-      // BBCode - Alinhamento
+      // Alinhamento
       html = html.replace(/\[center\](.*?)\[\/center\]/gi, '<div class="center">$1</div>');
       html = html.replace(/\[right\](.*?)\[\/right\]/gi, '<div class="right">$1</div>');
       html = html.replace(/\[left\](.*?)\[\/left\]/gi, '<div class="left">$1</div>');
       html = html.replace(/\[justify\](.*?)\[\/justify\]/gi, '<div class="justify">$1</div>');
       
-      // BBCode - Cores e tamanhos
+      // Cores e tamanhos
       html = html.replace(/\[color=(.*?)\](.*?)\[\/color\]/gi, '<span style="color:$1;">$2</span>');
       html = html.replace(/\[size=(.*?)\](.*?)\[\/size\]/gi, '<span style="font-size:$1;">$2</span>');
       
-      // BBCode - Links e imagens
+      // Links e imagens
       html = html.replace(/\[url=(.*?)\](.*?)\[\/url\]/gi, '<a href="$1" target="_blank" style="color:var(--cyan); text-decoration:underline;">$2</a>');
       html = html.replace(/\[img\](.*?)\[\/img\]/gi, '<img src="$1" alt="Imagem" style="max-width:100%; border-radius:8px;">');
       
-      // BBCode - Listas
+      // Listas
       html = html.replace(/\[ul\](.*?)\[\/ul\]/gis, '<ul>$1</ul>');
       html = html.replace(/\[ol\](.*?)\[\/ol\]/gis, '<ol>$1</ol>');
       html = html.replace(/\[li\](.*?)\[\/li\]/gi, '<li>$1</li>');
       
-      // BBCode - Citações e código
+      // Citações e código
       html = html.replace(/\[quote\](.*?)\[\/quote\]/gis, '<blockquote>$1</blockquote>');
       html = html.replace(/\[code\](.*?)\[\/code\]/gis, '<code style="background:rgba(99,102,241,0.15); padding:4px 10px; border-radius:6px; font-family:monospace;">$1</code>');
       
-      // BBCode - Tabelas
+      // Tabelas
       html = html.replace(/\[table\](.*?)\[\/table\]/gis, '<table style="width:100%; border-collapse:collapse; margin:1.5rem 0;">$1</table>');
       html = html.replace(/\[tr\](.*?)\[\/tr\]/gis, '<tr>$1</tr>');
       html = html.replace(/\[th\](.*?)\[\/th\]/gis, '<th style="border:1px solid var(--border); padding:0.75rem; background:rgba(99,102,241,0.1);">$1</th>');
       html = html.replace(/\[td\](.*?)\[\/td\]/gis, '<td style="border:1px solid var(--border); padding:0.75rem;">$1</td>');
       
-      // HTML já existente é preservado, mas garantimos que tags comuns funcionem
+      // QUARTO: Processar HTML adicional
       // Centralização HTML
       html = html.replace(/<center>(.*?)<\/center>/gi, '<div class="center">$1</div>');
+      
+      // Placeholders {{VARIAVEL}}
+      html = html.replace(/\{\{(\w+)\}\}/g, '<span class="placeholder">{{$1}}</span>');
       
       // Quebras de linha
       html = html.replace(/\n/g, '<br>');
