@@ -628,7 +628,7 @@
       height: 100px;
     }
     
-    /* Team List Styles - INSPIRADO NOS PRINTS */
+    /* Team List Styles */
     .team-section {
       margin-bottom: 3rem;
     }
@@ -767,12 +767,82 @@
       opacity: 0.3;
     }
 
+    /* Log Details Sidebar */
+    .log-sidebar {
+      position: fixed;
+      top: 0;
+      right: -500px;
+      width: 500px;
+      max-width: 90vw;
+      height: 100vh;
+      background: var(--bg-panel);
+      border-left: 2px solid var(--cyan);
+      z-index: 2000;
+      transition: right 0.3s ease;
+      overflow-y: auto;
+      box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+    }
+    .log-sidebar.active {
+      right: 0;
+    }
+    .log-sidebar-header {
+      background: var(--bg-deep);
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .log-sidebar-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+    .log-sidebar-content {
+      padding: 1.5rem;
+    }
+    .log-detail-section {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      border-left: 3px solid var(--gold);
+    }
+    .log-detail-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .log-detail-value {
+      font-size: 1rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .log-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    .log-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
     @media (max-width: 1024px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; }
       .menu-toggle { display: flex; }
       .content-area { padding: 1rem; }
+      .log-sidebar { width: 100%; max-width: 100%; }
     }
   </style>
 </head>
@@ -1025,6 +1095,18 @@
       </div>
     </footer>
   </main>
+
+  <!-- Log Details Sidebar -->
+  <div class="log-overlay" id="log-overlay" onclick="closeLogSidebar()"></div>
+  <div class="log-sidebar" id="log-sidebar">
+    <div class="log-sidebar-header">
+      <h3 class="log-sidebar-title"><i class="fas fa-clipboard-list"></i> Detalhes do Log</h3>
+      <button class="btn-close" onclick="closeLogSidebar()">&times;</button>
+    </div>
+    <div class="log-sidebar-content" id="log-sidebar-content">
+      <!-- Conteúdo dinâmico -->
+    </div>
+  </div>
 
   <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
 
@@ -1494,9 +1576,10 @@
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       
+      // Buscar tanto atualizações de listagem quanto de checkpoint
       const { data: logs } = await sb.from('system_logs')
         .select('*')
-        .eq('action', 'ATUALIZACAO_LISTAGEM')
+        .or('action.eq.ATUALIZACAO_LISTAGEM,action.eq.ATUALIZACAO_CHECKPOINT')
         .gte('created_at', today.toISOString())
         .order('created_at', { ascending: false })
         .limit(1);
@@ -1686,15 +1769,32 @@
         if (checkpointId) {
           const { error } = await sb.from('checkpoint_schedules').update(data).eq('id', checkpointId);
           if (error) throw error;
+          
+          // Registrar log de atualização
+          await sb.from('system_logs').insert({
+            user_id: currentUser.id,
+            action: 'ATUALIZACAO_CHECKPOINT',
+            details: `Atualizou cronograma de Check-Point`,
+            ip_address: userIP
+          });
         } else {
           data.created_at = new Date().toISOString();
           const { error } = await sb.from('checkpoint_schedules').insert([data]);
           if (error) throw error;
+          
+          // Registrar log de criação
+          await sb.from('system_logs').insert({
+            user_id: currentUser.id,
+            action: 'ATUALIZACAO_CHECKPOINT',
+            details: `Criou cronograma de Check-Point`,
+            ip_address: userIP
+          });
         }
         
         showToast('✅ Cronograma salvo com sucesso!', 'success');
         closeModal('modal-checkpoint');
         loadCheckpoint();
+        loadLastUpdater(); // Atualizar a seção de última atualização
       } catch (err) {
         showToast('❌ Erro: ' + err.message, 'error');
       }
@@ -1779,11 +1879,11 @@
         return;
       }
       
-      // Agrupar membros por cargo (excluindo Administrador)
+      // Agrupar membros por cargo (excluindo Administrador e Membro)
       const grouped = {};
       members.forEach(member => {
-        // Não incluir Administrador na listagem
-        if (member.role !== 'Administrador') {
+        // Não incluir Administrador nem Membro na listagem
+        if (member.role !== 'Administrador' && member.role !== 'Membro') {
           if (!grouped[member.role]) {
             grouped[member.role] = [];
           }
@@ -2005,10 +2105,26 @@
           const userName = log.user_id ? (userMap[log.user_id] || 'Desconhecido') : 'Sistema';
           const ipDisplay = (log.ip_address && log.ip_address !== 'web' && log.ip_address !== 'system') ? log.ip_address : '-';
           
+          // Extrair detalhes do log
+          let actionDisplay = log.action;
+          let targetUser = '';
+          
+          if (log.details) {
+            // Tentar extrair o usuário afetado dos detalhes
+            const match = log.details.match(/usuário[:\s]+([^\.,]+)/i);
+            if (match) {
+              targetUser = match[1].trim();
+            }
+          }
+          
+          if (targetUser) {
+            actionDisplay = `${log.action} - ${targetUser}`;
+          }
+          
           return `
-            <tr>
+            <tr style="cursor: pointer;" onclick="openLogSidebar(${JSON.stringify(log).replace(/"/g, '&quot;')}, ${JSON.stringify(userMap).replace(/"/g, '&quot;')})">
               <td><strong>${userName}</strong></td>
-              <td>${log.action}</td>
+              <td>${actionDisplay}</td>
               <td>${ipDisplay}</td>
               <td>${new Date(log.created_at).toLocaleString('pt-BR')}</td>
             </tr>
@@ -2019,6 +2135,72 @@
       }
       
       renderPagination(totalPages);
+    }
+
+    function openLogSidebar(log, userMap) {
+      const sidebar = document.getElementById('log-sidebar');
+      const overlay = document.getElementById('log-overlay');
+      const content = document.getElementById('log-sidebar-content');
+      
+      const userName = log.user_id ? (userMap[log.user_id] || 'Desconhecido') : 'Sistema';
+      const ipDisplay = (log.ip_address && log.ip_address !== 'web' && log.ip_address !== 'system') ? log.ip_address : '-';
+      
+      content.innerHTML = `
+        <div class="log-detail-section">
+          <div class="log-detail-label">Ação Realizada</div>
+          <div class="log-detail-value" style="font-size: 1.2rem; color: var(--cyan); font-weight: 700;">${log.action}</div>
+        </div>
+        
+        <div class="log-detail-section">
+          <div class="log-detail-label">Usuário que Executou</div>
+          <div class="log-detail-value">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <img src="${getHabboImagerUrl(userName, 's')}" alt="${userName}" style="width: 40px; height: 40px; border-radius: 8px;">
+              <div>
+                <div style="font-weight: 700; color: var(--text);">${userName}</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">ID: ${log.user_id || 'Sistema'}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="log-detail-section">
+          <div class="log-detail-label">Detalhes da Ação</div>
+          <div class="log-detail-value">${log.details || 'Nenhum detalhe adicional'}</div>
+        </div>
+        
+        <div class="log-detail-section">
+          <div class="log-detail-label">Endereço IP</div>
+          <div class="log-detail-value">${ipDisplay}</div>
+        </div>
+        
+        <div class="log-detail-section">
+          <div class="log-detail-label">Data e Hora</div>
+          <div class="log-detail-value">${new Date(log.created_at).toLocaleString('pt-BR')}</div>
+        </div>
+        
+        <div class="log-detail-section">
+          <div class="log-detail-label">Informações Adicionais</div>
+          <div class="log-detail-value" style="font-size: 0.85rem;">
+            <div><strong>ID do Log:</strong> ${log.id}</div>
+            <div><strong>Tabela:</strong> system_logs</div>
+            <div><strong>Timestamp:</strong> ${new Date(log.created_at).toISOString()}</div>
+          </div>
+        </div>
+      `;
+      
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLogSidebar() {
+      const sidebar = document.getElementById('log-sidebar');
+      const overlay = document.getElementById('log-overlay');
+      
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
     }
 
     function renderPagination(totalPages) {
@@ -2156,11 +2338,17 @@
         return;
       }
       
+      // Buscar o nickname do usuário editado
+      const { data: editedUser } = await sb.from('profiles')
+        .select('habbo_nick')
+        .eq('id', userId)
+        .single();
+      
       const currentIP = await waitForIP();
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
         action: 'EDITAR_USUARIO',
-        details: `Editou usuário - Cargo: ${newRole}, Status: ${newStatus}${resetPassword ? ', Resetou senha' : ''}`,
+        details: `Editou usuário ${editedUser ? editedUser.habbo_nick : userId} - Cargo: ${newRole}, Status: ${newStatus}${resetPassword ? ', Resetou senha' : ''}`,
         ip_address: currentIP
       });
       
