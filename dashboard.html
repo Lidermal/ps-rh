@@ -628,106 +628,60 @@
       height: 100px;
     }
     
-    /* Checkpoint Schedule Styles */
-    .schedule-card {
+    /* Team List Styles */
+    .team-section {
+      margin-bottom: 2.5rem;
+    }
+    .team-section-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    .team-card {
       background: var(--bg-card);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 1.5rem;
-      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
       transition: all 0.3s;
     }
-    .schedule-card:hover {
+    .team-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 217, 255, 0.2);
       border-color: var(--cyan);
-      box-shadow: 0 10px 30px rgba(0, 217, 255, 0.1);
     }
-    .schedule-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .team-card img {
+      width: 120px;
+      height: 120px;
       margin-bottom: 1rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
     }
-    .schedule-member {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .schedule-info h4 {
+    .team-card-name {
+      font-weight: 700;
       font-size: 1.1rem;
       color: var(--text);
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.5rem;
     }
-    .schedule-info p {
+    .team-card-role {
       font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-    .schedule-time {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
       color: var(--cyan);
-      margin-top: 0.5rem;
-    }
-    .schedule-days {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-top: 0.5rem;
-    }
-    .day-badge {
-      padding: 0.25rem 0.75rem;
-      background: rgba(0, 217, 255, 0.1);
-      border: 1px solid var(--cyan);
-      border-radius: 6px;
-      font-size: 0.75rem;
-      color: var(--cyan);
-    }
-    .user-search-results {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      margin-top: 0.25rem;
-      max-height: 300px;
-      overflow-y: auto;
-      z-index: 100;
-    }
-    .search-result-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .search-result-item:hover {
-      background: rgba(0, 217, 255, 0.1);
-    }
-    .checkbox-group {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-      margin-top: 0.5rem;
-    }
-    .checkbox-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .checkbox-item input[type="checkbox"] {
-      width: auto;
-      margin: 0;
+      font-weight: 600;
     }
 
     @media (max-width: 1024px) {
@@ -889,7 +843,7 @@
         <div class="section-header">
           <h2 class="section-title"><i class="fas fa-users"></i> Equipe de Recursos Humanos</h2>
         </div>
-        <div class="team-grid" id="team-list"></div>
+        <div id="team-container"></div>
       </section>
 
       <!-- Admin Panel -->
@@ -1212,7 +1166,7 @@
     const INACTIVITY_LIMIT = 30 * 60 * 1000;
     const WARNING_TIME = 5 * 60 * 1000;
     const ONLINE_THRESHOLD = 5 * 60 * 1000;
-    const HABBO_IMAGER_URL = 'https://www.habbo.com/habbo-imaging/avatarimage?';
+    const HABBO_IMAGER_URL = 'https://www.habbonight.com.br/facenter/habbo-imager?user=';
 
     async function getUserIP() {
       if (ipReady && userIP) return userIP;
@@ -1351,7 +1305,6 @@
         document.getElementById('btn-novo').style.display = 'inline-flex';
       }
       
-      // Mostrar botão de criar cronograma apenas para Diretoria e Coordenação
       if (userProfile.role === 'Diretoria' || userProfile.role === 'Coordenação') {
         document.getElementById('btn-create-schedule').style.display = 'inline-flex';
       }
@@ -1401,7 +1354,7 @@
           .single();
         
         if (profile) {
-          const avatarUrl = HABBO_IMAGER_URL + 'user=' + encodeURIComponent(profile.habbo_nick) + '&action=wav&head_direction=3&head_only=false&size=l';
+          const avatarUrl = HABBO_IMAGER_URL + encodeURIComponent(profile.habbo_nick) + '&action=std&direction=2&head_direction=3&gesture=sml&size=l';
           
           document.getElementById('last-updater-avatar').src = avatarUrl;
           document.getElementById('last-updater-avatar').style.display = 'block';
@@ -1416,7 +1369,6 @@
     async function loadCheckpoint() {
       const container = document.getElementById('checkpoint-container');
       
-      // Buscar cronogramas
       const { data: schedules, error } = await sb.from('checkpoint_schedules')
         .select('*')
         .order('created_at', { ascending: false });
@@ -1432,7 +1384,6 @@
         return;
       }
       
-      // Buscar perfis dos usuários
       const userIds = schedules.map(s => s.user_id);
       const { data: profiles } = await sb.from('profiles')
         .select('id, habbo_nick, role')
@@ -1447,7 +1398,7 @@
       
       container.innerHTML = schedules.map(schedule => {
         const user = userMap[schedule.user_id];
-        const avatarUrl = user ? HABBO_IMAGER_URL + 'user=' + encodeURIComponent(user.habbo_nick) + '&action=wav&head_direction=3&head_only=false&size=l' : '';
+        const avatarUrl = user ? HABBO_IMAGER_URL + encodeURIComponent(user.habbo_nick) + '&action=std&direction=2&head_direction=3&gesture=sml&size=l' : '';
         
         const days = schedule.days ? JSON.parse(schedule.days) : [];
         const timeDisplay = schedule.schedule_type === 'turno' ? schedule.turno : `${schedule.time_start} - ${schedule.time_end}`;
@@ -1503,7 +1454,6 @@
       document.getElementById('checkpoint-time-group').style.display = type === 'especifico' ? 'block' : 'none';
     }
 
-    // Busca de usuários
     document.getElementById('checkpoint-user-search')?.addEventListener('input', async function(e) {
       const query = e.target.value.trim();
       const resultsContainer = document.getElementById('user-search-results');
@@ -1521,7 +1471,7 @@
       
       if (users && users.length > 0) {
         resultsContainer.innerHTML = users.map(user => {
-          const avatarUrl = HABBO_IMAGER_URL + 'user=' + encodeURIComponent(user.habbo_nick) + '&action=wav&head_direction=3&head_only=true&size=s';
+          const avatarUrl = HABBO_IMAGER_URL + encodeURIComponent(user.habbo_nick) + '&action=std&direction=2&head_direction=3&gesture=sml&size=s';
           return `
             <div class="search-result-item" onclick="selectUser('${user.id}', '${user.habbo_nick}', '${user.role}')">
               <img src="${avatarUrl}" alt="${user.habbo_nick}" style="width: 30px; height: 30px;">
@@ -1609,7 +1559,6 @@
       document.getElementById('checkpoint-modal-title').textContent = 'Editar Cronograma';
       document.getElementById('checkpoint-id').value = schedule.id;
       
-      // Buscar dados do usuário
       const { data: user } = await sb.from('profiles')
         .select('habbo_nick, role')
         .eq('id', schedule.user_id)
@@ -1620,13 +1569,11 @@
         document.getElementById('checkpoint-user-search').value = user.habbo_nick;
       }
       
-      // Dias
       const days = schedule.days ? JSON.parse(schedule.days) : [];
       document.querySelectorAll('input[name="checkpoint-days"]').forEach(cb => {
         cb.checked = days.includes(cb.value);
       });
       
-      // Tipo de horário
       document.getElementById('checkpoint-schedule-type').value = schedule.schedule_type;
       toggleScheduleType();
       
@@ -1656,7 +1603,6 @@
       loadCheckpoint();
     }
 
-    // Fechar busca ao clicar fora
     document.addEventListener('click', function(e) {
       const searchContainer = document.querySelector('.form-group[style*="position: relative"]');
       const resultsContainer = document.getElementById('user-search-results');
@@ -1669,41 +1615,67 @@
       const { data: members } = await sb.from('profiles')
         .select('*')
         .eq('status', 'ativo')
-        .order('role')
         .order('habbo_nick');
       
-      const container = document.getElementById('team-list');
+      const container = document.getElementById('team-container');
       
       if (!members || members.length === 0) {
         container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Nenhum membro encontrado</p>';
         return;
       }
       
-      const roleOrder = {
-        'Diretoria': 1,
-        'Vice-Diretoria': 2,
-        'Coordenação': 3,
-        'Analista': 4,
-        'Administrador': 5,
-        'Membro': 6
+      // Hierarquia: Diretor > Vice-Diretor > Coordenador > Analistas
+      const hierarchy = {
+        'Diretoria': { title: 'Diretor', icon: 'fa-crown', order: 1 },
+        'Vice-Diretoria': { title: 'Vice-Diretor', icon: 'fa-user-shield', order: 2 },
+        'Coordenação': { title: 'Coordenador', icon: 'fa-user-tie', order: 3 },
+        'Analista': { title: 'Analista', icon: 'fa-user', order: 4 }
       };
       
-      members.sort((a, b) => (roleOrder[a.role] || 99) - (roleOrder[b.role] || 99));
+      // Agrupar membros por cargo
+      const grouped = {};
+      members.forEach(member => {
+        const roleKey = member.role;
+        if (!grouped[roleKey]) {
+          grouped[roleKey] = [];
+        }
+        grouped[roleKey].push(member);
+      });
       
-      container.innerHTML = members.map(member => {
-        const avatarUrl = HABBO_IMAGER_URL + 'user=' + encodeURIComponent(member.habbo_nick) + '&action=wav&head_direction=3&head_only=false&size=l';
+      // Ordenar por hierarquia e montar HTML
+      let html = '';
+      const sortedRoles = Object.keys(grouped).sort((a, b) => {
+        const orderA = hierarchy[a]?.order || 99;
+        const orderB = hierarchy[b]?.order || 99;
+        return orderA - orderB;
+      });
+      
+      sortedRoles.forEach(role => {
+        const roleInfo = hierarchy[role] || { title: role, icon: 'fa-user', order: 99 };
         
-        return `
-          <div class="team-card">
-            <img src="${avatarUrl}" alt="${member.habbo_nick}" class="habbo-avatar">
-            <div class="team-info">
-              <div class="team-name">${member.habbo_nick}</div>
-              <div class="team-role">${member.role}</div>
-              <div class="team-time">Membro desde ${new Date(member.created_at).toLocaleDateString('pt-BR')}</div>
+        html += `
+          <div class="team-section">
+            <h3 class="team-section-title">
+              <i class="fas ${roleInfo.icon}"></i>
+              ${roleInfo.title}
+            </h3>
+            <div class="team-grid">
+              ${grouped[role].map(member => {
+                const avatarUrl = HABBO_IMAGER_URL + encodeURIComponent(member.habbo_nick) + '&action=std&direction=2&head_direction=3&gesture=sml&size=l';
+                return `
+                  <div class="team-card">
+                    <img src="${avatarUrl}" alt="${member.habbo_nick}">
+                    <div class="team-card-name">${member.habbo_nick}</div>
+                    <div class="team-card-role">${role}</div>
+                  </div>
+                `;
+              }).join('')}
             </div>
           </div>
         `;
-      }).join('');
+      });
+      
+      container.innerHTML = html;
     }
 
     async function loadDocuments() {
