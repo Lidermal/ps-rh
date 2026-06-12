@@ -9,12 +9,9 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --bg-deep: #0a0e27;
-      --bg-mid: #1a1f3a;
       --bg-card: rgba(26, 31, 58, 0.7);
       --cyan: #00d9ff;
-      --cyan-glow: rgba(0, 217, 255, 0.3);
       --gold: #f59e0b;
-      --gold-glow: rgba(245, 158, 11, 0.3);
       --text: #e2e8f0;
       --text-muted: #94a3b8;
       --border: rgba(0, 217, 255, 0.2);
@@ -22,7 +19,7 @@
       --error: #ef4444;
     }
     body {
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Inter', sans-serif;
       background: var(--bg-deep);
       color: var(--text);
       min-height: 100vh;
@@ -31,7 +28,7 @@
       justify-content: center;
       padding: 20px;
       position: relative;
-      overflow-x: hidden;
+      overflow: hidden;
     }
     body::before {
       content: '';
@@ -42,7 +39,6 @@
         linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
       background-size: 50px 50px;
       pointer-events: none;
-      z-index: 0;
     }
     body::after {
       content: '';
@@ -51,50 +47,39 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle at center, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+      background: radial-gradient(circle at center, rgba(0, 217, 255, 0.08) 0%, transparent 50%);
       pointer-events: none;
-      z-index: 0;
     }
     .container {
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 440px;
+      max-width: 420px;
     }
     .header {
       text-align: center;
       margin-bottom: 2rem;
     }
-    .logo-img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      margin-bottom: 1rem;
-      filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.3));
-    }
     .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
+      display: inline-block;
+      padding: 6px 16px;
       background: rgba(245, 158, 11, 0.1);
       border: 1px solid var(--gold);
       border-radius: 20px;
       font-family: 'Rajdhani', sans-serif;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--gold);
       letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
-    .badge::before { content: ''; font-size: 1rem; }
     .logo {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       font-weight: 700;
       color: var(--text);
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       margin-bottom: 0.5rem;
     }
     .logo span {
@@ -103,22 +88,27 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .subtitle { color: var(--text-muted); font-size: 0.95rem; }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
     .card {
       background: var(--bg-card);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 2.5rem 2rem;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px var(--cyan-glow);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
       position: relative;
       overflow: hidden;
     }
     .card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
@@ -134,20 +124,28 @@
     }
     .card-title::before {
       content: '';
-      width: 4px; height: 24px;
+      width: 4px;
+      height: 24px;
       background: var(--gold);
       border-radius: 2px;
       box-shadow: 0 0 10px var(--gold);
     }
-    .card-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.5; }
-    .input-group { position: relative; margin-bottom: 1.2rem; }
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+    .input-group {
+      margin-bottom: 1.5rem;
+    }
     .input-label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
       margin-bottom: 8px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
+      font-weight: 600;
+      letter-spacing: 1px;
       text-transform: uppercase;
     }
     input {
@@ -159,12 +157,12 @@
       color: var(--text);
       font-size: 1rem;
       font-family: 'Inter', sans-serif;
-      transition: all 0.3s ease;
+      transition: all 0.3s;
     }
     input:focus {
       outline: none;
       border-color: var(--gold);
-      box-shadow: 0 0 0 3px var(--gold-glow);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
       background: rgba(10, 14, 39, 0.9);
     }
     input::placeholder { color: #475569; }
@@ -176,59 +174,58 @@
       border-radius: 10px;
       color: var(--bg-deep);
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 700;
       font-family: 'Rajdhani', sans-serif;
       letter-spacing: 1px;
       text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 0.5rem;
+      transition: all 0.3s;
     }
     button:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 10px 30px var(--gold-glow);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
     }
     button:disabled { opacity: 0.6; cursor: not-allowed; }
     .msg {
       font-size: 0.9rem;
       text-align: center;
       margin-top: 1.2rem;
-      min-height: 20px;
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
+      display: none;
     }
-    .msg.success {
-      color: var(--success);
+    .msg.show { display: block; }
+    .msg.success { 
+      color: var(--success); 
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid rgba(16, 185, 129, 0.3);
     }
-    .msg.error {
-      color: var(--error);
+    .msg.error { 
+      color: var(--error); 
       background: rgba(239, 68, 68, 0.1);
       border: 1px solid rgba(239, 68, 68, 0.3);
     }
     .footer {
       text-align: center;
       margin-top: 1.5rem;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      padding-bottom: 20px;
     }
-    .footer a { color: var(--cyan); text-decoration: none; font-weight: 500; }
-    .footer a:hover { text-shadow: 0 0 8px var(--cyan-glow); }
-    .footer-logo { margin-top: 10px; opacity: 0.5; }
-    .footer-logo img { width: 40px; height: 40px; object-fit: contain; }
+    .footer a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .footer a:hover { text-decoration: underline; }
     @media (max-width: 480px) {
       .card { padding: 2rem 1.5rem; }
-      .logo { font-size: 1.8rem; }
-      .logo-img { width: 80px; height: 80px; }
+      .logo { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="../rh.png" alt="Polícia FEB - RH" class="logo-img">
       <div class="badge">Acesso Restrito</div>
       <h1 class="logo">POLÍCIA <span>FEB</span></h1>
       <p class="subtitle">Órgão de Recursos Humanos</p>
@@ -254,52 +251,34 @@
 
     <div class="footer">
       Não tem acesso? <a href="solicitar.html">Solicite aqui</a>
-      <div class="footer-logo">
-        <img src="../rh.png" alt="RH">
-      </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Configuração do Supabase (declarada apenas UMA vez)
     const SUPABASE_URL = 'https://hxcvjokstmwdcvwhvvvr.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI';
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Função de log de IP
-    async function logIP(userId, action, details) {
-      try {
-        const ipRes = await fetch('https://api.ipify.org?format=json');
-        const { ip } = await ipRes.json();
-        await sb.from('system_logs').insert({ 
-          user_id: userId, 
-          ip_address: ip, 
-          action: action, 
-          details: details || '' 
-        });
-      } catch (e) { 
-        console.warn('Falha ao logar IP:', e); 
-      }
+    function showMessage(text, type) {
+      const msg = document.getElementById('msg');
+      msg.textContent = text;
+      msg.className = `msg show ${type}`;
     }
 
-    // Handler do botão de login
     document.getElementById('btn-login').addEventListener('click', async () => {
       const btn = document.getElementById('btn-login');
-      const msg = document.getElementById('msg');
       const nick = document.getElementById('nick').value.trim();
       const pass = document.getElementById('pass').value;
 
       if (!nick || !pass) {
-        msg.textContent = '❌ Preencha todos os campos.';
-        msg.className = 'msg error';
+        showMessage('❌ Preencha todos os campos.', 'error');
         return;
       }
 
       btn.disabled = true;
       btn.textContent = 'Autenticando...';
-      msg.textContent = '';
-      msg.className = 'msg';
+      showMessage('', '');
 
       const email = nick.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() + '@feb.internal';
 
@@ -319,43 +298,42 @@
         
         if (profError) throw profError;
 
-        // Validações de status
         if (profile.status === 'pendente') {
           await sb.auth.signOut();
-          throw new Error(' Seu acesso ainda está pendente. Aguarde a aprovação da Diretoria.');
+          throw new Error('⏳ Seu acesso ainda está pendente. Aguarde a aprovação.');
         }
         if (profile.status === 'banido') {
           await sb.auth.signOut();
-          throw new Error(' Sua conta foi banida. Contate a administração.');
+          throw new Error('🚫 Sua conta foi banida.');
         }
         if (profile.status === 'inativo') {
           await sb.auth.signOut();
-          throw new Error('⚠️ Sua conta está inativa. Contate a Diretoria.');
+          throw new Error('⚠️ Sua conta está inativa.');
         }
         
-        // Primeiro acesso - precisa criar senha
         if (profile.first_login) {
           window.location.href = 'primeiro-acesso.html';
           return;
         }
 
-        // Login bem-sucedido
-        await logIP(data.user.id, 'LOGIN_SUCESSO', 'Nick: ' + profile.habbo_nick);
-        msg.textContent = '✅ Acesso autorizado! Redirecionando...';
-        msg.className = 'msg success';
+        await sb.from('system_logs').insert({
+          user_id: data.user.id,
+          action: 'LOGIN_SUCESSO',
+          details: 'Nick: ' + profile.habbo_nick,
+          ip_address: 'web'
+        });
         
+        showMessage('✅ Acesso autorizado! Redirecionando...', 'success');
         setTimeout(() => {
           window.location.href = '../dashboard.html';
         }, 800);
       } catch (err) {
-        msg.textContent = err.message || '❌ Credenciais inválidas.';
-        msg.className = 'msg error';
+        showMessage('❌ ' + (err.message || 'Credenciais inválidas.'), 'error');
         btn.disabled = false;
         btn.textContent = 'Entrar no Sistema';
       }
     });
 
-    // Enter para enviar
     document.getElementById('pass').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') document.getElementById('btn-login').click();
     });
