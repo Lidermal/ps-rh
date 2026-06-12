@@ -354,7 +354,7 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 2rem;
-      max-width: 600px;
+      max-width: 700px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
@@ -628,68 +628,106 @@
       height: 100px;
     }
     
-    /* Checkpoint Status */
-    .status-standby {
-      background: rgba(156, 163, 175, 0.15);
-      color: var(--text-muted);
-      border: 1px solid rgba(156, 163, 175, 0.3);
-    }
-    .status-em-acao {
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--gold);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      animation: pulse-gold 2s infinite;
-    }
-    .status-concluido {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--success);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    @keyframes pulse-gold {
-      0%, 100% { box-shadow: 0 0 5px rgba(245, 158, 11, 0.3); }
-      50% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.6); }
-    }
-    
-    /* Team Grid */
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-    .team-card {
+    /* Checkpoint Schedule Styles */
+    .schedule-card {
       background: var(--bg-card);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s;
+    }
+    .schedule-card:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 10px 30px rgba(0, 217, 255, 0.1);
+    }
+    .schedule-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .schedule-member {
       display: flex;
       align-items: center;
       gap: 1rem;
-      transition: all 0.3s;
     }
-    .team-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      border-color: var(--cyan);
-    }
-    .team-info {
-      flex: 1;
-    }
-    .team-name {
-      font-weight: 600;
-      font-size: 1rem;
+    .schedule-info h4 {
+      font-size: 1.1rem;
       color: var(--text);
       margin-bottom: 0.25rem;
     }
-    .team-role {
+    .schedule-info p {
       font-size: 0.85rem;
-      color: var(--cyan);
-      font-weight: 500;
-    }
-    .team-time {
-      font-size: 0.8rem;
       color: var(--text-muted);
+    }
+    .schedule-time {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--cyan);
       margin-top: 0.5rem;
+    }
+    .schedule-days {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .day-badge {
+      padding: 0.25rem 0.75rem;
+      background: rgba(0, 217, 255, 0.1);
+      border: 1px solid var(--cyan);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: var(--cyan);
+    }
+    .user-search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-top: 0.25rem;
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 100;
+    }
+    .search-result-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .search-result-item:hover {
+      background: rgba(0, 217, 255, 0.1);
+    }
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .checkbox-item input[type="checkbox"] {
+      width: auto;
+      margin: 0;
     }
 
     @media (max-width: 1024px) {
@@ -837,21 +875,12 @@
       <section id="section-checkpoint" class="content-section">
         <div class="section-header">
           <h2 class="section-title"><i class="fas fa-clock"></i> Check-Point de Atualização</h2>
+          <button class="btn btn-primary btn-sm" onclick="openCheckpointModal()" id="btn-create-schedule" style="display:none;">
+            <i class="fas fa-plus"></i> Criar Cronograma
+          </button>
         </div>
-        <div class="table-container">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Avatar</th>
-                <th>Responsável</th>
-                <th>Função</th>
-                <th>Período</th>
-                <th>Status</th>
-                <th>Última Atualização</th>
-              </tr>
-            </thead>
-            <tbody id="checkpoint-list"></tbody>
-          </table>
+        <div id="checkpoint-container">
+          <p style="color: var(--text-muted); text-align: center; padding: 2rem;">Carregando cronogramas...</p>
         </div>
       </section>
 
@@ -964,6 +993,93 @@
 
   <!-- Toast Container -->
   <div class="toast-container" id="toast-container"></div>
+
+  <!-- Modal Criar/Editar Cronograma -->
+  <div class="modal" id="modal-checkpoint">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fas fa-clock"></i> <span id="checkpoint-modal-title">Criar Cronograma</span></h3>
+        <button class="btn-close" onclick="closeModal('modal-checkpoint')">&times;</button>
+      </div>
+      <form id="checkpoint-form" onsubmit="saveCheckpoint(event)">
+        <input type="hidden" id="checkpoint-id">
+        
+        <div class="form-group" style="position: relative;">
+          <label class="form-label">Membro Responsável *</label>
+          <input type="text" class="form-input" id="checkpoint-user-search" placeholder="Digite o nickname para buscar..." autocomplete="off" required>
+          <input type="hidden" id="checkpoint-user-id" required>
+          <div class="user-search-results" id="user-search-results" style="display: none;"></div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Dias da Semana *</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" name="checkpoint-days" value="Segunda"> Segunda
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="checkpoint-days" value="Terça"> Terça
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="checkpoint-days" value="Quarta"> Quarta
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="checkpoint-days" value="Quinta"> Quinta
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="checkpoint-days" value="Sexta"> Sexta
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="checkpoint-days" value="Sábado"> Sábado
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="checkpoint-days" value="Domingo"> Domingo
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Tipo de Horário *</label>
+          <select class="form-select" id="checkpoint-schedule-type" onchange="toggleScheduleType()" required>
+            <option value="">Selecione...</option>
+            <option value="turno">Turno Fechado</option>
+            <option value="especifico">Horário Específico</option>
+          </select>
+        </div>
+        
+        <div class="form-group" id="checkpoint-turno-group" style="display: none;">
+          <label class="form-label">Turno *</label>
+          <select class="form-select" id="checkpoint-turno">
+            <option value="Manhã (08:00 - 12:00)">Manhã (08:00 - 12:00)</option>
+            <option value="Tarde (12:00 - 16:00)">Tarde (12:00 - 16:00)</option>
+            <option value="Noite (16:00 - 20:00)">Noite (16:00 - 20:00)</option>
+            <option value="Madrugada (20:00 - 00:00)">Madrugada (20:00 - 00:00)</option>
+          </select>
+        </div>
+        
+        <div class="form-group" id="checkpoint-time-group" style="display: none;">
+          <label class="form-label">Horário Específico *</label>
+          <input type="time" class="form-input" id="checkpoint-time-start">
+          <div style="margin: 0.5rem 0; text-align: center; color: var(--text-muted);">até</div>
+          <input type="time" class="form-input" id="checkpoint-time-end">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Observações</label>
+          <textarea class="form-textarea" id="checkpoint-observations" placeholder="Informações adicionais..." style="min-height: 80px;"></textarea>
+        </div>
+        
+        <div style="display:flex; gap:1rem;">
+          <button type="submit" class="btn btn-success" style="flex:1;">
+            <i class="fas fa-save"></i> Salvar Cronograma
+          </button>
+          <button type="button" class="btn btn-danger" onclick="closeModal('modal-checkpoint')" style="flex:1;">
+            <i class="fas fa-times"></i> Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Modal Editar Usuário -->
   <div class="modal" id="modal-edit-user">
@@ -1096,8 +1212,6 @@
     const INACTIVITY_LIMIT = 30 * 60 * 1000;
     const WARNING_TIME = 5 * 60 * 1000;
     const ONLINE_THRESHOLD = 5 * 60 * 1000;
-
-    // Habbo Imager URL
     const HABBO_IMAGER_URL = 'https://www.habbo.com/habbo-imaging/avatarimage?';
 
     async function getUserIP() {
@@ -1237,6 +1351,11 @@
         document.getElementById('btn-novo').style.display = 'inline-flex';
       }
       
+      // Mostrar botão de criar cronograma apenas para Diretoria e Coordenação
+      if (userProfile.role === 'Diretoria' || userProfile.role === 'Coordenação') {
+        document.getElementById('btn-create-schedule').style.display = 'inline-flex';
+      }
+      
       resetInactivityTimer();
       await updateLastActivity();
       showToast('Bem-vindo ao sistema, ' + profile.habbo_nick + '!', 'success');
@@ -1264,7 +1383,6 @@
     }
 
     async function loadLastUpdater() {
-      // Buscar última atualização do dia
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       
@@ -1296,69 +1414,258 @@
     }
 
     async function loadCheckpoint() {
-      // Buscar todos os usuários com cargos de atualização
-      const { data: members } = await sb.from('profiles')
+      const container = document.getElementById('checkpoint-container');
+      
+      // Buscar cronogramas
+      const { data: schedules, error } = await sb.from('checkpoint_schedules')
         .select('*')
-        .in('role', ['Diretoria', 'Coordenação', 'Administrador'])
-        .eq('status', 'ativo')
-        .order('habbo_nick');
+        .order('created_at', { ascending: false });
       
-      const container = document.getElementById('checkpoint-list');
-      
-      if (!members || members.length === 0) {
-        container.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">Nenhum membro encontrado</td></tr>';
+      if (error) {
+        console.error('Erro ao carregar cronogramas:', error);
+        container.innerHTML = '<p style="color: var(--error); text-align: center; padding: 2rem;">Erro ao carregar cronogramas</p>';
         return;
       }
       
-      const now = new Date();
-      const currentHour = now.getHours();
+      if (!schedules || schedules.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Nenhum cronograma cadastrado</p>';
+        return;
+      }
       
-      container.innerHTML = members.map(member => {
-        const avatarUrl = HABBO_IMAGER_URL + 'user=' + encodeURIComponent(member.habbo_nick) + '&action=wav&head_direction=3&head_only=false&size=l';
+      // Buscar perfis dos usuários
+      const userIds = schedules.map(s => s.user_id);
+      const { data: profiles } = await sb.from('profiles')
+        .select('id, habbo_nick, role')
+        .in('id', userIds);
+      
+      const userMap = {};
+      if (profiles) {
+        profiles.forEach(p => {
+          userMap[p.id] = p;
+        });
+      }
+      
+      container.innerHTML = schedules.map(schedule => {
+        const user = userMap[schedule.user_id];
+        const avatarUrl = user ? HABBO_IMAGER_URL + 'user=' + encodeURIComponent(user.habbo_nick) + '&action=wav&head_direction=3&head_only=false&size=l' : '';
         
-        // Definir período baseado no cargo
-        let startTime, endTime, periodText;
-        if (member.role === 'Diretoria') {
-          startTime = 8; endTime = 12;
-          periodText = '08:00 - 12:00';
-        } else if (member.role === 'Coordenação') {
-          startTime = 12; endTime = 16;
-          periodText = '12:00 - 16:00';
-        } else {
-          startTime = 16; endTime = 20;
-          periodText = '16:00 - 20:00';
-        }
+        const days = schedule.days ? JSON.parse(schedule.days) : [];
+        const timeDisplay = schedule.schedule_type === 'turno' ? schedule.turno : `${schedule.time_start} - ${schedule.time_end}`;
         
-        // Determinar status
-        let status, statusClass;
-        if (currentHour < startTime) {
-          status = 'Standby';
-          statusClass = 'status-standby';
-        } else if (currentHour >= startTime && currentHour < endTime) {
-          status = 'Em ação';
-          statusClass = 'status-em-acao';
-        } else {
-          status = 'Concluído';
-          statusClass = 'status-concluido';
-        }
-        
-        const lastUpdate = member.updated_at ? new Date(member.updated_at).toLocaleString('pt-BR') : 'Nunca';
+        const canEdit = (userProfile.role === 'Diretoria' || userProfile.role === 'Coordenação');
         
         return `
-          <tr>
-            <td><img src="${avatarUrl}" alt="${member.habbo_nick}" class="habbo-avatar habbo-avatar-small"></td>
-            <td><strong>${member.habbo_nick}</strong></td>
-            <td>${member.role}</td>
-            <td>${periodText}</td>
-            <td><span class="badge ${statusClass}">${status}</span></td>
-            <td>${lastUpdate}</td>
-          </tr>
+          <div class="schedule-card">
+            <div class="schedule-header">
+              <div class="schedule-member">
+                <img src="${avatarUrl}" alt="${user ? user.habbo_nick : 'Desconhecido'}" class="habbo-avatar">
+                <div class="schedule-info">
+                  <h4>${user ? user.habbo_nick : 'Desconhecido'}</h4>
+                  <p>${user ? user.role : '-'}</p>
+                  <div class="schedule-time">
+                    <i class="fas fa-clock"></i>
+                    ${timeDisplay}
+                  </div>
+                  <div class="schedule-days">
+                    ${days.map(day => `<span class="day-badge">${day}</span>`).join('')}
+                  </div>
+                </div>
+              </div>
+              ${canEdit ? `
+                <div class="action-buttons">
+                  <button class="btn btn-warning btn-sm" onclick="editCheckpoint('${schedule.id}')">
+                    <i class="fas fa-edit"></i> Editar
+                  </button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteCheckpoint('${schedule.id}')">
+                    <i class="fas fa-trash"></i> Excluir
+                  </button>
+                </div>
+              ` : ''}
+            </div>
+            ${schedule.observations ? `<p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;"><i class="fas fa-comment"></i> ${schedule.observations}</p>` : ''}
+          </div>
         `;
       }).join('');
     }
 
+    function openCheckpointModal() {
+      document.getElementById('checkpoint-modal-title').textContent = 'Criar Cronograma';
+      document.getElementById('checkpoint-form').reset();
+      document.getElementById('checkpoint-id').value = '';
+      document.getElementById('checkpoint-user-id').value = '';
+      document.getElementById('user-search-results').style.display = 'none';
+      document.getElementById('modal-checkpoint').classList.add('active');
+    }
+
+    function toggleScheduleType() {
+      const type = document.getElementById('checkpoint-schedule-type').value;
+      document.getElementById('checkpoint-turno-group').style.display = type === 'turno' ? 'block' : 'none';
+      document.getElementById('checkpoint-time-group').style.display = type === 'especifico' ? 'block' : 'none';
+    }
+
+    // Busca de usuários
+    document.getElementById('checkpoint-user-search')?.addEventListener('input', async function(e) {
+      const query = e.target.value.trim();
+      const resultsContainer = document.getElementById('user-search-results');
+      
+      if (query.length < 2) {
+        resultsContainer.style.display = 'none';
+        return;
+      }
+      
+      const { data: users } = await sb.from('profiles')
+        .select('id, habbo_nick, role')
+        .ilike('habbo_nick', `%${query}%`)
+        .eq('status', 'ativo')
+        .limit(5);
+      
+      if (users && users.length > 0) {
+        resultsContainer.innerHTML = users.map(user => {
+          const avatarUrl = HABBO_IMAGER_URL + 'user=' + encodeURIComponent(user.habbo_nick) + '&action=wav&head_direction=3&head_only=true&size=s';
+          return `
+            <div class="search-result-item" onclick="selectUser('${user.id}', '${user.habbo_nick}', '${user.role}')">
+              <img src="${avatarUrl}" alt="${user.habbo_nick}" style="width: 30px; height: 30px;">
+              <div>
+                <div style="font-weight: 600;">${user.habbo_nick}</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">${user.role}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        resultsContainer.style.display = 'block';
+      } else {
+        resultsContainer.style.display = 'none';
+      }
+    });
+
+    function selectUser(userId, nick, role) {
+      document.getElementById('checkpoint-user-id').value = userId;
+      document.getElementById('checkpoint-user-search').value = nick;
+      document.getElementById('user-search-results').style.display = 'none';
+    }
+
+    async function saveCheckpoint(e) {
+      e.preventDefault();
+      
+      const userId = document.getElementById('checkpoint-user-id').value;
+      if (!userId) {
+        showToast('❌ Selecione um membro válido', 'error');
+        return;
+      }
+      
+      const days = Array.from(document.querySelectorAll('input[name="checkpoint-days"]:checked')).map(cb => cb.value);
+      if (days.length === 0) {
+        showToast('❌ Selecione pelo menos um dia', 'error');
+        return;
+      }
+      
+      const scheduleType = document.getElementById('checkpoint-schedule-type').value;
+      const data = {
+        user_id: userId,
+        days: JSON.stringify(days),
+        schedule_type: scheduleType,
+        observations: document.getElementById('checkpoint-observations').value,
+        updated_at: new Date().toISOString()
+      };
+      
+      if (scheduleType === 'turno') {
+        data.turno = document.getElementById('checkpoint-turno').value;
+      } else {
+        data.time_start = document.getElementById('checkpoint-time-start').value;
+        data.time_end = document.getElementById('checkpoint-time-end').value;
+      }
+      
+      const checkpointId = document.getElementById('checkpoint-id').value;
+      
+      try {
+        if (checkpointId) {
+          const { error } = await sb.from('checkpoint_schedules').update(data).eq('id', checkpointId);
+          if (error) throw error;
+        } else {
+          data.created_at = new Date().toISOString();
+          const { error } = await sb.from('checkpoint_schedules').insert([data]);
+          if (error) throw error;
+        }
+        
+        showToast('✅ Cronograma salvo com sucesso!', 'success');
+        closeModal('modal-checkpoint');
+        loadCheckpoint();
+      } catch (err) {
+        showToast('❌ Erro: ' + err.message, 'error');
+      }
+    }
+
+    async function editCheckpoint(id) {
+      const { data: schedule, error } = await sb.from('checkpoint_schedules')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error) {
+        showToast('❌ Erro ao carregar cronograma', 'error');
+        return;
+      }
+      
+      document.getElementById('checkpoint-modal-title').textContent = 'Editar Cronograma';
+      document.getElementById('checkpoint-id').value = schedule.id;
+      
+      // Buscar dados do usuário
+      const { data: user } = await sb.from('profiles')
+        .select('habbo_nick, role')
+        .eq('id', schedule.user_id)
+        .single();
+      
+      if (user) {
+        document.getElementById('checkpoint-user-id').value = schedule.user_id;
+        document.getElementById('checkpoint-user-search').value = user.habbo_nick;
+      }
+      
+      // Dias
+      const days = schedule.days ? JSON.parse(schedule.days) : [];
+      document.querySelectorAll('input[name="checkpoint-days"]').forEach(cb => {
+        cb.checked = days.includes(cb.value);
+      });
+      
+      // Tipo de horário
+      document.getElementById('checkpoint-schedule-type').value = schedule.schedule_type;
+      toggleScheduleType();
+      
+      if (schedule.schedule_type === 'turno') {
+        document.getElementById('checkpoint-turno').value = schedule.turno;
+      } else {
+        document.getElementById('checkpoint-time-start').value = schedule.time_start;
+        document.getElementById('checkpoint-time-end').value = schedule.time_end;
+      }
+      
+      document.getElementById('checkpoint-observations').value = schedule.observations || '';
+      
+      document.getElementById('modal-checkpoint').classList.add('active');
+    }
+
+    async function deleteCheckpoint(id) {
+      const confirmed = await customConfirm('Deseja excluir este cronograma?', 'Excluir Cronograma');
+      if (!confirmed) return;
+      
+      const { error } = await sb.from('checkpoint_schedules').delete().eq('id', id);
+      if (error) {
+        showToast('❌ Erro: ' + error.message, 'error');
+        return;
+      }
+      
+      showToast('✅ Cronograma excluído!', 'success');
+      loadCheckpoint();
+    }
+
+    // Fechar busca ao clicar fora
+    document.addEventListener('click', function(e) {
+      const searchContainer = document.querySelector('.form-group[style*="position: relative"]');
+      const resultsContainer = document.getElementById('user-search-results');
+      if (searchContainer && !searchContainer.contains(e.target)) {
+        resultsContainer.style.display = 'none';
+      }
+    });
+
     async function loadListagem() {
-      // Buscar todos os usuários ativos organizados por hierarquia
       const { data: members } = await sb.from('profiles')
         .select('*')
         .eq('status', 'ativo')
@@ -1372,7 +1679,6 @@
         return;
       }
       
-      // Ordem hierárquica
       const roleOrder = {
         'Diretoria': 1,
         'Vice-Diretoria': 2,
@@ -1796,7 +2102,6 @@
         return;
       }
       
-      // Registrar atualização
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
         action: 'ATUALIZACAO_LISTAGEM',
