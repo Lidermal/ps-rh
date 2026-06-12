@@ -82,7 +82,7 @@
       margin-bottom: 0.5rem;
       color: var(--text);
     }
-    .card-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; }
+    .card-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.5; }
     .input-group { margin-bottom: 1.5rem; }
     .input-label {
       display: block;
@@ -91,6 +91,7 @@
       margin-bottom: 8px;
       font-weight: 500;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     input {
       width: 100%;
@@ -100,12 +101,15 @@
       border-radius: 10px;
       color: var(--text);
       font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
     }
     input:focus {
       outline: none;
       border-color: var(--cyan);
       box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.2);
     }
+    input::placeholder { color: #475569; }
     button {
       width: 100%;
       padding: 14px;
@@ -118,20 +122,51 @@
       font-family: 'Rajdhani', sans-serif;
       cursor: pointer;
       text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s;
     }
-    button:hover:not(:disabled) { transform: translateY(-2px); }
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+    }
     button:disabled { opacity: 0.6; cursor: not-allowed; }
     .msg {
       font-size: 0.9rem;
       text-align: center;
       margin-top: 1.2rem;
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
+      display: none;
     }
-    .msg.success { color: var(--success); background: rgba(16, 185, 129, 0.1); }
-    .msg.error { color: var(--error); background: rgba(239, 68, 68, 0.1); }
-    .footer { text-align: center; margin-top: 1.5rem; font-size: 0.8rem; color: var(--text-muted); }
-    .footer a { color: var(--cyan); text-decoration: none; }
+    .msg.show { display: block; }
+    .msg.success { 
+      color: var(--success); 
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .msg.error { 
+      color: var(--error); 
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .footer { 
+      text-align: center; 
+      margin-top: 1.5rem; 
+      font-size: 0.8rem; 
+      color: var(--text-muted); 
+    }
+    .footer a { color: var(--cyan); text-decoration: none; font-weight: 500; }
+    .footer a:hover { text-decoration: underline; }
+    .info-box {
+      background: rgba(0, 217, 255, 0.05);
+      border-left: 3px solid var(--cyan);
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .info-box strong { color: var(--cyan); }
   </style>
 </head>
 <body>
@@ -145,11 +180,19 @@
 
     <div class="card">
       <h2 class="card-title">Solicitar Acesso</h2>
-      <p class="card-desc">Insira seu nick do Habbo para solicitar acesso ao sistema.</p>
+      <p class="card-desc">Insira seu nick do Habbo para solicitar acesso ao sistema interno.</p>
+      
+      <div class="info-box">
+        <strong>📋 Como funciona:</strong><br>
+        1. Envie sua solicitação com seu nickname<br>
+        2. Aguarde a aprovação da Diretoria/Administração<br>
+        3. Após aprovado, você receberá um email temporário<br>
+        4. Faça login e crie sua senha pessoal
+      </div>
       
       <div class="input-group">
-        <label class="input-label">Nickname do Habbo</label>
-        <input type="text" id="nick" placeholder="Ex: SeuNick" autocomplete="off">
+        <label class="input-label" for="nick">Nickname do Habbo</label>
+        <input type="text" id="nick" placeholder="Ex: Jonas" autocomplete="off" spellcheck="false">
       </div>
       
       <button id="btn-solicitar">Solicitar Acesso</button>
@@ -167,38 +210,76 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh4Y3Zqb2tzdG13ZGN2d2h2dnZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExOTEwODQsImV4cCI6MjA5Njc2NzA4NH0._eBE0N4BRcbzw_cK2T3aZGWA_sLEvoiB2j1LEtJUTAI';
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    function showMessage(text, type) {
+      const msg = document.getElementById('msg');
+      msg.textContent = text;
+      msg.className = `msg show ${type}`;
+    }
+
     document.getElementById('btn-solicitar').addEventListener('click', async () => {
       const btn = document.getElementById('btn-solicitar');
-      const msg = document.getElementById('msg');
-      const nick = document.getElementById('nick').value.trim();
+      const nickInput = document.getElementById('nick');
+      const nick = nickInput.value.trim();
 
       if (!nick) {
-        msg.textContent = '❌ Digite seu nick.';
-        msg.className = 'msg error';
+        showMessage('❌ Por favor, digite seu nickname do Habbo.', 'error');
+        return;
+      }
+
+      if (nick.length < 3) {
+        showMessage('❌ Nickname muito curto (mínimo 3 caracteres).', 'error');
         return;
       }
 
       btn.disabled = true;
-      btn.textContent = 'Processando...';
-
-      const email = nick.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() + '@feb.internal';
-      const tempPass = 'Temp' + Math.random().toString(36).slice(-8);
+      btn.textContent = 'Enviando solicitação...';
+      showMessage('', '');
 
       try {
-        const { data, error } = await sb.auth.signUp({ email, password: tempPass });
+        // Verifica se já existe solicitação ou usuário
+        const { data: existing } = await sb
+          .from('profiles')
+          .select('id, status')
+          .ilike('habbo_nick', nick)
+          .single();
+
+        if (existing) {
+          if (existing.status === 'pendente') {
+            showMessage('⏳ Você já possui uma solicitação pendente. Aguarde a aprovação.', 'error');
+          } else if (existing.status === 'ativo') {
+            showMessage('✅ Você já possui acesso! Faça login.', 'success');
+            setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+          } else if (existing.status === 'banido') {
+            showMessage('🚫 Sua conta foi banida. Contate a administração.', 'error');
+          }
+          return;
+        }
+
+        // Cria solicitação pendente (sem criar usuário no auth ainda)
+        const { data, error } = await sb.from('profiles').insert([{
+          habbo_nick: nick,
+          role: 'Membro',
+          status: 'pendente',
+          first_login: true,
+          created_at: new Date().toISOString()
+        }]).select();
+
         if (error) throw error;
 
-        const { error: profileError } = await sb.from('profiles').insert([
-          { id: data.user.id, habbo_nick: nick, role: 'Membro', status: 'pendente', first_login: true }
-        ]);
-        if (profileError) throw profileError;
+        // Registra log da solicitação
+        await sb.from('system_logs').insert({
+          action: 'SOLICITACAO_ACESSO',
+          details: `Nova solicitação de acesso: ${nick}`,
+          ip_address: 'pending',
+          created_at: new Date().toISOString()
+        });
 
-        msg.textContent = '✅ Solicitação enviada! Aguarde aprovação.';
-        msg.className = 'msg success';
-        document.getElementById('nick').value = '';
+        showMessage('✅ Solicitação enviada com sucesso! Aguarde a aprovação da Diretoria.', 'success');
+        nickInput.value = '';
+        
       } catch (err) {
-        msg.textContent = '❌ ' + (err.message.includes('already') ? 'Nick já cadastrado.' : err.message);
-        msg.className = 'msg error';
+        console.error('Erro:', err);
+        showMessage('❌ Erro ao enviar solicitação: ' + err.message, 'error');
       } finally {
         btn.disabled = false;
         btn.textContent = 'Solicitar Acesso';
