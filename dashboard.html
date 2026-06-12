@@ -29,8 +29,6 @@
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
     }
     body::before {
       content: '';
@@ -175,9 +173,6 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      flex: 1;
-      position: relative;
-      z-index: 1;
     }
     .top-bar {
       background: var(--bg-panel);
@@ -528,13 +523,12 @@
       50% { opacity: 0.5; }
     }
 
-    /* Rodapé alinhado corretamente */
+    /* Rodapé corrigido - ocupa toda a largura */
     .footer {
       background: var(--bg-panel);
       border-top: 1px solid var(--border);
       padding: 2rem;
-      margin-left: var(--sidebar-width);
-      width: calc(100% - var(--sidebar-width));
+      width: 100%;
       margin-top: auto;
     }
     .footer-content {
@@ -578,14 +572,50 @@
       background: linear-gradient(90deg, transparent, var(--cyan), transparent);
     }
 
+    /* Paginação */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .pagination button {
+      padding: 0.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.875rem;
+    }
+    .pagination button:hover:not(:disabled) {
+      background: var(--cyan);
+      color: var(--bg-deep);
+      border-color: var(--cyan);
+    }
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .pagination button.active {
+      background: var(--cyan);
+      color: var(--bg-deep);
+      border-color: var(--cyan);
+    }
+    .pagination-info {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin: 0 1rem;
+    }
+
     @media (max-width: 1024px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; }
-      .footer { 
-        margin-left: 0; 
-        width: 100%;
-      }
       .menu-toggle { display: flex; }
       .content-area { padding: 1rem; }
     }
@@ -728,6 +758,8 @@
             </thead>
             <tbody id="system-logs"></tbody>
           </table>
+          <!-- Paginação -->
+          <div class="pagination" id="logs-pagination"></div>
         </div>
       </section>
 
@@ -924,6 +956,8 @@
     let inactivityTimer;
     let confirmCallback = null;
     let userIP = 'indisponível';
+    let logsCurrentPage = 1;
+    const LOGS_PER_PAGE = 15;
     const INACTIVITY_LIMIT = 30 * 60 * 1000;
     const WARNING_TIME = 5 * 60 * 1000;
     const ONLINE_THRESHOLD = 5 * 60 * 1000;
@@ -934,6 +968,7 @@
         const response = await fetch('https://api.ipify.org?format=json');
         const data = await response.json();
         userIP = data.ip;
+        console.log('IP capturado:', userIP);
       } catch (error) {
         console.warn('Não foi possível capturar IP:', error);
         userIP = 'indisponível';
@@ -1207,11 +1242,25 @@
         allUsersContainer.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhum usuário encontrado</td></tr>';
       }
       
-      // CORREÇÃO: Carregar logs com nomes reais dos usuários
+      // Carregar logs com paginação
+      await loadLogs();
+    }
+
+    async function loadLogs() {
+      // Buscar total de logs
+      const { count: totalLogs } = await sb.from('system_logs')
+        .select('*', { count: 'exact', head: true });
+      
+      const totalPages = Math.ceil(totalLogs / LOGS_PER_PAGE);
+      
+      // Buscar logs da página atual
+      const from = (logsCurrentPage - 1) * LOGS_PER_PAGE;
+      const to = from + LOGS_PER_PAGE - 1;
+      
       const { data: logs } = await sb.from('system_logs')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(50);
+        .range(from, to);
       
       // Buscar todos os perfis para mapear user_id -> habbo_nick
       const { data: profiles } = await sb.from('profiles').select('id, habbo_nick');
@@ -1225,9 +1274,7 @@
       const logsContainer = document.getElementById('system-logs');
       if (logs && logs.length > 0) {
         logsContainer.innerHTML = logs.map(log => {
-          // Pega o nickname do usuário ou "Sistema" se não tiver user_id
           const userName = log.user_id ? (userMap[log.user_id] || 'Desconhecido') : 'Sistema';
-          // Pega o IP real (oculta "web" e "system" dos logs antigos)
           const ipDisplay = (log.ip_address && log.ip_address !== 'web' && log.ip_address !== 'system') ? log.ip_address : '-';
           
           return `
@@ -1242,6 +1289,40 @@
       } else {
         logsContainer.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhum log registrado</td></tr>';
       }
+      
+      // Renderizar paginação
+      renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+      const paginationContainer = document.getElementById('logs-pagination');
+      
+      if (totalPages <= 1) {
+        paginationContainer.innerHTML = '';
+        return;
+      }
+      
+      let paginationHTML = '';
+      
+      // Botão anterior
+      paginationHTML += `<button ${logsCurrentPage === 1 ? 'disabled' : ''} onclick="changeLogPage(${logsCurrentPage - 1})">
+        <i class="fas fa-chevron-left"></i> Anterior
+      </button>`;
+      
+      // Informações da página
+      paginationHTML += `<span class="pagination-info">Página ${logsCurrentPage} de ${totalPages}</span>`;
+      
+      // Botão próximo
+      paginationHTML += `<button ${logsCurrentPage === totalPages ? 'disabled' : ''} onclick="changeLogPage(${logsCurrentPage + 1})">
+        Próximo <i class="fas fa-chevron-right"></i>
+      </button>`;
+      
+      paginationContainer.innerHTML = paginationHTML;
+    }
+
+    function changeLogPage(page) {
+      logsCurrentPage = page;
+      loadLogs();
     }
 
     async function approveUser(userId, nick) {
