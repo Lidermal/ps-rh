@@ -11,7 +11,6 @@
     * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
     
     :root {
-      /* Estética Tech HR / SaaS Moderno */
       --bg-deep: #0B1120;
       --bg-panel: rgba(15, 23, 42, 0.85);
       --bg-card: rgba(30, 41, 59, 0.6);
@@ -43,13 +42,11 @@
       pointer-events: none; z-index: -1;
     }
 
-    /* Scrollbar minimalista */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg-deep); }
     ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
 
-    /* Sidebar */
     .sidebar {
       position: fixed; left: 0; top: 0; bottom: 0;
       width: var(--sidebar-width);
@@ -85,12 +82,11 @@
 
     .sidebar-footer { padding: 1.5rem 1rem; border-top: 1px solid var(--border); }
     .user-info { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; background: rgba(0, 0, 0, 0.2); border-radius: 8px; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.05); }
-    .user-avatar { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--bg-deep); background: linear-gradient(135deg, var(--cyan), var(--indigo)); }
+    .user-avatar { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--bg-deep); background: linear-gradient(135deg, var(--cyan), var(--indigo)); overflow: hidden; }
     .user-details { flex: 1; overflow: hidden; }
     .user-name { font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
     .user-role { font-size: 0.75rem; color: var(--cyan); font-weight: 500; }
     
-    /* Botões Padrão HR Tech */
     .btn {
       padding: 0.75rem 1.25rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer;
       display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; font-size: 0.85rem; font-family: 'Inter', sans-serif;
@@ -107,7 +103,6 @@
     .btn-logout:hover { border-color: var(--error); color: var(--error); background: rgba(239, 68, 68, 0.05); }
     .btn-sm { padding: 0.5rem 0.75rem; font-size: 0.75rem; }
 
-    /* Main Content */
     .main-content { margin-left: var(--sidebar-width); min-height: 100vh; display: flex; flex-direction: column; }
     .top-bar {
       background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
@@ -139,16 +134,13 @@
     .section-title { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 0.75rem; color: #fff; }
     .section-title i { color: var(--cyan); }
 
-    /* Novo Layout do Container do Último Atualizador (Focado em RH/Escala) */
     .checkpoint-highlight {
       background: linear-gradient(to right, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8));
       border: 1px solid var(--border); border-left: 4px solid var(--cyan); border-radius: 12px;
       padding: 1.5rem 2rem; display: flex; align-items: center; gap: 2rem; margin-bottom: 2.5rem;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
-    .checkpoint-highlight-avatar {
-      position: relative;
-    }
+    .checkpoint-highlight-avatar { position: relative; }
     .checkpoint-highlight-avatar img {
       width: 80px; height: 80px; border-radius: 12px; object-fit: cover; object-position: top;
       border: 2px solid var(--border-glow); background: rgba(0,0,0,0.5);
@@ -163,7 +155,6 @@
     .checkpoint-highlight-details div { display: flex; align-items: center; gap: 0.5rem; }
     .checkpoint-highlight-details i { color: var(--indigo); }
 
-    /* Listas e Documentos */
     .document-list { display: flex; flex-direction: column; gap: 0.75rem; }
     .document-item {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
@@ -175,11 +166,10 @@
     .doc-title { font-weight: 600; color: #fff; margin-bottom: 0.25rem; font-size: 0.95rem; }
     .doc-meta { font-size: 0.8rem; color: var(--text-muted); }
 
-    /* Modais & Forms Modernizados */
     .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
     .modal.active { display: flex; animation: scaleIn 0.2s ease-out; }
     @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-    .modal-content { background: var(--bg-panel); border: 1px solid var(--border); border-top: 4px solid var(--cyan); border-radius: 12px; padding: 2rem; max-width: 600px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+    .modal-content { background: var(--bg-panel); border: 1px solid var(--border); border-top: 4px solid var(--cyan); border-radius: 12px; padding: 2rem; max-width: 600px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
     .modal-title { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 0.75rem; }
     .modal-title i { color: var(--cyan); }
@@ -195,7 +185,6 @@
     .form-textarea { min-height: 120px; resize: vertical; }
     .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1); }
 
-    /* Tabela HR Modern */
     .table-container { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); margin-bottom: 2rem; }
     .table { width: 100%; border-collapse: collapse; }
     .table th, .table td { padding: 1.25rem 1rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
@@ -209,7 +198,6 @@
     .badge-inativo { background: rgba(148, 163, 184, 0.1); color: var(--text-muted); border: 1px solid rgba(148, 163, 184, 0.2); }
     .badge-banido { background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.2); }
 
-    /* Log Details Sidebar Direita (Redesenhada) */
     .log-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 1999; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
     .log-overlay.active { opacity: 1; visibility: visible; }
     .log-sidebar {
@@ -237,7 +225,6 @@
     .log-detail-value { font-size: 0.95rem; color: var(--text); line-height: 1.5; }
     .log-detail-highlight { color: var(--gold); font-weight: 600; font-family: monospace; font-size: 1rem; }
 
-    /* Equipe / Hierarchy Grid */
     .team-section { margin-bottom: 3.5rem; }
     .team-section-title { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text); border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; display: inline-block; }
     .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
@@ -256,7 +243,6 @@
     .functions-list li { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; padding-left: 1.2rem; position: relative; line-height: 1.4; }
     .functions-list li::before { content: '•'; position: absolute; left: 0; color: var(--cyan); }
 
-    /* Utilitários */
     .status-indicator { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 500; }
     .status-dot { width: 8px; height: 8px; border-radius: 50%; }
     .status-online { color: var(--success); } .status-online .status-dot { background: var(--success); box-shadow: 0 0 8px var(--success); }
@@ -264,6 +250,39 @@
     
     .footer { background: var(--bg-panel); border-top: 1px solid var(--border); padding: 2rem; margin-top: auto; text-align: center; }
     .footer-text { font-size: 0.85rem; color: var(--text-muted); font-family: 'Rajdhani', sans-serif; letter-spacing: 0.5px; }
+
+    /* Paginação */
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .pagination button { padding: 0.5rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; color: var(--text); cursor: pointer; transition: all 0.2s; font-size: 0.875rem; }
+    .pagination button:hover:not(:disabled) { background: var(--cyan); color: var(--bg-deep); border-color: var(--cyan); }
+    .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .pagination-info { color: var(--text-muted); font-size: 0.875rem; margin: 0 1rem; }
+
+    /* BBCode Editor */
+    .bbcode-toolbar { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid var(--border); }
+    .bbcode-btn { padding: 6px 12px; background: rgba(99, 102, 241, 0.1); border: 1px solid var(--border); border-radius: 4px; color: var(--text); cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
+    .bbcode-btn:hover { background: var(--indigo); color: #fff; }
+    
+    /* Document Preview */
+    .doc-preview { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-top: 1rem; max-height: 400px; overflow-y: auto; }
+    .doc-preview h1, .doc-preview h2, .doc-preview h3 { color: var(--cyan); margin: 1rem 0 0.5rem; }
+    .doc-preview p { margin-bottom: 1rem; line-height: 1.6; }
+    .doc-preview ul, .doc-preview ol { margin: 1rem 0; padding-left: 2rem; }
+    .doc-preview li { margin-bottom: 0.5rem; }
+    .doc-preview code { background: rgba(99, 102, 241, 0.2); padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+    .doc-preview blockquote { border-left: 3px solid var(--cyan); padding-left: 1rem; margin: 1rem 0; color: var(--text-muted); }
+    .doc-preview img { max-width: 100%; border-radius: 8px; margin: 1rem 0; }
+    .doc-preview table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .doc-preview table th, .doc-preview table td { border: 1px solid var(--border); padding: 0.5rem; }
+    .doc-preview table th { background: rgba(99, 102, 241, 0.1); }
+
+    /* Document View Modal */
+    .doc-view-modal { max-width: 900px; }
+    .doc-view-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border); }
+    .doc-view-title { font-family: 'Rajdhani', sans-serif; font-size: 2rem; color: #fff; margin-bottom: 0.5rem; }
+    .doc-view-meta { display: flex; gap: 1.5rem; color: var(--text-muted); font-size: 0.85rem; }
+    .doc-view-meta div { display: flex; align-items: center; gap: 0.5rem; }
+    .doc-view-content { line-height: 1.8; color: var(--text); }
   </style>
 </head>
 <body>
@@ -277,22 +296,22 @@
     <nav class="sidebar-nav">
       <div class="nav-section">
         <div class="nav-section-title">Gerenciamento</div>
-        <a class="nav-item active" onclick="showSection('dashboard')"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
-        <a class="nav-item" onclick="showSection('checkpoint')"><i class="fas fa-clock"></i><span>Escala / Check-Point</span></a>
-        <a class="nav-item" onclick="showSection('listagem')"><i class="fas fa-sitemap"></i><span>Estrutura RH</span></a>
-        <a class="nav-item" onclick="showSection('documentos')"><i class="fas fa-folder-open"></i><span>Acervo Documental</span></a>
-        <a class="nav-item" onclick="showSection('manuais')"><i class="fas fa-book-open"></i><span>Manuais & Códigos</span></a>
+        <a class="nav-item active" onclick="showSection('dashboard', event)"><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+        <a class="nav-item" onclick="showSection('checkpoint', event)"><i class="fas fa-clock"></i><span>Escala / Check-Point</span></a>
+        <a class="nav-item" onclick="showSection('listagem', event)"><i class="fas fa-sitemap"></i><span>Estrutura RH</span></a>
+        <a class="nav-item" onclick="showSection('documentos', event)"><i class="fas fa-folder-open"></i><span>Acervo Documental</span></a>
+        <a class="nav-item" onclick="showSection('manuais', event)"><i class="fas fa-book-open"></i><span>Manuais & Códigos</span></a>
       </div>
       <div class="nav-section">
         <div class="nav-section-title">Comunicação Oficial</div>
-        <a class="nav-item" onclick="showSection('diario')"><i class="fas fa-newspaper"></i><span>Diário Oficial</span></a>
-        <a class="nav-item" onclick="showSection('atas')"><i class="fas fa-clipboard-list"></i><span>Atas de Reunião</span></a>
-        <a class="nav-item" onclick="showSection('anuncios')"><i class="fas fa-bullhorn"></i><span>Mural de Avisos</span></a>
+        <a class="nav-item" onclick="showSection('diario', event)"><i class="fas fa-newspaper"></i><span>Diário Oficial</span></a>
+        <a class="nav-item" onclick="showSection('atas', event)"><i class="fas fa-clipboard-list"></i><span>Atas de Reunião</span></a>
+        <a class="nav-item" onclick="showSection('anuncios', event)"><i class="fas fa-bullhorn"></i><span>Mural de Avisos</span></a>
       </div>
       <div class="nav-section">
         <div class="nav-section-title">Administração</div>
-        <a class="nav-item" onclick="showSection('backups')"><i class="fas fa-server"></i><span>System Backups</span></a>
-        <a class="nav-item admin-only" onclick="showSection('admin')" id="nav-admin"><i class="fas fa-shield-alt"></i><span>Painel Admin</span></a>
+        <a class="nav-item" onclick="showSection('backups', event)"><i class="fas fa-server"></i><span>System Backups</span></a>
+        <a class="nav-item admin-only" onclick="showSection('admin', event)" id="nav-admin"><i class="fas fa-shield-alt"></i><span>Painel Admin</span></a>
       </div>
     </nav>
     <div class="sidebar-footer">
@@ -310,7 +329,7 @@
   <main class="main-content">
     <div class="top-bar">
       <h1 class="page-title" id="page-title">Dashboard Operacional</h1>
-      <button class="btn btn-primary btn-sm" onclick="openModal()" id="btn-novo" style="display:none;"><i class="fas fa-plus"></i> Novo Registro</button>
+      <button class="btn btn-primary btn-sm" onclick="openDocModal()" id="btn-novo" style="display:none;"><i class="fas fa-plus"></i> Novo Registro</button>
     </div>
 
     <div class="content-area">
@@ -323,8 +342,7 @@
           <div class="checkpoint-highlight-info">
             <div class="role-badge" id="last-updater-role">Cargo</div>
             <h4 id="last-updater-name">Nickname</h4>
-            <div class="checkpoint-highlight-details" id="last-updater-details">
-              </div>
+            <div class="checkpoint-highlight-details" id="last-updater-details"></div>
           </div>
         </div>
 
@@ -393,12 +411,50 @@
         </div>
       </section>
 
-      <section id="section-documentos" class="content-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-folder-open"></i> Acervo Documental</h2></div><div class="document-list" id="docs-list"></div></section>
-      <section id="section-manuais" class="content-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-book-open"></i> Manuais e Códigos</h2></div><div class="document-list" id="manuais-list"></div></section>
-      <section id="section-diario" class="content-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-newspaper"></i> Diário Oficial</h2></div><div class="document-list" id="diario-list"></div></section>
-      <section id="section-atas" class="content-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-clipboard-list"></i> Atas de Reunião</h2></div><div class="document-list" id="atas-list"></div></section>
-      <section id="section-anuncios" class="content-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-bullhorn"></i> Mural de Avisos</h2></div><div class="document-list" id="anuncios-list"></div></section>
-      <section id="section-backups" class="content-section"><div class="section-header"><h2 class="section-title"><i class="fas fa-database"></i> System Backups</h2></div><p style="color: var(--text-muted);">Sincronização em nuvem ativa. Snapshots diários garantidos.</p></section>
+      <section id="section-documentos" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-folder-open"></i> Acervo Documental</h2>
+          <button class="btn btn-primary btn-sm" onclick="openDocModal('Documento')"><i class="fas fa-plus"></i> Novo Documento</button>
+        </div>
+        <div class="document-list" id="docs-list"></div>
+      </section>
+
+      <section id="section-manuais" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-book-open"></i> Manuais e Códigos</h2>
+          <button class="btn btn-primary btn-sm" onclick="openDocModal('Manual')"><i class="fas fa-plus"></i> Novo Manual</button>
+        </div>
+        <div class="document-list" id="manuais-list"></div>
+      </section>
+
+      <section id="section-diario" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-newspaper"></i> Diário Oficial</h2>
+          <button class="btn btn-primary btn-sm" onclick="openDocModal('Diario Oficial')"><i class="fas fa-plus"></i> Nova Publicação</button>
+        </div>
+        <div class="document-list" id="diario-list"></div>
+      </section>
+
+      <section id="section-atas" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Atas de Reunião</h2>
+          <button class="btn btn-primary btn-sm" onclick="openDocModal('Ata')"><i class="fas fa-plus"></i> Nova Ata</button>
+        </div>
+        <div class="document-list" id="atas-list"></div>
+      </section>
+
+      <section id="section-anuncios" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title"><i class="fas fa-bullhorn"></i> Mural de Avisos</h2>
+          <button class="btn btn-primary btn-sm" onclick="openDocModal('Anuncio')"><i class="fas fa-plus"></i> Novo Aviso</button>
+        </div>
+        <div class="document-list" id="anuncios-list"></div>
+      </section>
+
+      <section id="section-backups" class="content-section">
+        <div class="section-header"><h2 class="section-title"><i class="fas fa-database"></i> System Backups</h2></div>
+        <p style="color: var(--text-muted);">Sincronização em nuvem ativa. Snapshots diários garantidos.</p>
+      </section>
     </div>
 
     <footer class="footer">
@@ -415,12 +471,83 @@
       <h3 class="log-sidebar-title"><i class="fas fa-fingerprint"></i> Rastreio de Auditoria</h3>
       <button class="btn-close" onclick="closeLogSidebar()"><i class="fas fa-times"></i></button>
     </div>
-    <div class="log-sidebar-content" id="log-sidebar-content">
-      </div>
+    <div class="log-sidebar-content" id="log-sidebar-content"></div>
   </div>
 
-  <div class="toast-container" id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 4000; display:flex; flex-direction:column; gap:10px;"></div>
+  <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 4000; display:flex; flex-direction:column; gap:10px;"></div>
 
+  <!-- Modal Criar/Editar Documento -->
+  <div class="modal" id="modal-doc">
+    <div class="modal-content" style="max-width: 900px;">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fas fa-file-alt"></i> <span id="doc-modal-title">Novo Documento</span></h3>
+        <button class="btn-close" onclick="closeModal('modal-doc')">&times;</button>
+      </div>
+      <form id="doc-form" onsubmit="saveDocument(event)">
+        <input type="hidden" id="doc-id">
+        <input type="hidden" id="doc-category">
+        
+        <div class="form-group">
+          <label class="form-label">Título do Documento *</label>
+          <input type="text" class="form-input" id="doc-title" placeholder="Ex: Manual de Procedimentos 2026" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Conteúdo (BBCode e HTML suportados) *</label>
+          <div class="bbcode-toolbar">
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('b')"><b>Negrito</b></button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('i')"><i>Itálico</i></button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('u')"><u>Sublinhado</u></button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('s')"><s>Riscado</s></button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('color')">🎨 Cor</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('size')">📏 Tamanho</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('url')">🔗 Link</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('img')">🖼️ Imagem</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('h1')">H1</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('h2')">H2</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('h3')">H3</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('ul')">• Lista</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('ol')">1. Lista Num.</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('quote')">💬 Citação</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('code')">💻 Código</button>
+            <button type="button" class="bbcode-btn" onclick="insertBBCode('table')">📊 Tabela</button>
+            <button type="button" class="bbcode-btn" onclick="previewDocument()"><i class="fas fa-eye"></i> Preview</button>
+          </div>
+          <textarea class="form-textarea" id="doc-content" placeholder="Digite o conteúdo usando BBCode ou HTML..." style="min-height: 300px;" required></textarea>
+        </div>
+
+        <div class="doc-preview" id="doc-preview" style="display: none;"></div>
+
+        <div class="form-group">
+          <label style="display:flex; align-items:center; gap:0.5rem;">
+            <input type="checkbox" id="doc-important">
+            <span class="form-label" style="margin:0;">Marcar como importante/fixo</span>
+          </label>
+        </div>
+
+        <div style="display:flex; gap:1rem;">
+          <button type="submit" class="btn btn-primary" style="flex:1;"><i class="fas fa-save"></i> Salvar Documento</button>
+          <button type="button" class="btn btn-logout" onclick="closeModal('modal-doc')" style="width: auto;">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Visualizar Documento -->
+  <div class="modal" id="modal-view-doc">
+    <div class="modal-content doc-view-modal">
+      <div class="doc-view-header">
+        <div>
+          <h2 class="doc-view-title" id="view-doc-title">Título</h2>
+          <div class="doc-view-meta" id="view-doc-meta"></div>
+        </div>
+        <button class="btn-close" onclick="closeModal('modal-view-doc')"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="doc-view-content" id="view-doc-content"></div>
+    </div>
+  </div>
+
+  <!-- Modal Checkpoint -->
   <div class="modal" id="modal-checkpoint">
     <div class="modal-content">
       <div class="modal-header">
@@ -433,7 +560,7 @@
           <label class="form-label">Militar Designado *</label>
           <input type="text" class="form-input" id="checkpoint-user-search" placeholder="Busque pelo nickname..." autocomplete="off" required>
           <input type="hidden" id="checkpoint-user-id" required>
-          <div class="user-search-results" id="user-search-results" style="display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg-card); border: 1px solid var(--border); z-index: 10;"></div>
+          <div id="user-search-results" style="display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg-card); border: 1px solid var(--border); z-index: 10; border-radius: 8px; margin-top: 5px;"></div>
         </div>
         <div class="form-group">
           <label class="form-label">Dias da Semana *</label>
@@ -464,10 +591,18 @@
             <option value="Madrugada (20:00 - 00:00)">Madrugada (20:00 às 00:00)</option>
           </select>
         </div>
-        <div class="form-group" id="checkpoint-time-group" style="display: none; display: flex; gap: 10px; align-items: center;">
-          <div style="flex:1;"><label class="form-label">Abertura</label><input type="time" class="form-input" id="checkpoint-time-start"></div>
-          <div style="color:var(--text-muted); margin-top:1.5rem;">até</div>
-          <div style="flex:1;"><label class="form-label">Fechamento</label><input type="time" class="form-input" id="checkpoint-time-end"></div>
+        <div class="form-group" id="checkpoint-time-group" style="display: none;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <div style="flex:1;">
+              <label class="form-label">Abertura</label>
+              <input type="time" class="form-input" id="checkpoint-time-start">
+            </div>
+            <div style="color:var(--text-muted); margin-top:1.5rem;">até</div>
+            <div style="flex:1;">
+              <label class="form-label">Fechamento</label>
+              <input type="time" class="form-input" id="checkpoint-time-end">
+            </div>
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label">Diretrizes / Observações</label>
@@ -481,6 +616,7 @@
     </div>
   </div>
 
+  <!-- Modal Editar Usuário -->
   <div class="modal" id="modal-edit-user">
     <div class="modal-content">
       <div class="modal-header">
@@ -489,7 +625,10 @@
       </div>
       <form id="edit-user-form" onsubmit="saveUserEdit(event)">
         <input type="hidden" id="edit-user-id">
-        <div class="form-group"><label class="form-label">Registro (Nick)</label><input type="text" class="form-input" id="edit-user-nick" disabled></div>
+        <div class="form-group">
+          <label class="form-label">Registro (Nick)</label>
+          <input type="text" class="form-input" id="edit-user-nick" disabled>
+        </div>
         <div class="form-group">
           <label class="form-label">Nível Hierárquico (Cargo)</label>
           <select class="form-select" id="edit-user-role" required>
@@ -514,6 +653,7 @@
     </div>
   </div>
 
+  <!-- Modal Confirm -->
   <div class="modal" id="modal-confirm">
     <div class="modal-content" style="max-width: 400px; text-align: center;">
       <h3 class="modal-title" id="confirm-title" style="justify-content: center; margin-bottom: 1rem; color: var(--warning);">Atenção</h3>
@@ -540,20 +680,37 @@
       'Analista': { title: 'Analista', icon: 'fa-user', order: 3, description: 'Suporte operacional e execução técnica.', functions: ['Prestar suporte ao setor', 'Organizar registros e recrutamento'] }
     };
 
-    function getHabboImagerUrl(nickname, size = 'l') { return `https://www.habbo.com.br/habbo-imaging/avatarimage?user=${encodeURIComponent(nickname)}&action=std&direction=2&head_direction=3&gesture=sml&size=${size}`; }
+    function getHabboImagerUrl(nickname, size = 'l') { 
+      return `https://www.habbo.com.br/habbo-imaging/avatarimage?user=${encodeURIComponent(nickname)}&action=std&direction=2&head_direction=3&gesture=sml&size=${size}`; 
+    }
 
     async function getUserIP() {
-      try { const res = await fetch('https://api.ipify.org?format=json'); const data = await res.json(); userIP = data.ip; ipReady = true; return userIP;
-      } catch (e) { userIP = 'indisponível'; ipReady = true; return userIP; }
+      try { 
+        const res = await fetch('https://api.ipify.org?format=json'); 
+        const data = await res.json(); 
+        userIP = data.ip; 
+        ipReady = true; 
+        return userIP;
+      } catch (e) { 
+        userIP = 'indisponível'; 
+        ipReady = true; 
+        return userIP; 
+      }
     }
-    async function waitForIP() { if(ipReady) return userIP; await new Promise(r => setTimeout(r, 500)); return userIP || 'indisponível'; }
+
+    async function waitForIP() { 
+      if(ipReady) return userIP; 
+      await new Promise(r => setTimeout(r, 500)); 
+      return userIP || 'indisponível'; 
+    }
 
     function showToast(message, type = 'info') {
       const container = document.getElementById('toast-container');
       const t = document.createElement('div');
-      t.style = `background: var(--bg-panel); border-left: 4px solid var(--${type}); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); font-size: 0.9rem; font-weight: 500; display:flex; align-items:center; gap:10px; animation: scaleIn 0.3s ease-out;`;
-      t.innerHTML = `<i class="fas fa-info-circle" style="color:var(--${type})"></i> ${message}`;
-      container.appendChild(t); setTimeout(() => t.remove(), 4000);
+      t.style = `background: var(--bg-panel); border-left: 4px solid var(--${type === 'info' ? 'cyan' : type}); padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); font-size: 0.9rem; font-weight: 500; display:flex; align-items:center; gap:10px; animation: scaleIn 0.3s ease-out;`;
+      t.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}" style="color:var(--${type === 'info' ? 'cyan' : type})"></i> ${message}`;
+      container.appendChild(t); 
+      setTimeout(() => t.remove(), 4000);
     }
 
     function customConfirm(message, title = 'Atenção') {
@@ -562,9 +719,122 @@
         document.getElementById('confirm-message').textContent = message;
         document.getElementById('modal-confirm').classList.add('active');
         const yesBtn = document.getElementById('confirm-yes');
-        const newYes = yesBtn.cloneNode(true); yesBtn.parentNode.replaceChild(newYes, yesBtn);
-        newYes.addEventListener('click', () => { closeModal('modal-confirm'); resolve(true); });
+        const newYes = yesBtn.cloneNode(true); 
+        yesBtn.parentNode.replaceChild(newYes, yesBtn);
+        newYes.addEventListener('click', () => { 
+          closeModal('modal-confirm'); 
+          resolve(true); 
+        });
       });
+    }
+
+    // BBCode Parser Completo
+    function parseBBCode(text) {
+      if (!text) return '';
+      
+      let html = text;
+      
+      // Escapar HTML primeiro (exceto tags BBCode)
+      html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      
+      // Títulos
+      html = html.replace(/\[h1\](.*?)\[\/h1\]/gi, '<h1>$1</h1>');
+      html = html.replace(/\[h2\](.*?)\[\/h2\]/gi, '<h2>$1</h2>');
+      html = html.replace(/\[h3\](.*?)\[\/h3\]/gi, '<h3>$1</h3>');
+      
+      // Formatação básica
+      html = html.replace(/\[b\](.*?)\[\/b\]/gi, '<strong>$1</strong>');
+      html = html.replace(/\[i\](.*?)\[\/i\]/gi, '<em>$1</em>');
+      html = html.replace(/\[u\](.*?)\[\/u\]/gi, '<u>$1</u>');
+      html = html.replace(/\[s\](.*?)\[\/s\]/gi, '<s>$1</s>');
+      
+      // Cores e tamanhos
+      html = html.replace(/\[color=(.*?)\](.*?)\[\/color\]/gi, '<span style="color:$1;">$2</span>');
+      html = html.replace(/\[size=(.*?)\](.*?)\[\/size\]/gi, '<span style="font-size:$1;">$2</span>');
+      
+      // Links e imagens
+      html = html.replace(/\[url=(.*?)\](.*?)\[\/url\]/gi, '<a href="$1" target="_blank" style="color:var(--cyan);">$2</a>');
+      html = html.replace(/\[img\](.*?)\[\/img\]/gi, '<img src="$1" alt="Imagem">');
+      
+      // Listas
+      html = html.replace(/\[ul\](.*?)\[\/ul\]/gis, '<ul>$1</ul>');
+      html = html.replace(/\[ol\](.*?)\[\/ol\]/gis, '<ol>$1</ol>');
+      html = html.replace(/\[li\](.*?)\[\/li\]/gi, '<li>$1</li>');
+      
+      // Citações e código
+      html = html.replace(/\[quote\](.*?)\[\/quote\]/gis, '<blockquote>$1</blockquote>');
+      html = html.replace(/\[code\](.*?)\[\/code\]/gis, '<code>$1</code>');
+      
+      // Tabelas
+      html = html.replace(/\[table\](.*?)\[\/table\]/gis, '<table>$1</table>');
+      html = html.replace(/\[tr\](.*?)\[\/tr\]/gis, '<tr>$1</tr>');
+      html = html.replace(/\[th\](.*?)\[\/th\]/gis, '<th>$1</th>');
+      html = html.replace(/\[td\](.*?)\[\/td\]/gis, '<td>$1</td>');
+      
+      // Quebras de linha
+      html = html.replace(/\n/g, '<br>');
+      
+      return html;
+    }
+
+    function insertBBCode(tag) {
+      const textarea = document.getElementById('doc-content');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = textarea.value.substring(start, end);
+      
+      let insertText = '';
+      
+      switch(tag) {
+        case 'b': insertText = `[b]${selectedText || 'Texto em negrito'}[/b]`; break;
+        case 'i': insertText = `[i]${selectedText || 'Texto em itálico'}[/i]`; break;
+        case 'u': insertText = `[u]${selectedText || 'Texto sublinhado'}[/u]`; break;
+        case 's': insertText = `[s]${selectedText || 'Texto riscado'}[/s]`; break;
+        case 'color': 
+          const color = prompt('Digite a cor (ex: #ff0000, red, rgb(255,0,0)):', '#06b6d4');
+          if (color) insertText = `[color=${color}]${selectedText || 'Texto colorido'}[/color]`;
+          break;
+        case 'size':
+          const size = prompt('Digite o tamanho (ex: 16px, 1.5em, large):', '18px');
+          if (size) insertText = `[size=${size}]${selectedText || 'Texto com tamanho'}[/size]`;
+          break;
+        case 'url':
+          const url = prompt('Digite a URL:', 'https://');
+          if (url) insertText = `[url=${url}]${selectedText || 'Clique aqui'}[/url]`;
+          break;
+        case 'img':
+          const imgUrl = prompt('Digite a URL da imagem:', 'https://');
+          if (imgUrl) insertText = `[img]${imgUrl}[/img]`;
+          break;
+        case 'h1': insertText = `[h1]${selectedText || 'Título Principal'}[/h1]`; break;
+        case 'h2': insertText = `[h2]${selectedText || 'Subtítulo'}[/h2]`; break;
+        case 'h3': insertText = `[h3]${selectedText || 'Seção'}[/h3]`; break;
+        case 'ul': insertText = `[ul]\n[li]Item 1[/li]\n[li]Item 2[/li]\n[li]Item 3[/li]\n[/ul]`; break;
+        case 'ol': insertText = `[ol]\n[li]Primeiro item[/li]\n[li]Segundo item[/li]\n[li]Terceiro item[/li]\n[/ol]`; break;
+        case 'quote': insertText = `[quote]${selectedText || 'Citação ou texto destacado'}[/quote]`; break;
+        case 'code': insertText = `[code]${selectedText || 'código_aqui'}[/code]`; break;
+        case 'table':
+          insertText = `[table]\n[tr][th]Coluna 1[/th][th]Coluna 2[/th][th]Coluna 3[/th][/tr]\n[tr][td]Dado 1[/td][td]Dado 2[/td][td]Dado 3[/td][/tr]\n[tr][td]Dado 4[/td][td]Dado 5[/td][td]Dado 6[/td][/tr]\n[/table]`;
+          break;
+      }
+      
+      if (insertText) {
+        textarea.value = textarea.value.substring(0, start) + insertText + textarea.value.substring(end);
+        textarea.focus();
+        textarea.selectionStart = textarea.selectionEnd = start + insertText.length;
+      }
+    }
+
+    function previewDocument() {
+      const content = document.getElementById('doc-content').value;
+      const preview = document.getElementById('doc-preview');
+      
+      if (content) {
+        preview.innerHTML = parseBBCode(content);
+        preview.style.display = 'block';
+      } else {
+        preview.style.display = 'none';
+      }
     }
 
     // Inicialização
@@ -574,16 +844,24 @@
       currentUser = session.user;
       const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
       if (!profile) { await sb.auth.signOut(); return window.location.href = 'auth/login.html'; }
-      userProfile = profile; await getUserIP();
+      userProfile = profile; 
+      await getUserIP();
       
       document.getElementById('user-name').textContent = profile.habbo_nick;
       document.getElementById('user-role').textContent = profile.role;
       document.getElementById('user-avatar').innerHTML = `<img src="${getHabboImagerUrl(profile.habbo_nick, 's')}" style="width:100%;height:100%;border-radius:8px;object-fit:cover;object-position:top;background:#000;">`;
       
-      if (['Administrador', 'Diretoria'].includes(profile.role)) document.getElementById('nav-admin').style.display = 'flex';
-      if (['Diretoria', 'Coordenação'].includes(profile.role)) document.getElementById('btn-create-schedule').style.display = 'inline-flex';
+      if (['Administrador', 'Diretoria'].includes(profile.role)) {
+        document.getElementById('nav-admin').style.display = 'flex';
+        document.getElementById('btn-novo').style.display = 'inline-flex';
+      }
+      if (['Diretoria', 'Coordenação'].includes(profile.role)) {
+        document.getElementById('btn-create-schedule').style.display = 'inline-flex';
+      }
       
-      loadStats(); loadDocuments(); loadLastUpdater();
+      loadStats(); 
+      loadDocuments(); 
+      loadLastUpdater();
     })();
 
     async function loadStats() {
@@ -597,7 +875,6 @@
       }
     }
 
-    // CORREÇÃO 1: Última Atualização do Dashboard -> Puxa a última Escala/Checkpoint.
     async function loadLastUpdater() {
       const { data: schedules } = await sb.from('checkpoint_schedules').select('*').order('updated_at', { ascending: false }).limit(1);
       
@@ -613,8 +890,6 @@
           document.getElementById('last-updater-avatar').src = getHabboImagerUrl(profile.habbo_nick, 'l');
           document.getElementById('last-updater-name').textContent = profile.habbo_nick;
           document.getElementById('last-updater-role').textContent = profile.role;
-          
-          // Infos para a grid de highlights
           document.getElementById('last-schedule-title').textContent = profile.habbo_nick;
           
           document.getElementById('last-updater-details').innerHTML = `
@@ -625,18 +900,157 @@
       }
     }
 
-    // CORREÇÃO 3: Extrair o alvo (target) nos Logs + Sidebar Direita Rica.
+    async function loadDocuments(category = null) {
+      let query = sb.from('contents').select('*').order('created_at', { ascending: false });
+      
+      if (category) {
+        query = query.eq('category', category);
+      }
+      
+      const { data: docs } = await query.limit(10);
+      
+      const containers = {
+        'Documento': 'docs-list',
+        'Manual': 'manuais-list',
+        'Diario Oficial': 'diario-list',
+        'Ata': 'atas-list',
+        'Anuncio': 'anuncios-list'
+      };
+      
+      if (category && containers[category]) {
+        const container = document.getElementById(containers[category]);
+        if (!docs || docs.length === 0) {
+          container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Nenhum documento encontrado.</p>';
+          return;
+        }
+        
+        container.innerHTML = docs.map(doc => `
+          <div class="document-item" onclick="viewDocument('${doc.id}')">
+            <div class="doc-icon"><i class="fas fa-file-alt"></i></div>
+            <div class="doc-info">
+              <div class="doc-title">${doc.title}</div>
+              <div class="doc-meta">Criado em ${new Date(doc.created_at).toLocaleDateString('pt-BR')}</div>
+            </div>
+            ${doc.is_pinned ? '<span class="badge badge-pendente">Importante</span>' : ''}
+          </div>
+        `).join('');
+      } else {
+        // Dashboard - últimos 5 documentos
+        const container = document.getElementById('recent-docs');
+        if (!docs || docs.length === 0) {
+          container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Nenhum documento encontrado.</p>';
+          return;
+        }
+        
+        container.innerHTML = docs.slice(0, 5).map(doc => `
+          <div class="document-item" onclick="viewDocument('${doc.id}')">
+            <div class="doc-icon"><i class="fas fa-file-alt"></i></div>
+            <div class="doc-info">
+              <div class="doc-title">${doc.title}</div>
+              <div class="doc-meta">${doc.category} • ${new Date(doc.created_at).toLocaleDateString('pt-BR')}</div>
+            </div>
+            ${doc.is_pinned ? '<span class="badge badge-pendente">Importante</span>' : ''}
+          </div>
+        `).join('');
+      }
+    }
+
+    async function viewDocument(id) {
+      const { data: doc } = await sb.from('contents').select('*').eq('id', id).single();
+      
+      if (doc) {
+        document.getElementById('view-doc-title').textContent = doc.title;
+        document.getElementById('view-doc-meta').innerHTML = `
+          <div><i class="fas fa-folder"></i> ${doc.category}</div>
+          <div><i class="fas fa-calendar"></i> ${new Date(doc.created_at).toLocaleDateString('pt-BR')}</div>
+          ${doc.is_pinned ? '<div style="color:var(--gold);"><i class="fas fa-star"></i> Importante</div>' : ''}
+        `;
+        document.getElementById('view-doc-content').innerHTML = parseBBCode(doc.content_bbcode);
+        document.getElementById('modal-view-doc').classList.add('active');
+      }
+    }
+
+    function openDocModal(category = null) {
+      document.getElementById('doc-form').reset();
+      document.getElementById('doc-id').value = '';
+      document.getElementById('doc-category').value = category || 'Documento';
+      document.getElementById('doc-modal-title').textContent = `Novo ${category || 'Documento'}`;
+      document.getElementById('doc-preview').style.display = 'none';
+      document.getElementById('modal-doc').classList.add('active');
+    }
+
+    async function saveDocument(e) {
+      e.preventDefault();
+      
+      const id = document.getElementById('doc-id').value;
+      const title = document.getElementById('doc-title').value;
+      const content = document.getElementById('doc-content').value;
+      const category = document.getElementById('doc-category').value;
+      const isImportant = document.getElementById('doc-important').checked;
+      
+      const data = {
+        title,
+        category,
+        content_bbcode: content,
+        author_id: currentUser.id,
+        is_pinned: isImportant,
+        updated_at: new Date().toISOString()
+      };
+      
+      const ip = await waitForIP();
+      
+      if (id) {
+        await sb.from('contents').update(data).eq('id', id);
+        await sb.from('system_logs').insert({
+          user_id: currentUser.id,
+          action: 'EDITAR_DOCUMENTO',
+          details: `Editou documento: ${title}`,
+          ip_address: ip
+        });
+        showToast('Documento atualizado com sucesso.', 'success');
+      } else {
+        data.created_at = new Date().toISOString();
+        await sb.from('contents').insert([data]);
+        await sb.from('system_logs').insert({
+          user_id: currentUser.id,
+          action: 'CRIAR_DOCUMENTO',
+          details: `Criou documento: ${title}`,
+          ip_address: ip
+        });
+        showToast('Documento criado com sucesso.', 'success');
+      }
+      
+      closeModal('modal-doc');
+      loadDocuments(category);
+      loadDocuments(); // Atualizar dashboard também
+      loadStats();
+    }
+
     async function loadLogs() {
-      const { data: logs } = await sb.from('system_logs').select('*, profiles(habbo_nick)').order('created_at', { ascending: false }).limit(30);
+      const { count: totalLogs } = await sb.from('system_logs').select('*', { count: 'exact', head: true });
+      const totalPages = Math.ceil(totalLogs / LOGS_PER_PAGE);
+      const from = (logsCurrentPage - 1) * LOGS_PER_PAGE;
+      const to = from + LOGS_PER_PAGE - 1;
+      
+      const { data: logs } = await sb.from('system_logs')
+        .select('*, profiles(habbo_nick)')
+        .order('created_at', { ascending: false })
+        .range(from, to);
+      
       const container = document.getElementById('system-logs');
+      
+      if (!logs || logs.length === 0) {
+        container.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhum log registrado</td></tr>';
+        document.getElementById('logs-pagination').innerHTML = '';
+        return;
+      }
       
       container.innerHTML = logs.map(log => {
         const autor = log.profiles ? log.profiles.habbo_nick : 'Sistema';
         
-        // Identificar o ALVO através de regex na string de details salva nas funções
         let actionDisplay = `<span style="font-weight:600; color:var(--text);">${log.action}</span>`;
         let target = '';
-        const match = log.details.match(/(?:usuário|cronograma para|solicitação de)\s*:?\s*([A-Za-z0-9_=-]+)/i);
+        const match = log.details.match(/(?:usuário|cronograma para|solicitação de|documento)\s*:?\s*([A-Za-z0-9_=-]+)/i);
         if (match) {
           target = match[1].trim();
           actionDisplay += ` <i class="fas fa-caret-right" style="color:var(--border); margin:0 5px;"></i> <span style="color:var(--cyan); font-weight:700;">${target}</span>`;
@@ -651,6 +1065,36 @@
           </tr>
         `;
       }).join('');
+      
+      renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages) {
+      const paginationContainer = document.getElementById('logs-pagination');
+      
+      if (totalPages <= 1) {
+        paginationContainer.innerHTML = '';
+        return;
+      }
+      
+      let paginationHTML = '';
+      
+      paginationHTML += `<button ${logsCurrentPage === 1 ? 'disabled' : ''} onclick="changeLogPage(${logsCurrentPage - 1})">
+        <i class="fas fa-chevron-left"></i> Anterior
+      </button>`;
+      
+      paginationHTML += `<span class="pagination-info">Página ${logsCurrentPage} de ${totalPages}</span>`;
+      
+      paginationHTML += `<button ${logsCurrentPage === totalPages ? 'disabled' : ''} onclick="changeLogPage(${logsCurrentPage + 1})">
+        Próximo <i class="fas fa-chevron-right"></i>
+      </button>`;
+      
+      paginationContainer.innerHTML = paginationHTML;
+    }
+
+    function changeLogPage(page) {
+      logsCurrentPage = page;
+      loadLogs();
     }
 
     function openLogSidebar(log, autor, target) {
@@ -689,14 +1133,16 @@
       document.getElementById('log-sidebar').classList.add('active');
       document.getElementById('log-overlay').classList.add('active');
     }
-    function closeLogSidebar() { document.getElementById('log-sidebar').classList.remove('active'); document.getElementById('log-overlay').classList.remove('active'); }
 
-    // CORREÇÃO 2 & Edição de usuários
+    function closeLogSidebar() { 
+      document.getElementById('log-sidebar').classList.remove('active'); 
+      document.getElementById('log-overlay').classList.remove('active'); 
+    }
+
     function editUser(userId) {
       sb.from('profiles').select('*').eq('id', userId).single().then(({ data }) => {
         document.getElementById('edit-user-id').value = data.id;
         document.getElementById('edit-user-nick').value = data.habbo_nick;
-        // Se a base tem um cargo "Membro" antigo salvo, resetamos para Analista na tela para evitar vazio, ou adicionamos dinamicamente se necessário. O formulário não permite salvar como Membro.
         let roleVal = ['Analista','Coordenação','Diretoria','Administrador'].includes(data.role) ? data.role : 'Analista';
         document.getElementById('edit-user-role').value = roleVal;
         document.getElementById('edit-user-status').value = data.status;
@@ -707,29 +1153,30 @@
     async function saveUserEdit(e) {
       e.preventDefault();
       const id = document.getElementById('edit-user-id').value;
-      const nick = document.getElementById('edit-user-nick').value; // Usado para referenciar no log
+      const nick = document.getElementById('edit-user-nick').value;
       const role = document.getElementById('edit-user-role').value;
       const status = document.getElementById('edit-user-status').value;
 
       await sb.from('profiles').update({ role, status, updated_at: new Date().toISOString() }).eq('id', id);
       
       const ip = await waitForIP();
-      // String formatada para o log identificar o alvo via Regex
       await sb.from('system_logs').insert({
-        user_id: currentUser.id, action: 'EDITAR_USUARIO',
+        user_id: currentUser.id, 
+        action: 'EDITAR_USUARIO',
         details: `Editou o usuário: ${nick} | Novo Cargo: ${role} | Status: ${status}`,
         ip_address: ip
       });
 
       showToast('Credenciais atualizadas com sucesso.', 'success');
-      closeModal('modal-edit-user'); loadAdminData(); loadListagem();
+      closeModal('modal-edit-user'); 
+      loadAdminData(); 
+      loadListagem();
     }
 
-    // Criação e edição do Cronograma (Check-point)
     async function saveCheckpoint(e) {
       e.preventDefault();
       const userId = document.getElementById('checkpoint-user-id').value;
-      const nick = document.getElementById('checkpoint-user-search').value; // Para o log
+      const nick = document.getElementById('checkpoint-user-search').value;
       if (!userId) return showToast('Selecione um militar válido.', 'error');
       
       const days = Array.from(document.querySelectorAll('input[name="checkpoint-days"]:checked')).map(cb => cb.value);
@@ -737,42 +1184,96 @@
 
       const sType = document.getElementById('checkpoint-schedule-type').value;
       const data = {
-        user_id: userId, days: JSON.stringify(days), schedule_type: sType,
+        user_id: userId, 
+        days: JSON.stringify(days), 
+        schedule_type: sType,
         observations: document.getElementById('checkpoint-observations').value,
-        updated_at: new Date().toISOString() // Garantindo o updated_at para ordenar depois
+        updated_at: new Date().toISOString()
       };
 
       if (sType === 'turno') data.turno = document.getElementById('checkpoint-turno').value;
-      else { data.time_start = document.getElementById('checkpoint-time-start').value; data.time_end = document.getElementById('checkpoint-time-end').value; }
+      else { 
+        data.time_start = document.getElementById('checkpoint-time-start').value; 
+        data.time_end = document.getElementById('checkpoint-time-end').value; 
+      }
 
       const cpId = document.getElementById('checkpoint-id').value;
       const ip = await waitForIP();
 
       if (cpId) {
         await sb.from('checkpoint_schedules').update(data).eq('id', cpId);
-        await sb.from('system_logs').insert({ user_id: currentUser.id, action: 'ATUALIZACAO_CHECKPOINT', details: `Atualizou cronograma para: ${nick}`, ip_address: ip });
+        await sb.from('system_logs').insert({ 
+          user_id: currentUser.id, 
+          action: 'ATUALIZACAO_CHECKPOINT', 
+          details: `Atualizou cronograma para: ${nick}`, 
+          ip_address: ip 
+        });
       } else {
         data.created_at = new Date().toISOString();
         await sb.from('checkpoint_schedules').insert([data]);
-        await sb.from('system_logs').insert({ user_id: currentUser.id, action: 'CRIAR_CHECKPOINT', details: `Criou cronograma para: ${nick}`, ip_address: ip });
+        await sb.from('system_logs').insert({ 
+          user_id: currentUser.id, 
+          action: 'CRIAR_CHECKPOINT', 
+          details: `Criou cronograma para: ${nick}`, 
+          ip_address: ip 
+        });
       }
 
       showToast('Escala operacional registrada.', 'success');
-      closeModal('modal-checkpoint'); loadCheckpoint(); loadLastUpdater();
+      closeModal('modal-checkpoint'); 
+      loadCheckpoint(); 
+      loadLastUpdater();
     }
 
-    /* Outras Listagens (Preservadas da Lógica Base) */
+    async function editCheckpoint(id) {
+      const { data: schedule } = await sb.from('checkpoint_schedules').select('*').eq('id', id).single();
+      
+      if (schedule) {
+        const { data: user } = await sb.from('profiles').select('habbo_nick').eq('id', schedule.user_id).single();
+        
+        document.getElementById('checkpoint-modal-title').textContent = 'Editar Escala';
+        document.getElementById('checkpoint-id').value = schedule.id;
+        document.getElementById('checkpoint-user-id').value = schedule.user_id;
+        document.getElementById('checkpoint-user-search').value = user ? user.habbo_nick : '';
+        
+        const days = schedule.days ? JSON.parse(schedule.days) : [];
+        document.querySelectorAll('input[name="checkpoint-days"]').forEach(cb => {
+          cb.checked = days.includes(cb.value);
+        });
+        
+        document.getElementById('checkpoint-schedule-type').value = schedule.schedule_type;
+        toggleScheduleType();
+        
+        if (schedule.schedule_type === 'turno') {
+          document.getElementById('checkpoint-turno').value = schedule.turno;
+        } else {
+          document.getElementById('checkpoint-time-start').value = schedule.time_start;
+          document.getElementById('checkpoint-time-end').value = schedule.time_end;
+        }
+        
+        document.getElementById('checkpoint-observations').value = schedule.observations || '';
+        
+        document.getElementById('modal-checkpoint').classList.add('active');
+      }
+    }
+
     async function loadListagem() {
       const { data: m } = await sb.from('profiles').select('*').eq('status', 'ativo').order('habbo_nick');
       const container = document.getElementById('team-container');
-      if (!m || !m.length) return container.innerHTML = '<p>Nenhum registro ativo.</p>';
+      if (!m || !m.length) return container.innerHTML = '<p style="color:var(--text-muted);">Nenhum registro ativo.</p>';
       
       const g = {};
-      m.forEach(x => { if (x.role !== 'Administrador' && x.role !== 'Membro') { g[x.role] = g[x.role] || []; g[x.role].push(x); } });
+      m.forEach(x => { 
+        if (x.role !== 'Administrador' && x.role !== 'Membro') { 
+          g[x.role] = g[x.role] || []; 
+          g[x.role].push(x); 
+        } 
+      });
 
       let html = '';
       Object.keys(hierarchy).sort((a, b) => hierarchy[a].order - hierarchy[b].order).forEach(r => {
-        const info = hierarchy[r]; const members = g[r] || [];
+        const info = hierarchy[r]; 
+        const members = g[r] || [];
         if(members.length > 0) {
           html += `<div class="team-section"><h2 class="team-section-title"><i class="fas ${info.icon}" style="margin-right:10px; color:var(--cyan);"></i>${info.title}</h2><div class="team-grid">`;
           members.forEach(mbr => {
@@ -790,14 +1291,32 @@
           html += `</div></div>`;
         }
       });
-      container.innerHTML = html;
+      container.innerHTML = html || '<p style="color:var(--text-muted);">Nenhum membro encontrado na hierarquia.</p>';
     }
 
     async function loadAdminData() {
-      // Simplificado visualmente, carrega usuarios para painel e invoca a tabela
+      const { data: pending } = await sb.from('profiles').select('*').eq('status', 'pendente').order('created_at', { ascending: false });
+      
+      const pendingContainer = document.getElementById('pending-users');
+      if (pending && pending.length > 0) {
+        pendingContainer.innerHTML = pending.map(u => `
+          <tr>
+            <td><strong>${u.habbo_nick}</strong></td>
+            <td>${new Date(u.created_at).toLocaleString('pt-BR')}</td>
+            <td><span class="badge badge-pendente">Pendente</span></td>
+            <td>
+              <button class="btn btn-success btn-sm" onclick="approveUser('${u.id}', '${u.habbo_nick}')"><i class="fas fa-check"></i> Aprovar</button>
+              <button class="btn btn-danger btn-sm" onclick="rejectUser('${u.id}', '${u.habbo_nick}')"><i class="fas fa-times"></i> Rejeitar</button>
+            </td>
+          </tr>
+        `).join('');
+      } else {
+        pendingContainer.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhuma solicitação pendente</td></tr>';
+      }
+      
       const { data: u } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
       document.getElementById('all-users').innerHTML = u.map(usr => {
-        const stClass = usr.status === 'ativo' ? 'badge-ativo' : usr.status === 'banido' ? 'badge-banido' : 'badge-pendente';
+        const stClass = usr.status === 'ativo' ? 'badge-ativo' : usr.status === 'banido' ? 'badge-banido' : usr.status === 'pendente' ? 'badge-pendente' : 'badge-inativo';
         return `
           <tr>
             <td><strong>${usr.habbo_nick}</strong></td>
@@ -809,75 +1328,197 @@
           </tr>
         `;
       }).join('');
+      
       loadLogs();
     }
 
-    function showSection(section) {
+    async function approveUser(userId, nick) {
+      const confirmed = await customConfirm(`Aprovar acesso de ${nick}?`);
+      if (!confirmed) return;
+      
+      await sb.from('profiles').update({ status: 'ativo', first_login: true, updated_at: new Date().toISOString() }).eq('id', userId);
+      
+      const ip = await waitForIP();
+      await sb.from('system_logs').insert({
+        user_id: currentUser.id,
+        action: 'APROVAR_USUARIO',
+        details: `Aprovou usuário: ${nick}`,
+        ip_address: ip
+      });
+      
+      showToast(`Usuário ${nick} aprovado com sucesso!`, 'success');
+      loadAdminData();
+      loadStats();
+    }
+
+    async function rejectUser(userId, nick) {
+      const confirmed = await customConfirm(`Rejeitar solicitação de ${nick}?`);
+      if (!confirmed) return;
+      
+      await sb.from('profiles').delete().eq('id', userId);
+      
+      const ip = await waitForIP();
+      await sb.from('system_logs').insert({
+        user_id: currentUser.id,
+        action: 'REJEITAR_USUARIO',
+        details: `Rejeitou solicitação de: ${nick}`,
+        ip_address: ip
+      });
+      
+      showToast('Solicitação rejeitada.', 'success');
+      loadAdminData();
+      loadStats();
+    }
+
+    function showSection(section, event) {
       document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       document.getElementById('section-' + section).classList.add('active');
-      event.currentTarget.classList.add('active');
-      const titles = {'dashboard': 'Dashboard Operacional', 'checkpoint': 'Escala e Check-Point', 'listagem': 'Estrutura Organizacional', 'admin': 'Painel Administrativo'};
+      if (event && event.currentTarget) event.currentTarget.classList.add('active');
+      
+      const titles = {
+        'dashboard': 'Dashboard Operacional', 
+        'checkpoint': 'Escala e Check-Point', 
+        'listagem': 'Estrutura Organizacional', 
+        'admin': 'Painel Administrativo',
+        'documentos': 'Acervo Documental',
+        'manuais': 'Manuais e Códigos',
+        'diario': 'Diário Oficial',
+        'atas': 'Atas de Reunião',
+        'anuncios': 'Mural de Avisos'
+      };
       document.getElementById('page-title').textContent = titles[section] || 'Área de Trabalho';
+      
       if(section === 'admin') loadAdminData();
       if(section === 'listagem') loadListagem();
-      if(section === 'checkpoint') loadCheckpoint(); // A função de load checkpoint mantida da original...
+      if(section === 'checkpoint') loadCheckpoint();
+      if(section === 'documentos') loadDocuments('Documento');
+      if(section === 'manuais') loadDocuments('Manual');
+      if(section === 'diario') loadDocuments('Diario Oficial');
+      if(section === 'atas') loadDocuments('Ata');
+      if(section === 'anuncios') loadDocuments('Anuncio');
     }
 
-    // Buscador de Nick Simplificado (Para o forms de cronograma)
     document.getElementById('checkpoint-user-search')?.addEventListener('input', async function(e) {
-      const q = e.target.value.trim(); const res = document.getElementById('user-search-results');
+      const q = e.target.value.trim(); 
+      const res = document.getElementById('user-search-results');
       if (q.length < 2) return res.style.display = 'none';
-      const { data: users } = await sb.from('profiles').select('id, habbo_nick, role').ilike('habbo_nick', `%${q}%`).eq('status', 'ativo').limit(5);
-      if (users && users.length) {
-        res.innerHTML = users.map(u => `<div style="padding: 10px; cursor: pointer; border-bottom: 1px solid var(--border);" onclick="selectUser('${u.id}', '${u.habbo_nick}')"><strong>${u.habbo_nick}</strong> <span style="font-size:0.75rem; color:var(--cyan);">(${u.role})</span></div>`).join('');
-        res.style.display = 'block';
-      } else res.style.display = 'none';
-    });
-
-    function selectUser(id, nick) { document.getElementById('checkpoint-user-id').value = id; document.getElementById('checkpoint-user-search').value = nick; document.getElementById('user-search-results').style.display = 'none'; }
-    function toggleScheduleType() { const t = document.getElementById('checkpoint-schedule-type').value; document.getElementById('checkpoint-turno-group').style.display = t === 'turno' ? 'block' : 'none'; document.getElementById('checkpoint-time-group').style.display = t === 'especifico' ? 'flex' : 'none'; }
-    function openCheckpointModal() { document.getElementById('checkpoint-form').reset(); document.getElementById('checkpoint-id').value = ''; document.getElementById('modal-checkpoint').classList.add('active'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-    async function logout() { await sb.auth.signOut(); window.location.href = 'auth/login.html'; }
-
-    // Dummies preservados da lógica original que você usa na sua aplicação:
-    async function loadDocuments() {}
-    async function loadCheckpoint() {
-      /* Sua lógica preservada aqui - Mas a parte de exibição visual foi conectada ao DB corretamente */
-      const container = document.getElementById('checkpoint-container');
-      const { data: schedules } = await sb.from('checkpoint_schedules').select('*').order('created_at', { ascending: false });
-      if(!schedules || schedules.length === 0) { container.innerHTML = '<p style="color:var(--text-muted); padding:2rem;">Sem cronogramas ativos.</p>'; return; }
       
-      const { data: profiles } = await sb.from('profiles').select('id, habbo_nick, role').in('id', schedules.map(s=>s.user_id));
-      const userMap = {}; profiles.forEach(p => userMap[p.id] = p);
-
-      container.innerHTML = schedules.map(s => {
-        const u = userMap[s.user_id]; if(!u) return '';
-        const d = s.days ? JSON.parse(s.days) : [];
-        const t = s.schedule_type === 'turno' ? s.turno : `${s.time_start} às ${s.time_end}`;
-        return `<div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:1.5rem; margin-bottom:1rem; display:flex; align-items:center; gap:1.5rem;">
-          <img src="${getHabboImagerUrl(u.habbo_nick,'m')}" style="border-radius:8px; background:rgba(0,0,0,0.5);">
-          <div style="flex:1;">
-            <h4 style="color:#fff; font-size:1.1rem; margin-bottom:0.25rem;">${u.habbo_nick}</h4>
-            <div style="color:var(--cyan); font-size:0.8rem; margin-bottom:0.75rem; text-transform:uppercase; font-weight:700;">${u.role}</div>
-            <div style="display:flex; gap:15px; color:var(--text-muted); font-size:0.85rem;">
-              <div><i class="fas fa-calendar-alt"></i> ${d.join(', ')}</div>
-              <div><i class="fas fa-clock"></i> ${t}</div>
+      const { data: users } = await sb.from('profiles').select('id, habbo_nick, role').ilike('habbo_nick', `%${q}%`).eq('status', 'ativo').limit(5);
+      
+      if (users && users.length) {
+        res.innerHTML = users.map(u => `
+          <div style="padding: 10px; cursor: pointer; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;" 
+               onclick="selectUser('${u.id}', '${u.habbo_nick}')">
+            <img src="${getHabboImagerUrl(u.habbo_nick, 's')}" style="width: 30px; height: 30px; border-radius: 4px;">
+            <div>
+              <strong>${u.habbo_nick}</strong> 
+              <span style="font-size:0.75rem; color:var(--cyan);">(${u.role})</span>
             </div>
           </div>
-          <div>
-            <button class="btn btn-warning btn-sm" onclick="editCheckpoint('${s.id}')"><i class="fas fa-edit"></i></button>
-            <button class="btn btn-danger btn-sm" onclick="deleteCheckpoint('${s.id}')"><i class="fas fa-trash"></i></button>
+        `).join('');
+        res.style.display = 'block';
+      } else {
+        res.style.display = 'none';
+      }
+    });
+
+    function selectUser(id, nick) { 
+      document.getElementById('checkpoint-user-id').value = id; 
+      document.getElementById('checkpoint-user-search').value = nick; 
+      document.getElementById('user-search-results').style.display = 'none'; 
+    }
+
+    function toggleScheduleType() { 
+      const t = document.getElementById('checkpoint-schedule-type').value; 
+      document.getElementById('checkpoint-turno-group').style.display = t === 'turno' ? 'block' : 'none'; 
+      document.getElementById('checkpoint-time-group').style.display = t === 'especifico' ? 'block' : 'none'; 
+    }
+
+    function openCheckpointModal() { 
+      document.getElementById('checkpoint-form').reset(); 
+      document.getElementById('checkpoint-id').value = ''; 
+      document.getElementById('checkpoint-modal-title').textContent = 'Definir Escala';
+      document.getElementById('modal-checkpoint').classList.add('active'); 
+    }
+
+    async function loadCheckpoint() {
+      const container = document.getElementById('checkpoint-container');
+      const { data: schedules } = await sb.from('checkpoint_schedules').select('*').order('created_at', { ascending: false });
+      
+      if(!schedules || schedules.length === 0) { 
+        container.innerHTML = '<p style="color:var(--text-muted); padding:2rem; text-align:center;">Sem cronogramas ativos.</p>'; 
+        return; 
+      }
+      
+      const { data: profiles } = await sb.from('profiles').select('id, habbo_nick, role').in('id', schedules.map(s=>s.user_id));
+      const userMap = {}; 
+      profiles.forEach(p => userMap[p.id] = p);
+
+      container.innerHTML = schedules.map(s => {
+        const u = userMap[s.user_id]; 
+        if(!u) return '';
+        const d = s.days ? JSON.parse(s.days) : [];
+        const t = s.schedule_type === 'turno' ? s.turno : `${s.time_start} às ${s.time_end}`;
+        return `
+          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:1.5rem; margin-bottom:1rem; display:flex; align-items:center; gap:1.5rem;">
+            <img src="${getHabboImagerUrl(u.habbo_nick,'m')}" style="border-radius:8px; background:rgba(0,0,0,0.5);">
+            <div style="flex:1;">
+              <h4 style="color:#fff; font-size:1.1rem; margin-bottom:0.25rem;">${u.habbo_nick}</h4>
+              <div style="color:var(--cyan); font-size:0.8rem; margin-bottom:0.75rem; text-transform:uppercase; font-weight:700;">${u.role}</div>
+              <div style="display:flex; gap:15px; color:var(--text-muted); font-size:0.85rem;">
+                <div><i class="fas fa-calendar-alt"></i> ${d.join(', ')}</div>
+                <div><i class="fas fa-clock"></i> ${t}</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 5px;">
+              <button class="btn btn-warning btn-sm" onclick="editCheckpoint('${s.id}')"><i class="fas fa-edit"></i></button>
+              <button class="btn btn-danger btn-sm" onclick="deleteCheckpoint('${s.id}')"><i class="fas fa-trash"></i></button>
+            </div>
           </div>
-        </div>`;
+        `;
       }).join('');
     }
     
     async function deleteCheckpoint(id) {
-       const confirm = await customConfirm('Deletar Escala?');
-       if(confirm){ await sb.from('checkpoint_schedules').delete().eq('id',id); loadCheckpoint(); loadLastUpdater(); }
+      const confirm = await customConfirm('Deletar Escala?');
+      if(confirm){ 
+        await sb.from('checkpoint_schedules').delete().eq('id',id); 
+        const ip = await waitForIP();
+        await sb.from('system_logs').insert({
+          user_id: currentUser.id,
+          action: 'DELETAR_CHECKPOINT',
+          details: `Deletou cronograma`,
+          ip_address: ip
+        });
+        showToast('Escala deletada.', 'success');
+        loadCheckpoint(); 
+        loadLastUpdater(); 
+      }
     }
+
+    function closeModal(id) { 
+      document.getElementById(id).classList.remove('active'); 
+    }
+
+    async function logout() { 
+      const ip = await waitForIP();
+      await sb.from('system_logs').insert({
+        user_id: currentUser.id,
+        action: 'LOGOUT',
+        details: 'Logout manual',
+        ip_address: ip
+      });
+      await sb.auth.signOut(); 
+      window.location.href = 'auth/login.html'; 
+    }
+
+    // Fechar modais ao clicar fora
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('active');
+      });
+    });
   </script>
 </body>
 </html>
