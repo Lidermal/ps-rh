@@ -527,52 +527,75 @@
       50% { opacity: 0.5; }
     }
 
-    /* Rodapé */
-    .footer {
-      background: var(--bg-panel);
-      border-top: 1px solid var(--border);
-      padding: 1.5rem 2rem;
-      margin-left: var(--sidebar-width);
-      text-align: center;
-    }
-    .footer-content {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .footer-logo {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-      margin: 0 auto 0.5rem;
-      opacity: 0.6;
-    }
-    .footer-text {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-    .footer-text strong {
-      color: var(--cyan);
-      font-weight: 600;
-    }
-    .footer-dev {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-    .footer-dev a {
-      color: var(--gold);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .footer-dev a:hover {
-      text-decoration: underline;
-    }
-    .footer-divider {
-      width: 100px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-      margin: 0.5rem auto;
-    }
+/* Rodapé */
+.footer {
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 2rem;
+  margin-left: var(--sidebar-width);
+  margin-top: auto;
+}
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+.footer-logo-wrapper {
+  margin-bottom: 0.5rem;
+}
+.footer-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.3));
+}
+.footer-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+.footer-text strong {
+  color: var(--cyan);
+  font-weight: 600;
+}
+.footer-dev {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+.footer-dev a {
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+}
+.footer-dev a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s;
+}
+.footer-dev a:hover::after {
+  width: 100%;
+}
+.footer-divider {
+  width: 150px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  margin: 0.5rem 0;
+}
+@media (max-width: 1024px) {
+  .footer { margin-left: 0; }
+}
 
     @media (max-width: 1024px) {
       .sidebar { transform: translateX(-100%); }
