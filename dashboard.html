@@ -19,6 +19,7 @@
       --border: rgba(75, 85, 99, 0.4);
       --success: #10b981;
       --error: #ef4444;
+      --warning: #f59e0b;
       --sidebar-width: 280px;
     }
     body {
@@ -26,12 +27,14 @@
       background: var(--bg-deep);
       color: var(--text);
       min-height: 100vh;
+      overflow-x: hidden;
     }
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: linear-gradient(rgba(0, 217, 255, 0.02) 1px, transparent 1px),
+      background-image: 
+        linear-gradient(rgba(0, 217, 255, 0.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 217, 255, 0.02) 1px, transparent 1px);
       background-size: 40px 40px;
       pointer-events: none;
@@ -45,6 +48,7 @@
       z-index: 100;
       display: flex;
       flex-direction: column;
+      transition: transform 0.3s;
     }
     .sidebar-header {
       padding: 1.5rem;
@@ -133,8 +137,8 @@
       font-weight: 700;
       color: var(--bg-deep);
     }
-    .user-details { flex: 1; }
-    .user-name { font-weight: 600; font-size: 0.9rem; }
+    .user-details { flex: 1; overflow: hidden; }
+    .user-name { font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .user-role { font-size: 0.75rem; color: var(--text-muted); }
     .btn-logout {
       width: 100%;
@@ -149,6 +153,7 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      transition: all 0.2s;
     }
     .btn-logout:hover { background: rgba(239, 68, 68, 0.2); }
     .main-content {
@@ -187,6 +192,11 @@
       display: flex;
       align-items: center;
       gap: 1rem;
+      transition: all 0.3s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
     .stat-icon {
       width: 50px;
@@ -212,7 +222,8 @@
       margin-bottom: 1.5rem;
       display: none;
     }
-    .content-section.active { display: block; }
+    .content-section.active { display: block; animation: fadeIn 0.3s; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .section-header {
       display: flex;
       align-items: center;
@@ -239,21 +250,20 @@
       align-items: center;
       gap: 0.5rem;
       transition: all 0.2s;
+      font-size: 0.875rem;
     }
     .btn-primary {
       background: linear-gradient(135deg, var(--cyan), #0ea5e9);
       color: var(--bg-deep);
     }
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3); }
-    .btn-success {
-      background: var(--success);
-      color: white;
-    }
-    .btn-danger {
-      background: var(--error);
-      color: white;
-    }
-    .btn-sm { padding: 0.5rem 0.75rem; font-size: 0.875rem; }
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { background: #059669; }
+    .btn-danger { background: var(--error); color: white; }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-warning { background: var(--warning); color: var(--bg-deep); }
+    .btn-warning:hover { background: #d97706; }
+    .btn-sm { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
     .document-list { display: flex; flex-direction: column; gap: 0.75rem; }
     .document-item {
       background: rgba(255, 255, 255, 0.03);
@@ -280,8 +290,8 @@
       justify-content: center;
       color: var(--cyan);
     }
-    .doc-info { flex: 1; }
-    .doc-title { font-weight: 600; margin-bottom: 0.25rem; }
+    .doc-info { flex: 1; min-width: 0; }
+    .doc-title { font-weight: 600; margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .doc-meta { font-size: 0.8rem; color: var(--text-muted); }
     .doc-badge {
       padding: 0.25rem 0.75rem;
@@ -289,6 +299,7 @@
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
+      white-space: nowrap;
     }
     .doc-badge.new { background: rgba(16, 185, 129, 0.1); color: var(--success); }
     .doc-badge.important { background: rgba(245, 158, 11, 0.1); color: var(--gold); }
@@ -306,18 +317,21 @@
       font-size: 1.5rem;
       cursor: pointer;
       z-index: 200;
+      align-items: center;
+      justify-content: center;
     }
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       z-index: 1000;
       align-items: center;
       justify-content: center;
       padding: 2rem;
+      backdrop-filter: blur(5px);
     }
-    .modal.active { display: flex; }
+    .modal.active { display: flex; animation: fadeIn 0.2s; }
     .modal-content {
       background: var(--bg-panel);
       border: 1px solid var(--border);
@@ -327,12 +341,15 @@
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     }
     .modal-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
     }
     .modal-title {
       font-family: 'Rajdhani', sans-serif;
@@ -345,13 +362,17 @@
       color: var(--text-muted);
       font-size: 1.5rem;
       cursor: pointer;
+      padding: 0.5rem;
+      transition: color 0.2s;
     }
-    .form-group { margin-bottom: 1rem; }
+    .btn-close:hover { color: var(--text); }
+    .form-group { margin-bottom: 1.25rem; }
     .form-label {
       display: block;
       font-size: 0.875rem;
       color: var(--text-muted);
       margin-bottom: 0.5rem;
+      font-weight: 500;
     }
     .form-input, .form-textarea, .form-select {
       width: 100%;
@@ -361,18 +382,22 @@
       border-radius: 8px;
       color: var(--text);
       font-family: inherit;
+      font-size: 0.95rem;
     }
     .form-textarea { min-height: 150px; resize: vertical; }
     .form-input:focus, .form-textarea:focus, .form-select:focus {
       outline: none;
       border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
     }
+    .table-container { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
     .table {
       width: 100%;
       border-collapse: collapse;
+      background: var(--bg-card);
     }
     .table th, .table td {
-      padding: 0.75rem;
+      padding: 1rem;
       text-align: left;
       border-bottom: 1px solid var(--border);
     }
@@ -382,22 +407,43 @@
       letter-spacing: 1px;
       color: var(--text-muted);
       font-weight: 600;
+      background: rgba(255, 255, 255, 0.03);
     }
+    .table tr:last-child td { border-bottom: none; }
+    .table tr:hover td { background: rgba(255, 255, 255, 0.03); }
     .badge {
-      padding: 0.25rem 0.75rem;
+      padding: 0.35rem 0.75rem;
       border-radius: 20px;
       font-size: 0.75rem;
       font-weight: 600;
+      display: inline-block;
     }
-    .badge-pendente { background: rgba(245, 158, 11, 0.1); color: var(--gold); }
-    .badge-ativo { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-    .badge-inativo { background: rgba(156, 163, 175, 0.1); color: var(--text-muted); }
-    .badge-banido { background: rgba(239, 68, 68, 0.1); color: var(--error); }
+    .badge-pendente { background: rgba(245, 158, 11, 0.15); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-ativo { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-inativo { background: rgba(156, 163, 175, 0.15); color: var(--text-muted); border: 1px solid rgba(156, 163, 175, 0.3); }
+    .badge-banido { background: rgba(239, 68, 68, 0.15); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .action-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .timeout-warning {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--warning);
+      color: var(--bg-deep);
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      display: none;
+      z-index: 2000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .timeout-warning.show { display: block; animation: slideIn 0.3s; }
+    @keyframes slideIn { from { transform: translateX(400px); } to { transform: translateX(0); } }
     @media (max-width: 1024px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; }
-      .menu-toggle { display: flex; align-items: center; justify-content: center; }
+      .menu-toggle { display: flex; }
+      .content-area { padding: 1rem; }
     }
   </style>
 </head>
@@ -462,13 +508,13 @@
   <main class="main-content">
     <div class="top-bar">
       <h1 class="page-title" id="page-title">Dashboard</h1>
-      <button class="btn btn-primary btn-sm" onclick="openModal()">
+      <button class="btn btn-primary btn-sm" onclick="openModal()" id="btn-novo" style="display:none;">
         <i class="fas fa-plus"></i> Novo
       </button>
     </div>
 
     <div class="content-area">
-      <!-- Dashboard Section -->
+      <!-- Dashboard -->
       <section id="section-dashboard" class="content-section active">
         <div class="stats-grid">
           <div class="stat-card">
@@ -486,7 +532,7 @@
             </div>
           </div>
           <div class="stat-card">
-            <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-icon green"><i class="fas fa-user-clock"></i></div>
             <div class="stat-info">
               <h3 id="stat-pending">0</h3>
               <p>Solicitações</p>
@@ -500,19 +546,48 @@
             </div>
           </div>
         </div>
-        <div class="content-section" style="display:block;">
+        <div class="content-section active">
           <div class="section-header">
             <h2 class="section-title"><i class="fas fa-folder"></i> Documentos Recentes</h2>
           </div>
-          <div class="document-list" id="recent-docs">
-            <p style="color: var(--text-muted); text-align: center; padding: 2rem;">
-              Nenhum documento encontrado.
-            </p>
-          </div>
+          <div class="document-list" id="recent-docs"></div>
         </div>
       </section>
 
-      <!-- Documentos Section -->
+      <!-- Admin Panel -->
+      <section id="section-admin" class="content-section">
+        <h3 style="margin-bottom: 1rem; color: var(--gold);"><i class="fas fa-user-clock"></i> Solicitações Pendentes</h3>
+        <div class="table-container" style="margin-bottom: 2rem;">
+          <table class="table">
+            <thead>
+              <tr><th>Nickname</th><th>Data Solicitação</th><th>Status</th><th>Ações</th></tr>
+            </thead>
+            <tbody id="pending-users"></tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-bottom: 1rem; color: var(--cyan);"><i class="fas fa-users"></i> Todos os Usuários</h3>
+        <div class="table-container" style="margin-bottom: 2rem;">
+          <table class="table">
+            <thead>
+              <tr><th>Nickname</th><th>Cargo</th><th>Status</th><th>Último Acesso</th><th>Ações</th></tr>
+            </thead>
+            <tbody id="all-users"></tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-bottom: 1rem; color: var(--success);"><i class="fas fa-history"></i> Logs do Sistema</h3>
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr><th>Usuário</th><th>Ação</th><th>IP</th><th>Data/Hora</th></tr>
+            </thead>
+            <tbody id="system-logs"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Outras seções (Documentos, Manuais, etc) -->
       <section id="section-documentos" class="content-section">
         <div class="section-header">
           <h2 class="section-title"><i class="fas fa-folder-open"></i> Documentos</h2>
@@ -520,7 +595,6 @@
         <div class="document-list" id="docs-list"></div>
       </section>
 
-      <!-- Manuais Section -->
       <section id="section-manuais" class="content-section">
         <div class="section-header">
           <h2 class="section-title"><i class="fas fa-book"></i> Manuais e Códigos</h2>
@@ -528,7 +602,6 @@
         <div class="document-list" id="manuais-list"></div>
       </section>
 
-      <!-- Diário Oficial Section -->
       <section id="section-diario" class="content-section">
         <div class="section-header">
           <h2 class="section-title"><i class="fas fa-newspaper"></i> Diário Oficial</h2>
@@ -536,7 +609,6 @@
         <div class="document-list" id="diario-list"></div>
       </section>
 
-      <!-- Atas Section -->
       <section id="section-atas" class="content-section">
         <div class="section-header">
           <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Atas de Reunião</h2>
@@ -544,7 +616,6 @@
         <div class="document-list" id="atas-list"></div>
       </section>
 
-      <!-- Anúncios Section -->
       <section id="section-anuncios" class="content-section">
         <div class="section-header">
           <h2 class="section-title"><i class="fas fa-bullhorn"></i> Anúncios</h2>
@@ -552,85 +623,74 @@
         <div class="document-list" id="anuncios-list"></div>
       </section>
 
-      <!-- Backups Section -->
       <section id="section-backups" class="content-section">
         <div class="section-header">
           <h2 class="section-title"><i class="fas fa-database"></i> Backups</h2>
         </div>
         <p style="color: var(--text-muted);">Backups automáticos são realizados diariamente.</p>
       </section>
-
-      <!-- Admin Section -->
-      <section id="section-admin" class="content-section">
-        <div class="section-header">
-          <h2 class="section-title"><i class="fas fa-shield-alt"></i> Painel Administrativo</h2>
-        </div>
-        
-        <h3 style="margin: 2rem 0 1rem; font-family: 'Rajdhani', sans-serif;">
-          <i class="fas fa-user-clock" style="color: var(--gold);"></i> Solicitações Pendentes
-        </h3>
-        <div style="overflow-x: auto;">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Nickname</th>
-                <th>Data Solicitação</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="pending-users"></tbody>
-          </table>
-        </div>
-
-        <h3 style="margin: 2rem 0 1rem; font-family: 'Rajdhani', sans-serif;">
-          <i class="fas fa-users" style="color: var(--cyan);"></i> Todos os Usuários
-        </h3>
-        <div style="overflow-x: auto;">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Nickname</th>
-                <th>Cargo</th>
-                <th>Status</th>
-                <th>Último Acesso</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody id="all-users"></tbody>
-          </table>
-        </div>
-
-        <h3 style="margin: 2rem 0 1rem; font-family: 'Rajdhani', sans-serif;">
-          <i class="fas fa-history" style="color: var(--success);"></i> Logs do Sistema
-        </h3>
-        <div style="overflow-x: auto;">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Usuário</th>
-                <th>Ação</th>
-                <th>IP</th>
-                <th>Data/Hora</th>
-              </tr>
-            </thead>
-            <tbody id="system-logs"></tbody>
-          </table>
-        </div>
-      </section>
     </div>
   </main>
 
-  <button class="menu-toggle" onclick="toggleSidebar()">
-    <i class="fas fa-bars"></i>
-  </button>
+  <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
 
-  <!-- Modal -->
-  <div class="modal" id="modal">
+  <!-- Modal Editar Usuário -->
+  <div class="modal" id="modal-edit-user">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">Novo Documento</h3>
-        <button class="btn-close" onclick="closeModal()">&times;</button>
+        <h3 class="modal-title"><i class="fas fa-user-edit"></i> Editar Usuário</h3>
+        <button class="btn-close" onclick="closeModal('modal-edit-user')">&times;</button>
+      </div>
+      <form id="edit-user-form" onsubmit="saveUserEdit(event)">
+        <input type="hidden" id="edit-user-id">
+        <div class="form-group">
+          <label class="form-label">Nickname</label>
+          <input type="text" class="form-input" id="edit-user-nick" disabled>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cargo</label>
+          <select class="form-select" id="edit-user-role" required>
+            <option value="Membro">Membro</option>
+            <option value="Coordenação">Coordenação</option>
+            <option value="Diretoria">Diretoria</option>
+            <option value="Administrador">Administrador</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="edit-user-status" required>
+            <option value="ativo">Ativo</option>
+            <option value="inativo">Inativo</option>
+            <option value="banido">Banido</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="display:flex; align-items:center; gap:0.5rem;">
+            <input type="checkbox" id="edit-user-reset-password">
+            Forçar redefinição de senha no próximo login
+          </label>
+          <small style="color: var(--text-muted); display:block; margin-top:0.5rem;">
+            O usuário será obrigado a criar uma nova senha ao fazer login
+          </small>
+        </div>
+        <div style="display:flex; gap:1rem;">
+          <button type="submit" class="btn btn-success" style="flex:1;">
+            <i class="fas fa-save"></i> Salvar Alterações
+          </button>
+          <button type="button" class="btn btn-danger" onclick="closeModal('modal-edit-user')">
+            <i class="fas fa-times"></i> Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Novo Documento -->
+  <div class="modal" id="modal-doc">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fas fa-file-alt"></i> Novo Documento</h3>
+        <button class="btn-close" onclick="closeModal('modal-doc')">&times;</button>
       </div>
       <form id="doc-form" onsubmit="saveDocument(event)">
         <div class="form-group">
@@ -652,15 +712,20 @@
           <textarea class="form-textarea" id="doc-content" required></textarea>
         </div>
         <div class="form-group">
-          <label class="form-label">
-            <input type="checkbox" id="doc-important"> Marcar como importante
+          <label style="display:flex; align-items:center; gap:0.5rem;">
+            <input type="checkbox" id="doc-important">
+            Marcar como importante/fixo
           </label>
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">
+        <button type="submit" class="btn btn-primary" style="width:100%;">
           <i class="fas fa-save"></i> Salvar
         </button>
       </form>
     </div>
+  </div>
+
+  <div class="timeout-warning" id="timeout-warning">
+    ⚠️ Sua sessão expirará em <span id="timeout-countdown">5</span> minutos por inatividade.
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -671,6 +736,37 @@
 
     let currentUser = null;
     let userProfile = null;
+    let lastActivity = Date.now();
+    let inactivityTimer;
+    const INACTIVITY_LIMIT = 30 * 60 * 1000; // 30 minutos
+    const WARNING_TIME = 5 * 60 * 1000; // Alertar 5 minutos antes
+
+    // Track activity
+    ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
+      document.addEventListener(event, () => {
+        lastActivity = Date.now();
+        resetInactivityTimer();
+      }, true);
+    });
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      document.getElementById('timeout-warning').classList.remove('show');
+      inactivityTimer = setTimeout(checkInactivity, INACTIVITY_LIMIT - WARNING_TIME);
+    }
+
+    async function checkInactivity() {
+      const elapsed = Date.now() - lastActivity;
+      const remaining = INACTIVITY_LIMIT - elapsed;
+      
+      if (remaining <= 0) {
+        await logout(true);
+      } else if (remaining <= WARNING_TIME) {
+        const minutes = Math.ceil(remaining / 60000);
+        document.getElementById('timeout-countdown').textContent = minutes;
+        document.getElementById('timeout-warning').classList.add('show');
+      }
+    }
 
     // Inicialização
     (async () => {
@@ -681,9 +777,9 @@
       }
       
       currentUser = session.user;
-      const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+      const { data: profile, error } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
       
-      if (!profile) {
+      if (error || !profile) {
         await sb.auth.signOut();
         window.location.href = 'auth/login.html';
         return;
@@ -694,10 +790,13 @@
       loadStats();
       loadDocuments();
       
+      // Show admin menu for Administrador or Diretoria
       if (userProfile.role === 'Administrador' || userProfile.role === 'Diretoria') {
         document.getElementById('nav-admin').style.display = 'flex';
-        loadAdminData();
+        document.getElementById('btn-novo').style.display = 'inline-flex';
       }
+      
+      resetInactivityTimer();
     })();
 
     function loadUserData() {
@@ -723,19 +822,19 @@
 
     async function loadDocuments() {
       const { data: docs } = await sb.from('contents').select('*').order('created_at', { ascending: false }).limit(5);
-      
       const container = document.getElementById('recent-docs');
+      
       if (!docs || docs.length === 0) {
         container.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">Nenhum documento encontrado.</p>';
         return;
       }
       
       container.innerHTML = docs.map(doc => `
-        <div class="document-item" onclick="viewDocument('${doc.id}')">
+        <div class="document-item">
           <div class="doc-icon"><i class="fas fa-file-alt"></i></div>
           <div class="doc-info">
             <div class="doc-title">${doc.title}</div>
-            <div class="doc-meta">Criado em ${new Date(doc.created_at).toLocaleDateString('pt-BR')}</div>
+            <div class="doc-meta">${new Date(doc.created_at).toLocaleDateString('pt-BR')}</div>
           </div>
           ${doc.is_pinned ? '<span class="doc-badge important">Importante</span>' : '<span class="doc-badge new">Novo</span>'}
         </div>
@@ -762,10 +861,11 @@
       document.getElementById('page-title').textContent = titles[section];
       
       if (section === 'admin') loadAdminData();
+      lastActivity = Date.now();
     }
 
     async function loadAdminData() {
-      // Carregar usuários pendentes
+      // Load pending users
       const { data: pending } = await sb.from('profiles')
         .select('*')
         .eq('status', 'pendente')
@@ -775,52 +875,62 @@
       if (pending && pending.length > 0) {
         pendingContainer.innerHTML = pending.map(u => `
           <tr>
-            <td>${u.habbo_nick}</td>
+            <td><strong>${u.habbo_nick}</strong></td>
             <td>${new Date(u.created_at).toLocaleString('pt-BR')}</td>
             <td><span class="badge badge-pendente">Pendente</span></td>
-            <td>
+            <td class="action-buttons">
               <button class="btn btn-success btn-sm" onclick="approveUser('${u.id}', '${u.habbo_nick}')">
                 <i class="fas fa-check"></i> Aprovar
               </button>
-              <button class="btn btn-danger btn-sm" onclick="rejectUser('${u.id}')">
+              <button class="btn btn-danger btn-sm" onclick="rejectUser('${u.id}', '${u.habbo_nick}')">
                 <i class="fas fa-times"></i> Rejeitar
               </button>
             </td>
           </tr>
         `).join('');
       } else {
-        pendingContainer.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Nenhuma solicitação pendente</td></tr>';
+        pendingContainer.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:2rem;">Nenhuma solicitação pendente</td></tr>';
       }
       
-      // Carregar todos os usuários
-      const { data: allUsers } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
-      const allUsersContainer = document.getElementById('all-users');
+      // Load ALL users (including admins)
+      const { data: allUsers } = await sb.from('profiles')
+        .select('*')
+        .neq('status', 'pendente')
+        .order('created_at', { ascending: false });
       
+      const allUsersContainer = document.getElementById('all-users');
       if (allUsers && allUsers.length > 0) {
         allUsersContainer.innerHTML = allUsers.map(u => `
           <tr>
-            <td>${u.habbo_nick}</td>
+            <td><strong>${u.habbo_nick}</strong></td>
             <td>${u.role}</td>
             <td><span class="badge badge-${u.status}">${u.status}</span></td>
             <td>${u.updated_at ? new Date(u.updated_at).toLocaleString('pt-BR') : '-'}</td>
-            <td>
-              ${u.status !== 'pendente' ? `
-                <button class="btn btn-sm" style="background: var(--gold); color: var(--bg-deep);" onclick="editUserRole('${u.id}', '${u.habbo_nick}', '${u.role}')">
-                  <i class="fas fa-edit"></i> Cargo
+            <td class="action-buttons">
+              <button class="btn btn-warning btn-sm" onclick="editUser('${u.id}')">
+                <i class="fas fa-edit"></i> Editar
+              </button>
+              ${u.status !== 'banido' ? `
+                <button class="btn btn-danger btn-sm" onclick="banUser('${u.id}', '${u.habbo_nick}')">
+                  <i class="fas fa-ban"></i> Banir
                 </button>
-                <button class="btn btn-danger btn-sm" onclick="toggleUserStatus('${u.id}', '${u.status}')">
-                  <i class="fas fa-${u.status === 'ativo' ? 'ban' : 'check'}"></i> ${u.status === 'ativo' ? 'Banir' : 'Ativar'}
+              ` : `
+                <button class="btn btn-success btn-sm" onclick="activateUser('${u.id}', '${u.habbo_nick}')">
+                  <i class="fas fa-check"></i> Ativar
                 </button>
-              ` : '-'}
+              `}
             </td>
           </tr>
         `).join('');
       }
       
-      // Carregar logs
-      const { data: logs } = await sb.from('system_logs').select('*').order('created_at', { ascending: false }).limit(20);
-      const logsContainer = document.getElementById('system-logs');
+      // Load logs
+      const { data: logs } = await sb.from('system_logs')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(50);
       
+      const logsContainer = document.getElementById('system-logs');
       if (logs && logs.length > 0) {
         logsContainer.innerHTML = logs.map(log => `
           <tr>
@@ -834,46 +944,106 @@
     }
 
     async function approveUser(userId, nick) {
-      if (!confirm(`Aprovar acesso de ${nick}?`)) return;
+      if (!confirm(`Aprovar acesso de ${nick}?\n\nO usuário receberá um email temporário e poderá fazer login.`)) return;
       
-      const { error } = await sb.from('profiles')
-        .update({ status: 'ativo', first_login: true })
-        .eq('id', userId);
+      // Generate temporary email and password
+      const tempEmail = `${nick.toLowerCase().replace(/[^a-z0-9]/g, '')}@feb-temp.internal`;
+      const tempPassword = 'Temp' + Math.random().toString(36).slice(-8) + '!';
       
+      try {
+        // Create auth user
+        const { data: authData, error: authError } = await sb.auth.admin.createUser({
+          email: tempEmail,
+          password: tempPassword,
+          email_confirm: true
+        });
+        
+        if (authError) throw authError;
+        
+        // Update profile
+        const { error: profileError } = await sb.from('profiles')
+          .update({ 
+            status: 'ativo', 
+            first_login: true,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', userId);
+        
+        if (profileError) throw profileError;
+        
+        // Log action
+        await sb.from('system_logs').insert({
+          user_id: currentUser.id,
+          action: 'APROVAR_USUARIO',
+          details: `Aprovou usuário ${nick}. Email temporário: ${tempEmail}`,
+          ip_address: 'admin-panel'
+        });
+        
+        alert(`✅ Usuário ${nick} aprovado com sucesso!\n\nEmail temporário: ${tempEmail}\nSenha temporária: ${tempPassword}\n\nO usuário deverá alterar a senha no primeiro login.`);
+        loadAdminData();
+        loadStats();
+      } catch (err) {
+        alert('❌ Erro ao aprovar usuário: ' + err.message);
+      }
+    }
+
+    async function rejectUser(userId, nick) {
+      if (!confirm(`Rejeitar solicitação de ${nick}?\n\nO registro será permanentemente removido.`)) return;
+      
+      const { error } = await sb.from('profiles').delete().eq('id', userId);
       if (error) {
-        alert('Erro ao aprovar: ' + error.message);
+        alert('Erro: ' + error.message);
         return;
       }
       
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
-        action: 'APROVAR_USUARIO',
-        details: `Aprovou usuário ${nick}`,
-        ip_address: 'system'
+        action: 'REJEITAR_USUARIO',
+        details: `Rejeitou solicitação de ${nick}`,
+        ip_address: 'admin-panel'
       });
-      
-      alert(`Usuário ${nick} aprovado com sucesso!`);
-      loadAdminData();
-      loadStats();
-    }
-
-    async function rejectUser(userId) {
-      if (!confirm('Rejeitar esta solicitação? O usuário será removido.')) return;
-      
-      const { error } = await sb.from('profiles').delete().eq('id', userId);
-      if (error) {
-        alert('Erro ao rejeitar: ' + error.message);
-        return;
-      }
       
       alert('Solicitação rejeitada.');
       loadAdminData();
       loadStats();
     }
 
-    async function toggleUserStatus(userId, currentStatus) {
-      const newStatus = currentStatus === 'ativo' ? 'banido' : 'ativo';
-      const { error } = await sb.from('profiles').update({ status: newStatus }).eq('id', userId);
+    function editUser(userId) {
+      sb.from('profiles').select('*').eq('id', userId).single().then(({ data, error }) => {
+        if (error) {
+          alert('Erro: ' + error.message);
+          return;
+        }
+        
+        document.getElementById('edit-user-id').value = data.id;
+        document.getElementById('edit-user-nick').value = data.habbo_nick;
+        document.getElementById('edit-user-role').value = data.role;
+        document.getElementById('edit-user-status').value = data.status;
+        document.getElementById('edit-user-reset-password').checked = false;
+        
+        document.getElementById('modal-edit-user').classList.add('active');
+      });
+    }
+
+    async function saveUserEdit(e) {
+      e.preventDefault();
+      
+      const userId = document.getElementById('edit-user-id').value;
+      const newRole = document.getElementById('edit-user-role').value;
+      const newStatus = document.getElementById('edit-user-status').value;
+      const resetPassword = document.getElementById('edit-user-reset-password').checked;
+      
+      const updates = {
+        role: newRole,
+        status: newStatus,
+        updated_at: new Date().toISOString()
+      };
+      
+      if (resetPassword) {
+        updates.first_login = true;
+      }
+      
+      const { error } = await sb.from('profiles').update(updates).eq('id', userId);
       
       if (error) {
         alert('Erro: ' + error.message);
@@ -882,42 +1052,50 @@
       
       await sb.from('system_logs').insert({
         user_id: currentUser.id,
-        action: 'ALTERAR_STATUS_USUARIO',
-        details: `Mudou status para ${newStatus}`,
-        ip_address: 'system'
+        action: 'EDITAR_USUARIO',
+        details: `Editou usuário - Cargo: ${newRole}, Status: ${newStatus}${resetPassword ? ', Resetou senha' : ''}`,
+        ip_address: 'admin-panel'
+      });
+      
+      alert('Usuário atualizado com sucesso!');
+      closeModal('modal-edit-user');
+      loadAdminData();
+    }
+
+    async function banUser(userId, nick) {
+      if (!confirm(`Banir usuário ${nick}?`)) return;
+      
+      await sb.from('profiles').update({ status: 'banido', updated_at: new Date().toISOString() }).eq('id', userId);
+      await sb.from('system_logs').insert({
+        user_id: currentUser.id,
+        action: 'BANIR_USUARIO',
+        details: `Baniu usuário ${nick}`,
+        ip_address: 'admin-panel'
       });
       
       loadAdminData();
     }
 
-    function editUserRole(userId, nick, currentRole) {
-      const newRole = prompt(`Editar cargo de ${nick}:\n\nCargos disponíveis:\n- Administrador\n- Diretoria\n- Coordenação\n- Membro\n\nCargo atual: ${currentRole}`, currentRole);
+    async function activateUser(userId, nick) {
+      if (!confirm(`Ativar usuário ${nick}?`)) return;
       
-      if (!newRole || newRole === currentRole) return;
-      
-      const validRoles = ['Administrador', 'Diretoria', 'Coordenação', 'Membro'];
-      if (!validRoles.includes(newRole)) {
-        alert('Cargo inválido!');
-        return;
-      }
-      
-      sb.from('profiles').update({ role: newRole }).eq('id', userId).then(({ error }) => {
-        if (error) {
-          alert('Erro: ' + error.message);
-          return;
-        }
-        alert(`Cargo de ${nick} alterado para ${newRole}`);
-        loadAdminData();
+      await sb.from('profiles').update({ status: 'ativo', updated_at: new Date().toISOString() }).eq('id', userId);
+      await sb.from('system_logs').insert({
+        user_id: currentUser.id,
+        action: 'ATIVAR_USUARIO',
+        details: `Ativou usuário ${nick}`,
+        ip_address: 'admin-panel'
       });
+      
+      loadAdminData();
     }
 
     function openModal() {
-      document.getElementById('modal').classList.add('active');
+      document.getElementById('modal-doc').classList.add('active');
     }
 
-    function closeModal() {
-      document.getElementById('modal').classList.remove('active');
-      document.getElementById('doc-form').reset();
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
     }
 
     async function saveDocument(e) {
@@ -937,7 +1115,7 @@
       });
       
       if (error) {
-        alert('Erro ao salvar: ' + error.message);
+        alert('Erro: ' + error.message);
         return;
       }
       
@@ -945,29 +1123,40 @@
         user_id: currentUser.id,
         action: 'CRIAR_DOCUMENTO',
         details: `Criou documento: ${title}`,
-        ip_address: 'system'
+        ip_address: 'admin-panel'
       });
       
-      alert('Documento salvo com sucesso!');
-      closeModal();
+      alert('Documento salvo!');
+      closeModal('modal-doc');
+      document.getElementById('doc-form').reset();
       loadDocuments();
       loadStats();
-    }
-
-    function viewDocument(id) {
-      alert('Visualização de documento ID: ' + id + '\n\nEm breve: visualizador completo com BBCode!');
     }
 
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
     }
 
-    async function logout() {
-      if (confirm('Deseja realmente sair?')) {
-        await sb.auth.signOut();
-        window.location.href = 'auth/login.html';
-      }
+    async function logout(timeout = false) {
+      if (!timeout && !confirm('Deseja realmente sair?')) return;
+      
+      await sb.from('system_logs').insert({
+        user_id: currentUser.id,
+        action: 'LOGOUT',
+        details: timeout ? 'Sessão expirada por inatividade' : 'Logout manual',
+        ip_address: 'system'
+      });
+      
+      await sb.auth.signOut();
+      window.location.href = 'auth/login.html';
     }
+
+    // Close modals on outside click
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('active');
+      });
+    });
   </script>
 </body>
 </html>
