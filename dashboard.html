@@ -466,7 +466,7 @@
       background: var(--code-bg);
       border: 1px solid var(--code-border);
       border-radius: 8px;
-      padding: 1.5rem;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
       margin: 1.5rem 0;
       font-family: 'Fira Code', 'Courier New', monospace;
       font-size: 0.9rem;
@@ -477,16 +477,16 @@
       position: relative;
     }
     .code-block::before {
-      content: 'Código';
+      content: 'CÓDIGO';
       position: absolute;
       top: 0;
-      right: 50px;
+      left: 0;
       background: var(--indigo);
       color: #fff;
-      padding: 4px 12px;
+      padding: 6px 12px;
       font-size: 0.75rem;
-      font-weight: 600;
-      border-radius: 0 8px 0 8px;
+      font-weight: 700;
+      border-radius: 0 0 8px 0;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -499,16 +499,16 @@
       color: var(--text);
     }
     
-    /* Botão Copiar Código */
+    /* Botão Copiar Código - POSICIONAMENTO CORRIGIDO */
     .copy-code-btn {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: 0.5rem;
+      right: 0.5rem;
       background: rgba(99, 102, 241, 0.2);
       border: 1px solid var(--border);
       color: var(--cyan);
       padding: 6px 12px;
-      border-radius: 0 8px 0 8px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 0.8rem;
       font-weight: 600;
@@ -516,6 +516,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      z-index: 10;
     }
     .copy-code-btn:hover {
       background: var(--indigo);
@@ -548,6 +549,27 @@
       color: #fff;
       border-color: var(--indigo);
       transform: translateY(-2px);
+    }
+
+    /* Ajustes para Modo Claro */
+    .light-mode .section-title,
+    .light-mode .doc-title,
+    .light-mode .team-card-name,
+    .light-mode .user-name,
+    .light-mode .log-meta-card h4,
+    .light-mode .modal-title,
+    .light-mode .page-title,
+    .light-mode .sidebar-title,
+    .light-mode .checkpoint-highlight-info h4 {
+      color: var(--text);
+    }
+
+    .light-mode .doc-view-title {
+      color: var(--text);
+    }
+
+    .light-mode .doc-view-content {
+      color: var(--text);
     }
   </style>
 </head>
