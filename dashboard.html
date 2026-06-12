@@ -1318,9 +1318,9 @@
       }
     };
 
-    // Função para gerar URL do Habbo Imager via API
+    // Função para gerar URL do Habbo Imager - API OFICIAL HABBO BRASIL
     function getHabboImagerUrl(nickname, size = 'l') {
-      return `https://www.habbonight.com.br/facenter/habbo-imager?user=${encodeURIComponent(nickname)}&action=std&direction=2&head_direction=3&gesture=sml&size=${size}`;
+      return `https://www.habbo.com.br/habbo-imaging/avatarimage?user=${encodeURIComponent(nickname)}&action=std&direction=2&head_direction=3&gesture=sml&size=${size}`;
     }
 
     async function getUserIP() {
