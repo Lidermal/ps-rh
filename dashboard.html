@@ -291,7 +291,7 @@
     .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
     .pagination-info { color: var(--text-muted); font-size: 0.875rem; margin: 0 1rem; }
 
-    /* BBCode Editor - AJUSTADO PARA CONTRASTE NO CLARO/ESCURO */
+    /* BBCode Editor */
     .bbcode-toolbar { 
       display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; padding: 15px; 
       background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
@@ -308,7 +308,7 @@
     }
     .bbcode-btn i { font-size: 1rem; }
     
-    /* Document Preview - FUNDO AJUSTADO PARA LEITURA */
+    /* Document Preview */
     .doc-preview { 
       background: var(--bg-card); 
       border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-top: 1.5rem; 
@@ -572,6 +572,7 @@
 
   <div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 4000; display:flex; flex-direction:column; gap:10px;"></div>
 
+  <!-- Modal Criar/Editar Documento -->
   <div class="modal" id="modal-doc">
     <div class="modal-content" style="max-width: 900px;">
       <div class="modal-header">
@@ -631,6 +632,7 @@
     </div>
   </div>
 
+  <!-- Modal Visualizar Documento -->
   <div class="modal" id="modal-view-doc">
     <div class="modal-content doc-view-modal">
       <div class="doc-view-header">
@@ -644,6 +646,7 @@
     </div>
   </div>
 
+  <!-- Modal Checkpoint -->
   <div class="modal" id="modal-checkpoint">
     <div class="modal-content">
       <div class="modal-header">
@@ -712,6 +715,7 @@
     </div>
   </div>
 
+  <!-- Modal Editar Usuário -->
   <div class="modal" id="modal-edit-user">
     <div class="modal-content">
       <div class="modal-header">
@@ -748,6 +752,7 @@
     </div>
   </div>
 
+  <!-- Modal Confirm -->
   <div class="modal" id="modal-confirm">
     <div class="modal-content" style="max-width: 400px; text-align: center;">
       <h3 class="modal-title" id="confirm-title" style="justify-content: center; margin-bottom: 1rem; color: var(--warning);">Atenção</h3>
@@ -849,7 +854,7 @@
       });
     }
 
-    // Parser BBCode e HTML Completo - TOTALMENTE LIBERADO PARA USO MISTO
+    // Parser BBCode e HTML Completo - TAG CODE PROTEGIDA
     function parseBBCode(text) {
       if (!text) return '';
       
@@ -859,10 +864,16 @@
       html = html.replace(/\\\\\[/g, '[');
       html = html.replace(/\\\\\]/g, ']');
       
-      // IMPORTANTE: Foi removida a sanitização estrita de HTML (replace('<', '&lt;')) 
-      // Isso permite que o código injetado com tags HTML nativas (como as Divs personalizadas) funcionem.
+      // 2. ISOLAR E PROTEGER O CONTEÚDO DA TAG [CODE]
+      const codeBlocks = [];
+      html = html.replace(/\[code\]([\s\S]*?)\[\/code\]/gi, function(match, content) {
+        // Escapamos o HTML e guardamos o conteúdo original para que o parser não mexa nele
+        let escaped = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        codeBlocks.push(escaped);
+        return `__CODEBLOCK_${codeBlocks.length - 1}__`;
+      });
 
-      // 3. Processar BBCode
+      // 3. Processar o resto do BBCode
       html = html.replace(/\[h1\](.*?)\[\/h1\]/gi, '<h1>$1</h1>');
       html = html.replace(/\[h2\](.*?)\[\/h2\]/gi, '<h2>$1</h2>');
       html = html.replace(/\[h3\](.*?)\[\/h3\]/gi, '<h3>$1</h3>');
@@ -888,7 +899,6 @@
       html = html.replace(/\[li\](.*?)\[\/li\]/gi, '<li>$1</li>');
       
       html = html.replace(/\[quote\](.*?)\[\/quote\]/gis, '<blockquote>$1</blockquote>');
-      html = html.replace(/\[code\](.*?)\[\/code\]/gis, '<div class="code-block"><button class="copy-code-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copiar</button><code>$1</code></div>');
       
       html = html.replace(/\[table\](.*?)\[\/table\]/gis, '<table style="width:100%; border-collapse:collapse; margin:1.5rem 0;">$1</table>');
       html = html.replace(/\[tr\](.*?)\[\/tr\]/gis, '<tr>$1</tr>');
@@ -899,6 +909,11 @@
       
       // 4. Quebras de linha simples
       html = html.replace(/\n/g, '<br>');
+      
+      // 5. DEVOLVER O CÓDIGO PROTEGIDO (agora imune aos <br> e formatações)
+      html = html.replace(/__CODEBLOCK_(\d+)__/g, function(match, idx) {
+        return `<div class="code-block"><button class="copy-code-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copiar</button><code>${codeBlocks[idx]}</code></div>`;
+      });
       
       return html;
     }
