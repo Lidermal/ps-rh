@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solicitar Acesso | Polícia FEB - RH</title>
+  <title>Login | Polícia FEB - RH</title>
   <link rel="icon" type="image/png" href="../rh.png">
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -32,12 +32,7 @@
       position: relative;
       overflow-x: hidden;
     }
-    .bg-animation {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-    }
+    .bg-animation { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
     .bg-animation::before {
       content: '';
       position: absolute;
@@ -57,20 +52,9 @@
       background-size: 50px 50px;
       animation: gridMove 20s linear infinite;
     }
-    @keyframes bgPulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-    @keyframes gridMove {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(50px, 50px); }
-    }
-    .particles {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-    }
+    @keyframes bgPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+    @keyframes gridMove { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 50px); } }
+    .particles { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
     .particle {
       position: absolute;
       width: 4px;
@@ -103,43 +87,26 @@
       flex-direction: column;
       justify-content: center;
     }
-    .header {
-      text-align: center;
-      margin-bottom: 2.5rem;
-      animation: slideDown 0.8s ease-out;
-    }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .logo-container {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 1.5rem;
-    }
+    .header { text-align: center; margin-bottom: 2.5rem; animation: slideDown 0.8s ease-out; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    .logo-container { position: relative; display: inline-block; margin-bottom: 1.5rem; }
     .logo-glow {
       position: absolute;
       inset: -20px;
-      background: radial-gradient(circle, rgba(0, 217, 255, 0.3) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, transparent 70%);
       animation: logoPulse 3s ease-in-out infinite;
       border-radius: 50%;
     }
-    @keyframes logoPulse {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.1); opacity: 0.8; }
-    }
+    @keyframes logoPulse { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 0.8; } }
     .logo-img {
       width: 100px;
       height: 100px;
       object-fit: contain;
       position: relative;
-      filter: drop-shadow(0 0 30px rgba(0, 217, 255, 0.5));
+      filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.5));
       animation: logoFloat 6s ease-in-out infinite;
     }
-    @keyframes logoFloat {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(2deg); }
-    }
+    @keyframes logoFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
     .badge {
       display: inline-block;
       padding: 6px 20px;
@@ -155,10 +122,7 @@
       margin-bottom: 1.5rem;
       animation: glow 2s ease-in-out infinite;
     }
-    @keyframes glow {
-      0%, 100% { box-shadow: 0 0 5px rgba(245, 158, 11, 0.3); }
-      50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.6); }
-    }
+    @keyframes glow { 0%, 100% { box-shadow: 0 0 5px rgba(245, 158, 11, 0.3); } 50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.6); } }
     .logo {
       font-family: 'Rajdhani', sans-serif;
       font-size: 2.8rem;
@@ -166,7 +130,7 @@
       color: var(--text);
       letter-spacing: 3px;
       margin-bottom: 0.5rem;
-      text-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+      text-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
     }
     .logo span {
       background: linear-gradient(135deg, var(--cyan) 0%, var(--gold) 100%);
@@ -174,29 +138,19 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
+    .subtitle { color: var(--text-muted); font-size: 0.95rem; letter-spacing: 2px; text-transform: uppercase; }
     .card {
       background: var(--bg-card);
       backdrop-filter: blur(20px);
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 3rem 2.5rem;
-      box-shadow: 
-        0 25px 80px rgba(0, 0, 0, 0.6),
-        0 0 60px rgba(0, 217, 255, 0.1);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(245, 158, 11, 0.1);
       position: relative;
       overflow: hidden;
       animation: slideUp 0.8s ease-out 0.2s both;
     }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     .card::before {
       content: '';
       position: absolute;
@@ -204,14 +158,10 @@
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, transparent, var(--cyan), var(--gold), var(--cyan), transparent);
+      background: linear-gradient(90deg, transparent, var(--gold), var(--cyan), var(--gold), transparent);
       animation: borderGlow 3s linear infinite;
     }
-    @keyframes borderGlow {
-      0% { filter: brightness(1); }
-      50% { filter: brightness(1.5); }
-      100% { filter: brightness(1); }
-    }
+    @keyframes borderGlow { 0% { filter: brightness(1); } 50% { filter: brightness(1.5); } 100% { filter: brightness(1); } }
     .card-title {
       font-family: 'Rajdhani', sans-serif;
       font-size: 1.6rem;
@@ -226,36 +176,12 @@
       content: '';
       width: 5px;
       height: 28px;
-      background: linear-gradient(180deg, var(--cyan), var(--gold));
+      background: linear-gradient(180deg, var(--gold), var(--cyan));
       border-radius: 3px;
-      box-shadow: 0 0 15px var(--cyan);
+      box-shadow: 0 0 15px var(--gold);
     }
-    .card-desc {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-bottom: 2rem;
-      line-height: 1.6;
-    }
-    .info-box {
-      background: rgba(0, 217, 255, 0.05);
-      border-left: 3px solid var(--cyan);
-      padding: 16px;
-      border-radius: 10px;
-      margin-bottom: 2rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.8;
-      animation: fadeIn 1s ease-out 0.4s both;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    .info-box strong { color: var(--cyan); }
-    .input-group {
-      margin-bottom: 1.75rem;
-      position: relative;
-    }
+    .card-desc { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.6; }
+    .input-group { margin-bottom: 1.75rem; position: relative; }
     .input-label {
       display: block;
       font-size: 0.75rem;
@@ -278,8 +204,8 @@
     }
     input:focus {
       outline: none;
-      border-color: var(--cyan);
-      box-shadow: 0 0 0 4px rgba(0, 217, 255, 0.15), 0 0 30px rgba(0, 217, 255, 0.2);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15), 0 0 30px rgba(245, 158, 11, 0.2);
       background: rgba(10, 14, 39, 0.9);
       transform: translateY(-2px);
     }
@@ -287,7 +213,7 @@
     button {
       width: 100%;
       padding: 16px;
-      background: linear-gradient(135deg, var(--cyan) 0%, #0ea5e9 100%);
+      background: linear-gradient(135deg, var(--gold) 0%, #d97706 100%);
       border: none;
       border-radius: 12px;
       color: var(--bg-deep);
@@ -311,20 +237,9 @@
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
       transition: left 0.5s;
     }
-    button:hover::before {
-      left: 100%;
-    }
-    button:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(0, 217, 255, 0.4);
-    }
-    button:active:not(:disabled) {
-      transform: translateY(-1px);
-    }
-    button:disabled { 
-      opacity: 0.6; 
-      cursor: not-allowed;
-    }
+    button:hover::before { left: 100%; }
+    button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
     .msg {
       font-size: 0.9rem;
       text-align: center;
@@ -334,31 +249,10 @@
       display: none;
     }
     .msg.show { display: block; }
-    .msg.success { 
-      color: var(--success); 
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .msg.error { 
-      color: var(--error); 
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-    .footer {
-      text-align: center;
-      margin-top: 2rem;
-      padding: 1rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      animation: fadeIn 1s ease-out 0.5s both;
-      width: 100%;
-    }
-    .footer a {
-      color: var(--cyan);
-      text-decoration: none;
-      font-weight: 600;
-      position: relative;
-    }
+    .msg.success { color: var(--success); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .msg.error { color: var(--error); background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .footer { text-align: center; margin-top: 2rem; padding: 1rem; font-size: 0.85rem; color: var(--text-muted); width: 100%; }
+    .footer a { color: var(--cyan); text-decoration: none; font-weight: 600; position: relative; }
     .footer a::after {
       content: '';
       position: absolute;
@@ -369,23 +263,18 @@
       background: var(--cyan);
       transition: width 0.3s;
     }
-    .footer a:hover::after {
-      width: 100%;
-    }
+    .footer a:hover::after { width: 100%; }
     .tech-line {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       height: 2px;
-      background: linear-gradient(90deg, transparent, var(--cyan), var(--gold), var(--cyan), transparent);
+      background: linear-gradient(90deg, transparent, var(--gold), var(--cyan), var(--gold), transparent);
       animation: lineMove 10s linear infinite;
       z-index: 100;
     }
-    @keyframes lineMove {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
+    @keyframes lineMove { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
     @media (max-width: 480px) {
       .card { padding: 2.5rem 1.5rem; }
       .logo { font-size: 2.2rem; }
@@ -410,34 +299,31 @@
         <div class="logo-glow"></div>
         <img src="../rh.png" alt="RH" class="logo-img">
       </div>
-      <br><div class="badge">Sistema Oficial</div>
+      <div class="badge">Acesso Restrito</div>
       <h1 class="logo">POLÍCIA <span>FEB</span></h1>
       <p class="subtitle">Órgão de Recursos Humanos</p>
     </div>
 
     <div class="card">
-      <h2 class="card-title">Solicitar Acesso</h2>
-      <p class="card-desc">Insira seu nick do Habbo para solicitar acesso ao sistema interno de gestão de recursos humanos.</p>
+      <h2 class="card-title">Autenticação</h2>
+      <p class="card-desc">Insira seu nick e senha para acessar o sistema.</p>
       
-      <div class="info-box">
-        <strong>📋 Como funciona:</strong><br>
-        1. Envie sua solicitação com seu nickname<br>
-        2. Aguarde a aprovação da Diretoria/Administração<br>
-        3. Após aprovado, você poderá fazer login<br>
-        4. No primeiro acesso, crie sua senha pessoal
+      <div class="input-group">
+        <label class="input-label" for="nick">Nickname</label>
+        <input type="text" id="nick" placeholder="Seu nick do Habbo" autocomplete="username" spellcheck="false">
       </div>
       
       <div class="input-group">
-        <label class="input-label" for="nick">Nickname do Habbo</label>
-        <input type="text" id="nick" placeholder="Ex: Jonas" autocomplete="off" spellcheck="false">
+        <label class="input-label" for="pass">Senha</label>
+        <input type="password" id="pass" placeholder="Sua senha pessoal" autocomplete="current-password">
       </div>
       
-      <button id="btn-solicitar">Solicitar Acesso</button>
+      <button id="btn-login">Entrar no Sistema</button>
       <div class="msg" id="msg"></div>
     </div>
 
     <div class="footer">
-      Já tem acesso? <a href="login.html">Fazer login</a>
+      Não tem acesso? <a href="solicitar.html">Solicite aqui</a>
     </div>
   </div>
   
@@ -455,125 +341,125 @@
       msg.className = `msg show ${type}`;
     }
 
-    document.getElementById('btn-solicitar').addEventListener('click', async () => {
-      const btn = document.getElementById('btn-solicitar');
+    // Função simples de hash (em produção, use bcrypt no backend)
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password + '_FEB_SALT_2026');
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    document.getElementById('btn-login').addEventListener('click', async () => {
+      const btn = document.getElementById('btn-login');
       const nick = document.getElementById('nick').value.trim();
+      const pass = document.getElementById('pass').value;
 
-      if (!nick) {
-        showMessage('❌ Digite seu nick do Habbo.', 'error');
-        return;
-      }
-
-      if (nick.length < 3) {
-        showMessage('❌ Nickname muito curto (mínimo 3 caracteres).', 'error');
+      if (!nick || !pass) {
+        showMessage('❌ Preencha todos os campos.', 'error');
         return;
       }
 
       btn.disabled = true;
-      btn.textContent = 'Enviando...';
+      btn.textContent = 'Autenticando...';
       showMessage('', '');
 
-      // Gera email temporário único baseado no nick + timestamp
-      const tempEmail = `${nick.toLowerCase().replace(/[^a-z0-9]/g, '')}_${Date.now()}@feb-temp.internal`;
-      const tempPassword = 'Temp' + Math.random().toString(36).slice(-8) + '!';
-
       try {
-        // 1. Verifica se já existe perfil com esse nick
-        const { data: existing, error: existingError } = await sb
+        // 1. Busca o perfil pelo nick (case-insensitive)
+        const { data: profile, error: profileError } = await sb
           .from('profiles')
-          .select('id, status, habbo_nick')
+          .select('*')
           .ilike('habbo_nick', nick)
           .maybeSingle();
 
-        if (existing) {
-          if (existing.status === 'pendente') {
-            showMessage('⏳ Você já possui uma solicitação pendente.', 'error');
-          } else if (existing.status === 'ativo') {
-            showMessage('✅ Você já possui acesso! Faça login.', 'success');
-            setTimeout(() => { window.location.href = 'login.html'; }, 1500);
-          } else if (existing.status === 'banido') {
-            showMessage('🚫 Sua conta foi banida.', 'error');
-          }
+        if (profileError) throw profileError;
+
+        if (!profile) {
+          showMessage('❌ Nick não encontrado. Solicite acesso primeiro.', 'error');
           btn.disabled = false;
-          btn.textContent = 'Solicitar Acesso';
+          btn.textContent = 'Entrar no Sistema';
           return;
         }
 
-        // 2. Cria o usuário no Auth do Supabase (primeiro, para ter um ID válido)
-        const { data: authData, error: authError } = await sb.auth.signUp({
-          email: tempEmail,
-          password: tempPassword,
-          options: {
-            data: {
-              habbo_nick: nick
-            }
-          }
-        });
-
-        if (authError) {
-          // Se der erro de email já cadastrado, tenta com outro formato
-          if (authError.message.includes('already') || authError.message.includes('registered')) {
-            const altEmail = `${nick.toLowerCase().replace(/[^a-z0-9]/g, '')}_${Math.random().toString(36).slice(-6)}@feb-temp.internal`;
-            const { data: authData2, error: authError2 } = await sb.auth.signUp({
-              email: altEmail,
-              password: tempPassword,
-              options: { data: { habbo_nick: nick } }
-            });
-            
-            if (authError2) throw authError2;
-            
-            // 3. Cria o perfil vinculado ao usuário auth
-            const { error: profileError } = await sb.from('profiles').insert([{
-              id: authData2.user.id,
-              habbo_nick: nick,
-              role: 'Analista',
-              status: 'pendente',
-              first_login: true,
-              created_at: new Date().toISOString()
-            }]);
-
-            if (profileError) throw profileError;
-          } else {
-            throw authError;
-          }
-        } else {
-          // 3. Cria o perfil vinculado ao usuário auth
-          const { error: profileError } = await sb.from('profiles').insert([{
-            id: authData.user.id,
-            habbo_nick: nick,
-            role: 'Analista',
-            status: 'pendente',
-            first_login: true,
-            created_at: new Date().toISOString()
-          }]);
-
-          if (profileError) throw profileError;
+        // 2. Verifica status
+        if (profile.status === 'pendente') {
+          showMessage('⏳ Seu acesso ainda está pendente. Aguarde aprovação.', 'error');
+          btn.disabled = false;
+          btn.textContent = 'Entrar no Sistema';
+          return;
         }
 
-        // 4. Registra log da solicitação
+        if (profile.status === 'banido') {
+          showMessage('🚫 Sua conta foi banida.', 'error');
+          btn.disabled = false;
+          btn.textContent = 'Entrar no Sistema';
+          return;
+        }
+
+        if (profile.status === 'inativo') {
+          showMessage('⚠️ Sua conta está inativa. Contate a Diretoria.', 'error');
+          btn.disabled = false;
+          btn.textContent = 'Entrar no Sistema';
+          return;
+        }
+
+        // 3. Se é primeiro acesso, vai para tela de criar senha
+        if (profile.first_login || !profile.password_hash) {
+          // Salva o ID do perfil no sessionStorage para usar na próxima tela
+          sessionStorage.setItem('pending_user_id', profile.id);
+          sessionStorage.setItem('pending_user_nick', profile.habbo_nick);
+          window.location.href = 'primeiro-acesso.html';
+          return;
+        }
+
+        // 4. Verifica a senha
+        const inputHash = await hashPassword(pass);
+        if (inputHash !== profile.password_hash) {
+          showMessage('❌ Senha incorreta.', 'error');
+          btn.disabled = false;
+          btn.textContent = 'Entrar no Sistema';
+          return;
+        }
+
+        // 5. Login bem-sucedido - salva sessão
+        sessionStorage.setItem('user_id', profile.id);
+        sessionStorage.setItem('user_nick', profile.habbo_nick);
+        sessionStorage.setItem('user_role', profile.role);
+
+        // 6. Atualiza last_activity
+        await sb.from('profiles').update({
+          last_activity: new Date().toISOString()
+        }).eq('id', profile.id);
+
+        // 7. Registra log
         try {
           await sb.from('system_logs').insert({
-            action: 'SOLICITACAO_ACESSO',
-            details: 'Nova solicitação: ' + nick,
+            user_id: profile.id,
+            action: 'LOGIN_SUCESSO',
+            details: 'Nick: ' + profile.habbo_nick,
             ip_address: 'web'
           });
         } catch (logErr) {
           console.warn('Erro ao registrar log:', logErr);
         }
 
-        showMessage('✅ Solicitação enviada! Aguarde a aprovação.', 'success');
-        document.getElementById('nick').value = '';
+        showMessage('✅ Acesso autorizado! Redirecionando...', 'success');
+        setTimeout(() => {
+          window.location.href = '../dashboard.html';
+        }, 800);
       } catch (err) {
         console.error('Erro completo:', err);
         showMessage('❌ Erro: ' + (err.message || 'Erro desconhecido'), 'error');
-      } finally {
         btn.disabled = false;
-        btn.textContent = 'Solicitar Acesso';
+        btn.textContent = 'Entrar no Sistema';
       }
     });
 
+    document.getElementById('pass').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') document.getElementById('btn-login').click();
+    });
     document.getElementById('nick').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') document.getElementById('btn-solicitar').click();
+      if (e.key === 'Enter') document.getElementById('pass').focus();
     });
   </script>
 </body>
