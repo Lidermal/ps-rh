@@ -19,7 +19,6 @@
       --success: #10b981;
       --error: #ef4444;
     }
-    /* CORREÇÃO: Flexbox para layout perfeito */
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg-deep);
@@ -345,7 +344,6 @@
       background: rgba(239, 68, 68, 0.1);
       border: 1px solid rgba(239, 68, 68, 0.3);
     }
-    /* CORREÇÃO: Rodapé fixo na parte inferior */
     .footer {
       text-align: center;
       margin-top: 2rem;
@@ -475,12 +473,17 @@
       btn.textContent = 'Enviando...';
       showMessage('', '');
 
+      // Gera email temporário único baseado no nick + timestamp
+      const tempEmail = `${nick.toLowerCase().replace(/[^a-z0-9]/g, '')}_${Date.now()}@feb-temp.internal`;
+      const tempPassword = 'Temp' + Math.random().toString(36).slice(-8) + '!';
+
       try {
-        const { data: existing } = await sb
+        // 1. Verifica se já existe perfil com esse nick
+        const { data: existing, error: existingError } = await sb
           .from('profiles')
-          .select('id, status')
+          .select('id, status, habbo_nick')
           .ilike('habbo_nick', nick)
-          .single();
+          .maybeSingle();
 
         if (existing) {
           if (existing.status === 'pendente') {
@@ -496,26 +499,73 @@
           return;
         }
 
-        const { data, error } = await sb.from('profiles').insert([{
-          habbo_nick: nick,
-          role: 'Analista',
-          status: 'pendente',
-          first_login: true,
-          created_at: new Date().toISOString()
-        }]).select();
-
-        if (error) throw error;
-
-        await sb.from('system_logs').insert({
-          action: 'SOLICITACAO_ACESSO',
-          details: 'Nova solicitação: ' + nick,
-          ip_address: 'web'
+        // 2. Cria o usuário no Auth do Supabase (primeiro, para ter um ID válido)
+        const { data: authData, error: authError } = await sb.auth.signUp({
+          email: tempEmail,
+          password: tempPassword,
+          options: {
+            data: {
+              habbo_nick: nick
+            }
+          }
         });
+
+        if (authError) {
+          // Se der erro de email já cadastrado, tenta com outro formato
+          if (authError.message.includes('already') || authError.message.includes('registered')) {
+            const altEmail = `${nick.toLowerCase().replace(/[^a-z0-9]/g, '')}_${Math.random().toString(36).slice(-6)}@feb-temp.internal`;
+            const { data: authData2, error: authError2 } = await sb.auth.signUp({
+              email: altEmail,
+              password: tempPassword,
+              options: { data: { habbo_nick: nick } }
+            });
+            
+            if (authError2) throw authError2;
+            
+            // 3. Cria o perfil vinculado ao usuário auth
+            const { error: profileError } = await sb.from('profiles').insert([{
+              id: authData2.user.id,
+              habbo_nick: nick,
+              role: 'Analista',
+              status: 'pendente',
+              first_login: true,
+              created_at: new Date().toISOString()
+            }]);
+
+            if (profileError) throw profileError;
+          } else {
+            throw authError;
+          }
+        } else {
+          // 3. Cria o perfil vinculado ao usuário auth
+          const { error: profileError } = await sb.from('profiles').insert([{
+            id: authData.user.id,
+            habbo_nick: nick,
+            role: 'Analista',
+            status: 'pendente',
+            first_login: true,
+            created_at: new Date().toISOString()
+          }]);
+
+          if (profileError) throw profileError;
+        }
+
+        // 4. Registra log da solicitação
+        try {
+          await sb.from('system_logs').insert({
+            action: 'SOLICITACAO_ACESSO',
+            details: 'Nova solicitação: ' + nick,
+            ip_address: 'web'
+          });
+        } catch (logErr) {
+          console.warn('Erro ao registrar log:', logErr);
+        }
 
         showMessage('✅ Solicitação enviada! Aguarde a aprovação.', 'success');
         document.getElementById('nick').value = '';
       } catch (err) {
-        showMessage('❌ Erro: ' + err.message, 'error');
+        console.error('Erro completo:', err);
+        showMessage('❌ Erro: ' + (err.message || 'Erro desconhecido'), 'error');
       } finally {
         btn.disabled = false;
         btn.textContent = 'Solicitar Acesso';
