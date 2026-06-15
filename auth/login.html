@@ -518,13 +518,13 @@
           .select('*')
           .ilike('habbo_nick', nick)
           .maybeSingle();
-
+      
         if (profileError) throw profileError;
-
+      
         if (!profile) {
           throw new Error('❌ Identificador não reconhecido. Solicite credenciais.');
         }
-
+      
         // 2. Verifica status da conta
         if (profile.status === 'pendente') {
           throw new Error('⏳ Acesso pendente de aprovação superior.');
@@ -535,9 +535,9 @@
         if (profile.status === 'inativo') {
           throw new Error('⚠️ Conta inativa no sistema.');
         }
-
-        // 3. Se é primeiro acesso (sem senha ainda), redireciona para criar senha
-        if (profile.first_login || !profile.password_hash) {
+      
+        // 3. CORREÇÃO: Verifica APENAS se tem senha (não verifica first_login)
+        if (!profile.password_hash) {
           sessionStorage.setItem('pending_user_id', profile.id);
           sessionStorage.setItem('pending_user_nick', profile.habbo_nick);
           showMessage('✅ Credenciais pendentes. Redirecionando para configuração...', 'success');
@@ -546,24 +546,24 @@
           }, 1000);
           return;
         }
-
+      
         // 4. Gera hash da senha digitada e compara
         const inputHash = await hashPassword(pass);
-
+      
         if (inputHash !== profile.password_hash) {
           throw new Error('❌ Chave de acesso inválida.');
         }
-
+      
         // 5. Login bem-sucedido! Salva sessão
         sessionStorage.setItem('user_id', profile.id);
         sessionStorage.setItem('user_nick', profile.habbo_nick);
         sessionStorage.setItem('user_role', profile.role);
-
+      
         // 6. Atualiza last_activity
         await sb.from('profiles').update({
           last_activity: new Date().toISOString()
         }).eq('id', profile.id);
-
+      
         // 7. Registra log
         try {
           await sb.from('system_logs').insert({
@@ -580,7 +580,7 @@
         setTimeout(() => { 
           window.location.href = '../dashboard.html'; 
         }, 1000);
-
+      
       } catch (err) {
         console.error('Login error:', err);
         showMessage('❌ ' + (err.message || 'Falha na autenticação.'), 'error');
