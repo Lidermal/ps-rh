@@ -262,6 +262,7 @@
     .msg.show { display: block; }
     .msg.success { color: var(--success); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); }
     .msg.error { color: var(--error); background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .msg.info { color: var(--cyan); background: rgba(0, 217, 255, 0.1); border: 1px solid rgba(0, 217, 255, 0.3); }
     .footer { text-align: center; margin-top: 2rem; padding: 1rem; font-size: 0.85rem; color: var(--text-muted); width: 100%; }
     .footer a { color: var(--cyan); text-decoration: none; font-weight: 600; position: relative; }
     .footer a::after {
@@ -317,14 +318,14 @@
 
     <div class="card">
       <h2 class="card-title">Solicitar Acesso</h2>
-      <p class="card-desc">Insira seu nick do Habbo para solicitar acesso ao sistema interno.</p>
+      <p class="card-desc">Insira seu nick do Habbo para solicitar acesso ou criar sua senha pessoal.</p>
       
       <div class="info-box">
         <strong>📋 Como funciona:</strong><br>
         1. Envie sua solicitação com seu nickname<br>
         2. Aguarde a aprovação da Diretoria/Administração<br>
-        3. Após aprovado, faça login com seu nick<br>
-        4. No primeiro acesso, crie sua senha pessoal
+        3. Após aprovado, insira seu nick aqui para criar sua senha<br>
+        4. Pronto! Você poderá acessar o sistema
       </div>
       
       <div class="input-group">
@@ -332,12 +333,12 @@
         <input type="text" id="nick" placeholder="Ex: Jonas" autocomplete="off" spellcheck="false">
       </div>
       
-      <button id="btn-solicitar">Solicitar Acesso</button>
+      <button id="btn-solicitar">Continuar</button>
       <div class="msg" id="msg"></div>
     </div>
 
     <div class="footer">
-      Já tem acesso? <a href="login.html">Fazer login</a>
+      Já tem senha? <a href="login.html">Fazer login</a>
     </div>
   </div>
   
@@ -370,32 +371,65 @@
       }
 
       btn.disabled = true;
-      btn.textContent = 'Enviando...';
+      btn.textContent = 'Verificando...';
       showMessage('', '');
 
       try {
         // 1. Verifica se já existe perfil com esse nick
         const { data: existing, error: existingError } = await sb
           .from('profiles')
-          .select('id, status, habbo_nick')
+          .select('id, status, habbo_nick, first_login, password_hash')
           .ilike('habbo_nick', nick)
           .maybeSingle();
 
         if (existing) {
+          // CASO 1: Já existe e está pendente
           if (existing.status === 'pendente') {
-            showMessage('⏳ Você já possui uma solicitação pendente.', 'error');
-          } else if (existing.status === 'ativo') {
-            showMessage('✅ Você já possui acesso! Faça login.', 'success');
-            setTimeout(() => { window.location.href = 'login.html'; }, 1500);
-          } else if (existing.status === 'banido') {
-            showMessage('🚫 Sua conta foi banida.', 'error');
+            showMessage('⏳ Seu acesso ainda está pendente de aprovação. Aguarde a Diretoria.', 'info');
+            btn.disabled = false;
+            btn.textContent = 'Continuar';
+            return;
           }
-          btn.disabled = false;
-          btn.textContent = 'Solicitar Acesso';
-          return;
+
+          // CASO 2: Já existe, está ativo e é PRIMEIRO ACESSO (sem senha)
+          if (existing.status === 'ativo' && existing.first_login) {
+            showMessage('✅ Acesso aprovado! Redirecionando para criar sua senha...', 'success');
+            
+            // Salva o ID e nick no sessionStorage para usar na próxima tela
+            sessionStorage.setItem('pending_user_id', existing.id);
+            sessionStorage.setItem('pending_user_nick', existing.habbo_nick);
+            
+            setTimeout(() => {
+              window.location.href = 'primeiro-acesso.html';
+            }, 1500);
+            return;
+          }
+
+          // CASO 3: Já existe, está ativo e já tem senha
+          if (existing.status === 'ativo' && !existing.first_login && existing.password_hash) {
+            showMessage('✅ Você já possui acesso e senha! Redirecionando para o login...', 'success');
+            setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+            return;
+          }
+
+          // CASO 4: Banido
+          if (existing.status === 'banido') {
+            showMessage('🚫 Sua conta foi banida. Contate a administração.', 'error');
+            btn.disabled = false;
+            btn.textContent = 'Continuar';
+            return;
+          }
+
+          // CASO 5: Inativo
+          if (existing.status === 'inativo') {
+            showMessage('⚠️ Sua conta está inativa. Contate a Diretoria.', 'info');
+            btn.disabled = false;
+            btn.textContent = 'Continuar';
+            return;
+          }
         }
 
-        // 2. Cria o perfil diretamente (SEM criar usuário no auth)
+        // CASO 6: Não existe - cria nova solicitação
         const { data, error } = await sb.from('profiles').insert([{
           habbo_nick: nick,
           role: 'Analista',
@@ -406,7 +440,7 @@
 
         if (error) throw error;
 
-        // 3. Registra log da solicitação
+        // Registra log da solicitação
         try {
           await sb.from('system_logs').insert({
             action: 'SOLICITACAO_ACESSO',
@@ -424,7 +458,7 @@
         showMessage('❌ Erro: ' + (err.message || 'Erro desconhecido'), 'error');
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Solicitar Acesso';
+        btn.textContent = 'Continuar';
       }
     });
 
