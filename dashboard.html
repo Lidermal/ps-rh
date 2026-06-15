@@ -11,7 +11,6 @@
     * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
     
     :root {
-      /* Modo Escuro (Padrão) */
       --bg-deep: #0B1120;
       --bg-panel: rgba(15, 23, 42, 0.85);
       --bg-card: rgba(30, 41, 59, 0.6);
@@ -30,7 +29,6 @@
       --code-border: #334155;
     }
 
-    /* Modo Claro - AJUSTADO PARA MELHOR LEITURA E CONTRASTE */
     .light-mode {
       --bg-deep: #f1f5f9;
       --bg-panel: rgba(255, 255, 255, 0.95);
@@ -284,14 +282,12 @@
     .footer { background: var(--bg-panel); border-top: 1px solid var(--border); padding: 2rem; margin-top: auto; text-align: center; }
     .footer-text { font-size: 0.85rem; color: var(--text-muted); font-family: 'Rajdhani', sans-serif; letter-spacing: 0.5px; }
 
-    /* Paginação */
     .pagination { display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
     .pagination button { padding: 0.5rem 1rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; color: var(--text); cursor: pointer; transition: all 0.2s; font-size: 0.875rem; }
     .pagination button:hover:not(:disabled) { background: var(--cyan); color: #fff; border-color: var(--cyan); }
     .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
     .pagination-info { color: var(--text-muted); font-size: 0.875rem; margin: 0 1rem; }
 
-    /* BBCode Editor */
     .bbcode-toolbar { 
       display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; padding: 15px; 
       background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
@@ -308,7 +304,6 @@
     }
     .bbcode-btn i { font-size: 1rem; }
     
-    /* Document Preview */
     .doc-preview { 
       background: var(--bg-card); 
       border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin-top: 1.5rem; 
@@ -328,7 +323,6 @@
     .doc-preview .right { text-align: right; }
     .doc-preview .justify { text-align: justify; }
 
-    /* Document View Modal */
     .doc-view-modal { max-width: 900px; }
     .doc-view-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); }
     .doc-view-title { font-family: 'Rajdhani', sans-serif; font-size: 2.2rem; color: var(--text); margin-bottom: 0.75rem; }
@@ -348,7 +342,6 @@
     
     .placeholder { background: rgba(245, 158, 11, 0.2); color: var(--gold); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-weight: 600; }
 
-    /* Code Block */
     .code-block {
       background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 8px;
       padding: 2rem 1.5rem 1.5rem 1.5rem; margin: 1.5rem 0; font-family: 'Fira Code', 'Courier New', monospace;
@@ -783,7 +776,6 @@
       return `https://www.habbo.com.br/habbo-imaging/avatarimage?user=${encodeURIComponent(nickname)}&action=std&direction=2&head_direction=3&gesture=sml&size=${size}`; 
     }
 
-    // Toggle Theme
     function toggleTheme() {
       document.body.classList.toggle('light-mode');
       const icon = document.getElementById('theme-icon');
@@ -798,7 +790,6 @@
       }
     }
 
-    // Load saved theme
     window.addEventListener('load', () => {
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme === 'light') {
@@ -854,26 +845,21 @@
       });
     }
 
-    // Parser BBCode e HTML Completo - TAG CODE PROTEGIDA
     function parseBBCode(text) {
       if (!text) return '';
       
       let html = text;
       
-      // 1. Remover backslashes de escape (\\\[ -> [)
       html = html.replace(/\\\\\[/g, '[');
       html = html.replace(/\\\\\]/g, ']');
       
-      // 2. ISOLAR E PROTEGER O CONTEÚDO DA TAG [CODE]
       const codeBlocks = [];
       html = html.replace(/\[code\]([\s\S]*?)\[\/code\]/gi, function(match, content) {
-        // Escapamos o HTML e guardamos o conteúdo original para que o parser não mexa nele
         let escaped = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         codeBlocks.push(escaped);
         return `__CODEBLOCK_${codeBlocks.length - 1}__`;
       });
 
-      // 3. Processar o resto do BBCode
       html = html.replace(/\[h1\](.*?)\[\/h1\]/gi, '<h1>$1</h1>');
       html = html.replace(/\[h2\](.*?)\[\/h2\]/gi, '<h2>$1</h2>');
       html = html.replace(/\[h3\](.*?)\[\/h3\]/gi, '<h3>$1</h3>');
@@ -907,10 +893,8 @@
       
       html = html.replace(/\{\{(\w+)\}\}/g, '<span class="placeholder">{{$1}}</span>');
       
-      // 4. Quebras de linha simples
       html = html.replace(/\n/g, '<br>');
       
-      // 5. DEVOLVER O CÓDIGO PROTEGIDO (agora imune aos <br> e formatações)
       html = html.replace(/__CODEBLOCK_(\d+)__/g, function(match, idx) {
         return `<div class="code-block"><button class="copy-code-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> Copiar</button><code>${codeBlocks[idx]}</code></div>`;
       });
@@ -1003,14 +987,38 @@
       }
     }
 
-    // Inicialização
+    // ============================================================
+    // INICIALIZAÇÃO - CORRIGIDO PARA USAR sessionStorage
+    // ============================================================
     (async () => {
-      const { data: { session } } = await sb.auth.getSession();
-      if (!session) return window.location.href = 'auth/login.html';
-      currentUser = session.user;
-      const { data: profile, error } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
-      if (error || !profile) { await sb.auth.signOut(); return window.location.href = 'auth/login.html'; }
-      userProfile = profile; 
+      // Verifica se tem sessão no sessionStorage
+      const userId = sessionStorage.getItem('user_id');
+      const userNick = sessionStorage.getItem('user_nick');
+      const userRole = sessionStorage.getItem('user_role');
+      
+      if (!userId || !userNick || !userRole) {
+        // Não tem sessão, redireciona para login
+        window.location.href = 'auth/login.html';
+        return;
+      }
+      
+      currentUser = { id: userId };
+      
+      // Busca perfil completo do banco
+      const { data: profile, error } = await sb
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      
+      if (error || !profile) {
+        console.error('Erro ao buscar perfil:', error);
+        sessionStorage.clear();
+        window.location.href = 'auth/login.html';
+        return;
+      }
+      
+      userProfile = profile;
       await getUserIP();
       
       document.getElementById('user-name').textContent = profile.habbo_nick;
@@ -1028,6 +1036,11 @@
       loadStats(); 
       loadDocuments(); 
       loadLastUpdater();
+      
+      // Atualiza last_activity
+      await sb.from('profiles').update({
+        last_activity: new Date().toISOString()
+      }).eq('id', userId);
     })();
 
     async function loadStats() {
@@ -1790,19 +1803,30 @@
       document.getElementById(id).classList.remove('active'); 
     }
 
-    async function logout() { 
-      const ip = await waitForIP();
-      await sb.from('system_logs').insert({
-        user_id: currentUser.id,
-        action: 'LOGOUT',
-        details: 'Logout manual',
-        ip_address: ip
-      });
-      await sb.auth.signOut(); 
-      window.location.href = 'auth/login.html'; 
+    // ============================================================
+    // LOGOUT - CORRIGIDO PARA USAR sessionStorage
+    // ============================================================
+    async function logout() {
+      const confirmed = await customConfirm('Deseja realmente sair?');
+      if (!confirmed) return;
+      
+      try {
+        const ip = await waitForIP();
+        await sb.from('system_logs').insert({
+          user_id: currentUser.id,
+          action: 'LOGOUT',
+          details: 'Logout manual - Nick: ' + userProfile.habbo_nick,
+          ip_address: ip
+        });
+      } catch (err) {
+        console.warn('Erro ao registrar log:', err);
+      }
+      
+      // Limpa sessão
+      sessionStorage.clear();
+      window.location.href = 'auth/login.html';
     }
 
-    // Fechar modais ao clicar fora
     document.querySelectorAll('.modal').forEach(modal => {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) modal.classList.remove('active');
