@@ -10,11 +10,11 @@
     * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
     
     :root {
-      --bg-deep: #030512; /* Fundo mais escuro para contraste neon */
+      --bg-deep: #030512;
       --bg-card: rgba(6, 10, 29, 0.6);
-      --cyan: #00f2fe; /* Ciano mais vibrante */
+      --cyan: #00f2fe;
       --cyan-glow: rgba(0, 242, 254, 0.5);
-      --gold: #ffac00; /* Ouro mais saturado */
+      --gold: #ffac00;
       --gold-glow: rgba(255, 172, 0, 0.5);
       --text: #ffffff;
       --text-muted: #8b9bb4;
@@ -37,7 +37,6 @@
       position: relative;
     }
 
-    /* --- Background Tecnológico Avançado --- */
     .bg-container {
       position: fixed;
       inset: 0;
@@ -48,7 +47,6 @@
         linear-gradient(180deg, #030512 0%, #0a0e27 50%, #030512 100%);
     }
 
-    /* Grid com perspectiva */
     .bg-grid {
       position: absolute;
       width: 200%;
@@ -69,7 +67,6 @@
       100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
     }
 
-    /* Linhas de varredura (Scanlines) */
     .scanlines {
       position: fixed;
       inset: 0;
@@ -80,7 +77,6 @@
       opacity: 0.5;
     }
 
-    /* --- Sistema de Avatares Laterais (Foco RH + Tech) --- */
     .avatar-panel {
       position: fixed;
       bottom: 0;
@@ -98,7 +94,6 @@
     .avatar-panel.left { left: 0; }
     .avatar-panel.right { right: 0; }
 
-    /* Círculos de dados atrás dos avatares */
     .data-ring {
       position: absolute;
       border-radius: 50%;
@@ -125,7 +120,7 @@
     @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
     .avatar-img {
-      height: 70vh; /* Aumentado para destaque */
+      height: 70vh;
       object-fit: contain;
       position: relative;
       z-index: 3;
@@ -133,13 +128,12 @@
       animation: avatarFloat 4s ease-in-out infinite;
     }
 
-    /* Efeito holográfico específico por lado */
     .left .avatar-img {
       filter: drop-shadow(0 0 20px var(--cyan-glow)) hue-rotate(-10deg);
     }
     .right .avatar-img {
       filter: drop-shadow(0 0 20px var(--gold-glow)) hue-rotate(10deg);
-      animation-delay: -2s; /* Desincronizar flutuação */
+      animation-delay: -2s;
     }
 
     @keyframes avatarFloat {
@@ -147,7 +141,6 @@
       50% { transform: translateY(-15px); opacity: 1; }
     }
 
-    /* Labels técnicos abaixo dos avatares */
     .status-label {
       font-family: var(--font-tech);
       font-size: 0.8rem;
@@ -157,14 +150,13 @@
       background: rgba(0,0,0,0.5);
       border: 1px solid;
       border-radius: 4px;
-      margin-top: -50px; /* Sobrepor levemente a base do avatar */
+      margin-top: -50px;
       z-index: 4;
       position: relative;
     }
     .left .status-label { color: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 10px var(--cyan-glow); }
     .right .status-label { color: var(--gold); border-color: var(--gold); box-shadow: 0 0 10px var(--gold-glow); }
 
-    /* --- Container Principal de Login --- */
     .container {
       position: relative;
       z-index: 10;
@@ -176,7 +168,6 @@
       perspective: 1000px;
     }
 
-    /* Cabeçalho */
     .header {
       text-align: center;
       margin-bottom: 2rem;
@@ -195,7 +186,6 @@
       animation: logoGlitch 5s infinite;
     }
 
-    /* Efeito Glitch sutil na logo */
     @keyframes logoGlitch {
       0%, 90%, 100% { transform: translate(0); filter: drop-shadow(0 0 15px var(--cyan-glow)); }
       92% { transform: translate(-2px, 2px); filter: drop-shadow(2px 0 red) drop-shadow(-2px 0 blue); }
@@ -225,7 +215,6 @@
       font-family: var(--font-tech);
     }
 
-    /* --- O Card de Login (Estilo Float/Holograma) --- */
     .card {
       background: var(--bg-card);
       backdrop-filter: blur(15px);
@@ -234,14 +223,10 @@
       padding: 2.5rem;
       width: 100%;
       position: relative;
-      
-      /* Cortar cantos tecnologicamente */
       clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
-      
       box-shadow: 
         0 15px 35px rgba(0,0,0,0.5),
         inset 0 0 15px rgba(0, 242, 254, 0.05);
-      
       animation: cardSpawn 1s ease-out 0.3s both;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -258,7 +243,6 @@
       to { opacity: 1; transform: translateY(0) rotateX(0deg); }
     }
 
-    /* Linha brilhante no topo */
     .card::before {
       content: '';
       position: absolute;
@@ -266,7 +250,6 @@
       background: linear-gradient(90deg, transparent, var(--cyan), var(--gold), transparent);
     }
 
-    /* Reflexo na parte inferior (efeito flutuante) */
     .card-reflection {
       position: absolute;
       bottom: -40px; left: 10%; width: 80%; height: 20px;
@@ -289,7 +272,6 @@
       gap: 10px;
     }
     
-    /* Ponto pulsante de "Link Estabelecido" */
     .card-title::before {
       content: '';
       width: 8px; height: 8px;
@@ -301,7 +283,6 @@
 
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    /* --- Formulário --- */
     .input-group { margin-bottom: 1.5rem; position: relative; }
 
     .input-label {
@@ -316,7 +297,6 @@
 
     .input-wrapper { position: relative; }
 
-    /* Ícone visual (Tech bracket) */
     .input-wrapper::before {
       content: '[';
       position: absolute; left: 12px; top: 50%;
@@ -345,13 +325,11 @@
 
     input:focus + .input-label { color: #fff; }
     
-    /* Mudar bracket pra ouro no focus */
     input:focus-within ~ .input-wrapper::before,
     .input-group:focus-within ::before { color: var(--gold); }
 
     input::placeholder { color: #4e5d72; }
 
-    /* Botão de Login (Neon Ouro) */
     button {
       width: 100%;
       padding: 16px;
@@ -378,7 +356,6 @@
 
     button:disabled { opacity: 0.5; cursor: not-allowed; border-color: var(--text-muted); color: var(--text-muted); }
 
-    /* Efeito de brilho passando no botão ao passar o mouse */
     button::after {
       content: '';
       position: absolute;
@@ -389,7 +366,6 @@
     }
     button:hover::after { left: 120%; }
 
-    /* Mensagens de erro/sucesso */
     .msg {
       font-size: 0.85rem;
       text-align: center;
@@ -403,10 +379,10 @@
     
     .msg.error { color: var(--error); border-left: 2px solid var(--error); background: rgba(255,68,68,0.1); }
     .msg.success { color: var(--success); border-left: 2px solid var(--success); background: rgba(0,255,136,0.1); }
+    .msg.info { color: var(--cyan); border-left: 2px solid var(--cyan); background: rgba(0,242,254,0.1); }
 
     @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-    /* Footer */
     .footer {
       text-align: center;
       margin-top: 1.5rem;
@@ -423,7 +399,6 @@
     }
     .footer a:hover { color: #fff; text-shadow: 0 0 10px var(--cyan); }
 
-    /* Linha técnica rodapé */
     .tech-line {
       position: fixed; bottom: 0; left: 0; width: 100%; height: 3px;
       background: linear-gradient(90deg, var(--cyan), var(--gold), var(--cyan));
@@ -431,14 +406,13 @@
       z-index: 100;
     }
 
-    /* Responsividade */
     @media (max-width: 1200px) {
       .avatar-panel { width: 20vw; }
       .avatar-img { height: 50vh; }
     }
 
     @media (max-width: 900px) {
-      .avatar-panel { display: none; } /* Esconde avatares em telas pequenas */
+      .avatar-panel { display: none; }
       .bg-grid { opacity: 0.1; }
       .card { padding: 2rem 1.5rem; width: 90%; }
     }
@@ -514,6 +488,15 @@
       msg.className = `msg show ${type}`;
     }
 
+    // Função de hash - DEVE ser idêntica à do primeiro-acesso.html
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password + '_FEB_SALT_2026');
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
     document.getElementById('btn-login').addEventListener('click', async () => {
       const btn = document.getElementById('btn-login');
       const nick = document.getElementById('nick').value.trim();
@@ -525,56 +508,78 @@
       }
 
       btn.disabled = true;
-      btn.textContent = 'Criptografando...';
+      btn.textContent = 'Verificando...';
       showMessage('', '');
 
-      const email = nick.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() + '@feb.internal';
-
       try {
-        const { data, error } = await sb.auth.signInWithPassword({ 
-          email: email, 
-          password: pass 
-        });
-        
-        if (error) throw error;
-
-        const { data: profile, error: profError } = await sb
+        // 1. Busca o perfil pelo nick (case-insensitive)
+        const { data: profile, error: profileError } = await sb
           .from('profiles')
           .select('*')
-          .eq('id', data.user.id)
-          .single();
-        
-        if (profError) throw profError;
+          .ilike('habbo_nick', nick)
+          .maybeSingle();
 
+        if (profileError) throw profileError;
+
+        if (!profile) {
+          throw new Error('❌ Identificador não reconhecido. Solicite credenciais.');
+        }
+
+        // 2. Verifica status da conta
         if (profile.status === 'pendente') {
-          await sb.auth.signOut();
           throw new Error('⏳ Acesso pendente de aprovação superior.');
         }
         if (profile.status === 'banido') {
-          await sb.auth.signOut();
           throw new Error('🚫 Acesso revogado permanentemente.');
         }
         if (profile.status === 'inativo') {
-          await sb.auth.signOut();
           throw new Error('⚠️ Conta inativa no sistema.');
         }
-        
-        if (profile.first_login) {
-          window.location.href = 'primeiro-acesso.html';
+
+        // 3. Se é primeiro acesso (sem senha ainda), redireciona para criar senha
+        if (profile.first_login || !profile.password_hash) {
+          sessionStorage.setItem('pending_user_id', profile.id);
+          sessionStorage.setItem('pending_user_nick', profile.habbo_nick);
+          showMessage('✅ Credenciais pendentes. Redirecionando para configuração...', 'success');
+          setTimeout(() => {
+            window.location.href = 'primeiro-acesso.html';
+          }, 1000);
           return;
         }
 
+        // 4. Gera hash da senha digitada e compara
+        const inputHash = await hashPassword(pass);
+
+        if (inputHash !== profile.password_hash) {
+          throw new Error('❌ Chave de acesso inválida.');
+        }
+
+        // 5. Login bem-sucedido! Salva sessão
+        sessionStorage.setItem('user_id', profile.id);
+        sessionStorage.setItem('user_nick', profile.habbo_nick);
+        sessionStorage.setItem('user_role', profile.role);
+
+        // 6. Atualiza last_activity
+        await sb.from('profiles').update({
+          last_activity: new Date().toISOString()
+        }).eq('id', profile.id);
+
+        // 7. Registra log
         try {
           await sb.from('system_logs').insert({
-            user_id: data.user.id,
+            user_id: profile.id,
             action: 'LOGIN_SUCESSO',
             details: 'Terminal Web - Nick: ' + profile.habbo_nick,
             ip_address: 'web_hk'
           });
-        } catch (logErr) { console.warn('Erro log:', logErr); }
+        } catch (logErr) { 
+          console.warn('Erro log:', logErr); 
+        }
         
         showMessage('✅ Bio-autorização confirmada. Redirecionando...', 'success');
-        setTimeout(() => { window.location.href = '../dashboard.html'; }, 1000);
+        setTimeout(() => { 
+          window.location.href = '../dashboard.html'; 
+        }, 1000);
 
       } catch (err) {
         console.error('Login error:', err);
